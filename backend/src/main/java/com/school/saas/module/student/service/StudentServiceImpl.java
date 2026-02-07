@@ -1,6 +1,8 @@
 package com.school.saas.module.student.service;
 
+import com.school.saas.common.Gender;
 import com.school.saas.common.Role;
+import com.school.saas.common.StudentStatus;
 import com.school.saas.exception.ResourceNotFoundException;
 import com.school.saas.security.TenantContext;
 import com.school.saas.module.classroom.ClassRoom;
@@ -85,9 +87,9 @@ public class StudentServiceImpl implements StudentService {
                 .classRoom(classRoom)
                 .registrationNumber(request.getRegistrationNumber())
                 .birthDate(request.getBirthDate())
-                .gender(request.getGender())
+                .gender(Gender.valueOf(request.getGender()))
                 .enrollmentDate(request.getEnrollmentDate())
-                .status("ACTIVE")
+                .status(StudentStatus.valueOf("ACTIVE"))
                 .address(request.getAddress())
                 .build();
         student = studentRepository.save(student);
@@ -129,10 +131,10 @@ public class StudentServiceImpl implements StudentService {
             student.setBirthDate(request.getBirthDate());
         }
         if (request.getGender() != null) {
-            student.setGender(request.getGender());
+            student.setGender(Gender.valueOf(request.getGender()));
         }
         if (request.getStatus() != null) {
-            student.setStatus(request.getStatus());
+            student.setStatus(StudentStatus.valueOf(request.getStatus()));
         }
         if (request.getAddress() != null) {
             student.setAddress(request.getAddress());
@@ -206,7 +208,7 @@ public class StudentServiceImpl implements StudentService {
         userRepository.save(user);
 
         // Set student status as WITHDRAWN
-        student.setStatus("WITHDRAWN");
+        student.setStatus(StudentStatus.valueOf("WITHDRAWN"));
         studentRepository.save(student);
 
         log.info("Student marked as withdrawn: {}", id);

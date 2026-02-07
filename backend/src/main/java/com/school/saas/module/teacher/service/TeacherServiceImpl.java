@@ -1,6 +1,7 @@
 package com.school.saas.module.teacher.service;
 
 import com.school.saas.common.Role;
+import com.school.saas.common.TeacherStatus;
 import com.school.saas.exception.ResourceNotFoundException;
 import com.school.saas.security.TenantContext;
 import com.school.saas.module.teacher.Teacher;
@@ -73,7 +74,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .speciality(request.getSpeciality())
                 .hireDate(request.getHireDate())
                 .employeeNumber(request.getEmployeeNumber())
-                .status("ACTIVE")
+                .status(TeacherStatus.valueOf("ACTIVE"))
                 .salary(request.getSalary())
                 .build();
         teacher = teacherRepository.save(teacher);
@@ -110,7 +111,7 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.setSpeciality(request.getSpeciality());
         }
         if (request.getStatus() != null) {
-            teacher.setStatus(request.getStatus());
+            teacher.setStatus(TeacherStatus.valueOf(request.getStatus()));
         }
         if (request.getSalary() != null) {
             teacher.setSalary(request.getSalary());
@@ -178,7 +179,7 @@ public class TeacherServiceImpl implements TeacherService {
         userRepository.save(user);
 
         // Set teacher status as TERMINATED
-        teacher.setStatus("TERMINATED");
+        teacher.setStatus(TeacherStatus.valueOf("TERMINATED"));
         teacherRepository.save(teacher);
 
         log.info("Teacher marked as terminated: {}", id);
