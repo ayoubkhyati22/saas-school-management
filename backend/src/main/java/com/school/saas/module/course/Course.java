@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "courses", indexes = {
     @Index(name = "idx_course_school_id", columnList = "school_id"),
-    @Index(name = "idx_course_classroom_id", columnList = "classroom_id"),
+    @Index(name = "idx_course_classroom_id", columnList = "class_room_id"),
     @Index(name = "idx_course_teacher_id", columnList = "teacher_id")
 })
 @Getter
@@ -26,7 +26,7 @@ public class Course extends BaseEntity {
     private UUID schoolId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classroom_id", nullable = false)
+    @JoinColumn(name = "class_room_id", nullable = false)
     private ClassRoom classRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
