@@ -244,12 +244,14 @@ app.get('/api/schools', authenticateToken, async (req, res) => {
 
     res.json({
       success: true,
+      message: 'Schools fetched successfully',
       data: {
         content: data,
         page,
         size,
         totalElements: count,
-        totalPages: Math.ceil(count / size)
+        totalPages: Math.ceil(count / size),
+        number: page
       }
     });
   } catch (error) {
@@ -280,16 +282,92 @@ app.get('/api/students', authenticateToken, async (req, res) => {
 
     res.json({
       success: true,
+      message: 'Students fetched successfully',
       data: {
         content: data,
         page,
         size,
         totalElements: count,
-        totalPages: Math.ceil(count / size)
+        totalPages: Math.ceil(count / size),
+        number: page
       }
     });
   } catch (error) {
     console.error('Error fetching students:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+app.get('/api/dashboard/super-admin', authenticateToken, async (req, res) => {
+  try {
+    const { count: schoolsCount } = await supabase
+      .from('schools')
+      .select('*', { count: 'exact', head: true });
+
+    const { count: subscriptionsCount } = await supabase
+      .from('subscriptions')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'ACTIVE');
+
+    const { count: usersCount } = await supabase
+      .from('users')
+      .select('*', { count: 'exact', head: true });
+
+    res.json({
+      success: true,
+      message: 'Dashboard stats fetched successfully',
+      data: {
+        totalSchools: schoolsCount || 0,
+        activeSubscriptions: subscriptionsCount || 0,
+        totalUsers: usersCount || 0,
+        totalRevenue: 0
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
+});
+
+app.get('/api/dashboard/school-admin', authenticateToken, async (req, res) => {
+  try {
+    const schoolId = req.user.schoolId;
+
+    if (!schoolId) {
+      return res.status(400).json({
+        success: false,
+        message: 'School ID not found'
+      });
+    }
+
+    const { count: studentsCount } = await supabase
+      .from('students')
+      .select('*', { count: 'exact', head: true })
+      .eq('school_id', schoolId);
+
+    const { count: teachersCount } = await supabase
+      .from('teachers')
+      .select('*', { count: 'exact', head: true })
+      .eq('school_id', schoolId);
+
+    res.json({
+      success: true,
+      message: 'Dashboard stats fetched successfully',
+      data: {
+        totalStudents: studentsCount || 0,
+        totalTeachers: teachersCount || 0,
+        attendanceRate: 0,
+        pendingPayments: 0
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
     res.status(500).json({
       success: false,
       message: 'Internal server error'
