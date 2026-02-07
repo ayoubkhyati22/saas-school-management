@@ -37,4 +37,6 @@ public class CreateCourseRequest {
 
     @Size(max = 50, message = "Semester must not exceed 50 characters")
     private String semester;
+
+    private String documents;
 }

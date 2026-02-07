@@ -60,4 +60,10 @@ public class Student extends BaseEntity {
 
     @Column(name = "address", columnDefinition = "TEXT")
     private String address;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "administrative_documents", columnDefinition = "jsonb")
+    private String administrativeDocuments;
 }

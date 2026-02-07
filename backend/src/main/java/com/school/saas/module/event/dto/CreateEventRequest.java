@@ -41,4 +41,7 @@ public class CreateEventRequest {
     @NotBlank(message = "Target role is required")
     @Schema(description = "Target role (ALL, STUDENT, TEACHER, PARENT)", required = true)
     private String targetRole;
+
+    @Schema(description = "Event image URL")
+    private String imageUrl;
 }

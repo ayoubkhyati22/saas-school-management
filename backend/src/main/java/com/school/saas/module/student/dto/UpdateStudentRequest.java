@@ -37,4 +37,8 @@ public class UpdateStudentRequest {
 
     @Size(max = 500, message = "Address must not exceed 500 characters")
     private String address;
+
+    private String avatarUrl;
+
+    private String administrativeDocuments;
 }

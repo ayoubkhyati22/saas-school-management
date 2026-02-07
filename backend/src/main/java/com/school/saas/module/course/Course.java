@@ -47,4 +47,7 @@ public class Course extends BaseEntity {
 
     @Column(name = "semester", length = 50)
     private String semester; // e.g., "Fall 2024", "Spring 2025"
+
+    @Column(name = "documents", columnDefinition = "jsonb")
+    private String documents;
 }

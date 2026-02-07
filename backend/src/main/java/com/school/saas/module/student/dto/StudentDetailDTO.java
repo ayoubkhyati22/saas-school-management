@@ -32,6 +32,8 @@ public class StudentDetailDTO {
     private LocalDate enrollmentDate;
     private String status;
     private String address;
+    private String avatarUrl;
+    private String administrativeDocuments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

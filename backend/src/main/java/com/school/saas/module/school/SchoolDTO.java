@@ -16,4 +16,6 @@ public class SchoolDTO {
     private String phone;
     private Boolean active;
     private LocalDate registrationDate;
+    private String logoUrl;
+    private String avatarUrl;
 }

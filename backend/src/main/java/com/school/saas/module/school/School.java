@@ -34,4 +34,10 @@ public class School extends BaseEntity {
 
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
+
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 }

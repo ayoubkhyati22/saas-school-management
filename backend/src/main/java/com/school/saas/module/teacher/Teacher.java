@@ -50,4 +50,10 @@ public class Teacher extends BaseEntity {
 
     @Column(name = "salary", precision = 12, scale = 2)
     private BigDecimal salary;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "administrative_documents", columnDefinition = "jsonb")
+    private String administrativeDocuments;
 }

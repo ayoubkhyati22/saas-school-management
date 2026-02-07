@@ -21,4 +21,6 @@ public class SchoolDetailDTO {
     private SubscriptionDTO activeSubscription;
     private Long totalStudents;
     private Long totalTeachers;
+    private String logoUrl;
+    private String avatarUrl;
 }

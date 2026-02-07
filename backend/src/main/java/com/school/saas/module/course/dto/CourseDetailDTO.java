@@ -28,6 +28,7 @@ public class CourseDetailDTO {
     private String schedule;
     private String semester;
     private long materialCount;
+    private String documents;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

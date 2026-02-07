@@ -46,4 +46,7 @@ public class Event extends BaseEntity {
 
     @Column(name = "created_by", nullable = false)
     private UUID createdBy;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

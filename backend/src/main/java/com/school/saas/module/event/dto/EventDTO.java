@@ -44,6 +44,9 @@ public class EventDTO {
     @Schema(description = "User who created the event")
     private UUID createdBy;
 
+    @Schema(description = "Event image URL")
+    private String imageUrl;
+
     @Schema(description = "Created at timestamp")
     private LocalDateTime createdAt;
 

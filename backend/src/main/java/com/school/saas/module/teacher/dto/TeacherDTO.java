@@ -26,6 +26,8 @@ public class TeacherDTO {
     private String employeeNumber;
     private String status;
     private BigDecimal salary;
+    private String avatarUrl;
+    private String administrativeDocuments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

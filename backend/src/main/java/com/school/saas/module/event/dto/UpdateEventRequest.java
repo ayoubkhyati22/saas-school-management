@@ -33,4 +33,7 @@ public class UpdateEventRequest {
 
     @Schema(description = "Target role (ALL, STUDENT, TEACHER, PARENT)")
     private String targetRole;
+
+    @Schema(description = "Event image URL")
+    private String imageUrl;
 }

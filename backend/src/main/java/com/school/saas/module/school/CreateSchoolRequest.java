@@ -25,4 +25,8 @@ public class CreateSchoolRequest {
 
     @Size(max = 20, message = "Phone must not exceed 20 characters")
     private String phone;
+
+    private String logoUrl;
+
+    private String avatarUrl;
 }

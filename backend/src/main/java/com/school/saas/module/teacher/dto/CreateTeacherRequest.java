@@ -43,4 +43,8 @@ public class CreateTeacherRequest {
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Salary must be positive")
     private BigDecimal salary;
+
+    private String avatarUrl;
+
+    private String administrativeDocuments;
 }
