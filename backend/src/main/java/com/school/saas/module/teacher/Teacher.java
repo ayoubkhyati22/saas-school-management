@@ -1,13 +1,14 @@
 package com.school.saas.module.teacher;
 
 import com.school.saas.common.BaseEntity;
-import com.school.saas.common.JsonbConverter;
 import com.school.saas.common.TeacherStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.school.School;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,7 +56,7 @@ public class Teacher extends BaseEntity {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @Convert(converter = JsonbConverter.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "administrative_documents", columnDefinition = "jsonb")
     private String administrativeDocuments;
 }

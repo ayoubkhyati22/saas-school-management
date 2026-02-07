@@ -1,12 +1,13 @@
 package com.school.saas.module.course;
 
 import com.school.saas.common.BaseEntity;
-import com.school.saas.common.JsonbConverter;
 import com.school.saas.module.classroom.ClassRoom;
 import com.school.saas.module.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ public class Course extends BaseEntity {
     @Column(name = "semester", length = 50)
     private String semester; // e.g., "Fall 2024", "Spring 2025"
 
-    @Convert(converter = JsonbConverter.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "documents", columnDefinition = "jsonb")
     private String documents;
 }

@@ -2,7 +2,6 @@ package com.school.saas.module.student;
 
 import com.school.saas.common.BaseEntity;
 import com.school.saas.common.Gender;
-import com.school.saas.common.JsonbConverter;
 import com.school.saas.common.StudentStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.classroom.ClassRoom;
@@ -10,6 +9,8 @@ import com.school.saas.module.school.School;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -65,7 +66,7 @@ public class Student extends BaseEntity {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @Convert(converter = JsonbConverter.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "administrative_documents", columnDefinition = "jsonb")
     private String administrativeDocuments;
 }
