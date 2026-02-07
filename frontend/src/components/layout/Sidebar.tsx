@@ -70,7 +70,7 @@ const navigationItems = {
 export default function Sidebar() {
   const user = useAuthStore((state) => state.user)
   const { isCollapsed, toggle } = useSidebarStore()
-
+  
   const navItems = user ? navigationItems[user.role] || [] : []
 
   return (

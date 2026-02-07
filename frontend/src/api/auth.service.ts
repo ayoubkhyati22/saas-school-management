@@ -4,12 +4,12 @@ import type { ApiResponse, LoginRequest, LoginResponse, RegisterRequest, User } 
 export const authService = {
   login: async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await apiClient.post<ApiResponse<LoginResponse>>('/auth/login', data)
-    return response.data.data
+    return response.data
   },
 
   register: async (data: RegisterRequest): Promise<LoginResponse> => {
     const response = await apiClient.post<ApiResponse<LoginResponse>>('/auth/register', data)
-    return response.data.data
+    return response.data
   },
 
   refreshToken: async (refreshToken: string): Promise<{ accessToken: string }> => {
@@ -17,7 +17,7 @@ export const authService = {
       '/auth/refresh',
       { refreshToken }
     )
-    return response.data.data
+    return response.data
   },
 
   logout: async (): Promise<void> => {
@@ -26,6 +26,6 @@ export const authService = {
 
   getCurrentUser: async (): Promise<User> => {
     const response = await apiClient.get<ApiResponse<User>>('/auth/me')
-    return response.data.data
+    return response.data
   },
 }
