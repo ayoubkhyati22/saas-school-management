@@ -9,6 +9,16 @@ import Dashboard from './features/dashboard/Dashboard'
 import SchoolListPage from './features/schools/SchoolListPage'
 import SchoolDetailPage from './features/schools/SchoolDetailPage'
 import StudentListPage from './features/students/StudentListPage'
+import TeacherListPage from './features/teachers/TeacherListPage'
+import ParentListPage from './features/parents/ParentListPage'
+import ClassroomListPage from './features/classrooms/ClassroomListPage'
+import CourseListPage from './features/courses/CourseListPage'
+import EventListPage from './features/events/EventListPage'
+import AbsenceListPage from './features/absences/AbsenceListPage'
+import PaymentListPage from './features/payments/PaymentListPage'
+import NotificationListPage from './features/notifications/NotificationListPage'
+import IssueListPage from './features/issues/IssueListPage'
+import DocumentListPage from './features/documents/DocumentListPage'
 import { useThemeStore } from './store/theme.store'
 import { queryClient } from './lib/queryClient'
 
@@ -41,16 +51,16 @@ function App() {
               <Route path="/schools" element={<SchoolListPage />} />
               <Route path="/schools/:id" element={<SchoolDetailPage />} />
               <Route path="/students" element={<StudentListPage />} />
-              <Route path="/teachers" element={<ComingSoonPage title="Teachers" />} />
-              <Route path="/parents" element={<ComingSoonPage title="Parents" />} />
-              <Route path="/classrooms" element={<ComingSoonPage title="Classrooms" />} />
-              <Route path="/courses" element={<ComingSoonPage title="Courses" />} />
-              <Route path="/events" element={<ComingSoonPage title="Events" />} />
-              <Route path="/absences" element={<ComingSoonPage title="Absences" />} />
-              <Route path="/payments" element={<ComingSoonPage title="Payments" />} />
-              <Route path="/notifications" element={<ComingSoonPage title="Notifications" />} />
-              <Route path="/issues" element={<ComingSoonPage title="Issues" />} />
-              <Route path="/documents" element={<ComingSoonPage title="Documents" />} />
+              <Route path="/teachers" element={<TeacherListPage />} />
+              <Route path="/parents" element={<ParentListPage />} />
+              <Route path="/classrooms" element={<ClassroomListPage />} />
+              <Route path="/courses" element={<CourseListPage />} />
+              <Route path="/events" element={<EventListPage />} />
+              <Route path="/absences" element={<AbsenceListPage />} />
+              <Route path="/payments" element={<PaymentListPage />} />
+              <Route path="/notifications" element={<NotificationListPage />} />
+              <Route path="/issues" element={<IssueListPage />} />
+              <Route path="/documents" element={<DocumentListPage />} />
               <Route path="/subscriptions" element={<ComingSoonPage title="Subscriptions" />} />
               <Route path="/users" element={<ComingSoonPage title="Users" />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
