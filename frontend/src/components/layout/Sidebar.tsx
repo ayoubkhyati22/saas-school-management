@@ -120,19 +120,19 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        {!isCollapsed && user && (
+        {!isCollapsed && user && user.firstName && user.lastName && (
           <div className="border-t p-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
-                {user.firstName[0]}
-                {user.lastName[0]}
+                {user.firstName[0]?.toUpperCase()}
+                {user.lastName[0]?.toUpperCase()}
               </div>
               <div className="flex-1 overflow-hidden">
                 <p className="text-sm font-medium truncate">
                   {user.firstName} {user.lastName}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {user.role.replace('_', ' ')}
+                  {user.role.replace(/_/g, ' ')}
                 </p>
               </div>
             </div>
