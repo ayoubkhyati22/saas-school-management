@@ -1939,16 +1939,56 @@ Authorization: Bearer <your-jwt-token>
 
 ## Document Management APIs
 
+### File Storage Overview
+
+The application uses a flexible storage architecture that currently stores files locally but can be easily migrated to AWS S3.
+
+**Local Storage Configuration:**
+- Base Path: `C:\saas-school` (configurable via `STORAGE_PATH` environment variable)
+- Organization: `{base-path}/school_{schoolId}/{entityType}/{entityId}/{filename}`
+- Max File Size: 10MB (configurable)
+- Supported File Types: PDF, JPEG, PNG, GIF, DOC, DOCX, XLS, XLSX
+
+**Storage Organization Example:**
+```
+C:\saas-school\
+├── school_123e4567-e89b-12d3-a456-426614174000\
+│   ├── STUDENT\
+│   │   ├── 456e7890-e89b-12d3-a456-426614174001\
+│   │   │   ├── birth-certificate.pdf
+│   │   │   └── id-card.jpg
+│   │   └── 456e7890-e89b-12d3-a456-426614174002\
+│   │       └── transcript.pdf
+│   ├── TEACHER\
+│   │   └── 789e1234-e89b-12d3-a456-426614174003\
+│   │       ├── teaching-certificate.pdf
+│   │       └── cv.pdf
+│   └── COURSE\
+│       └── 012e3456-e89b-12d3-a456-426614174004\
+│           ├── syllabus.pdf
+│           └── lecture-notes.pdf
+```
+
 ### 1. Upload Document
-**Endpoint:** `POST /documents/upload`
+**Endpoint:** `POST /api/documents/upload`
 **Authentication:** Required
 **Content-Type:** multipart/form-data
 
 **Request Body (Form Data):**
-- `file`: The file to upload
-- `entityType`: Entity type (STUDENT, TEACHER, COURSE, etc.)
-- `entityId`: ID of the entity
-- `title`: Document title
+- `file`: The file to upload (Max 10MB)
+- `entityType`: Entity type (student, teacher, course, payment, etc.)
+- `entityId`: UUID of the entity
+- `title`: Document title/description
+
+**Curl Example:**
+```bash
+curl -X POST "http://localhost:8080/api/documents/upload" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -F "file=@/path/to/document.pdf" \
+  -F "entityType=STUDENT" \
+  -F "entityId=456e7890-e89b-12d3-a456-426614174001" \
+  -F "title=Birth Certificate"
+```
 
 **Response:**
 ```json
@@ -1957,11 +1997,11 @@ Authorization: Bearer <your-jwt-token>
   "message": "Document uploaded successfully",
   "data": {
     "id": "uuid",
-    "schoolId": "uuid",
+    "schoolId": "123e4567-e89b-12d3-a456-426614174000",
     "entityType": "STUDENT",
-    "entityId": "uuid",
+    "entityId": "456e7890-e89b-12d3-a456-426614174001",
     "title": "Birth Certificate",
-    "filePath": "https://example.com/documents/birth-cert.pdf",
+    "filePath": "school_123e4567-e89b-12d3-a456-426614174000/STUDENT/456e7890-e89b-12d3-a456-426614174001/document.pdf",
     "fileType": "application/pdf",
     "fileSize": 1024000,
     "uploadedBy": "uuid",
@@ -1970,13 +2010,61 @@ Authorization: Bearer <your-jwt-token>
 }
 ```
 
-### 2. Get Documents by Entity
-**Endpoint:** `GET /documents?entityType=STUDENT&entityId=uuid`
+### 2. Download Document
+**Endpoint:** `GET /api/documents/download?path={filePath}`
 **Authentication:** Required
 
 **Query Parameters:**
-- `entityType` (required): Entity type
-- `entityId` (required): Entity ID
+- `path` (required): The relative file path returned from upload
+
+**Example:**
+```
+GET /api/documents/download?path=school_123e4567/STUDENT/456e7890/document.pdf
+```
+
+**Response:**
+- Returns the file as a downloadable attachment
+- Content-Type: Automatically detected based on file type
+- Content-Disposition: attachment; filename="document.pdf"
+
+**Curl Example:**
+```bash
+curl -X GET "http://localhost:8080/api/documents/download?path=school_123e4567/STUDENT/456e7890/document.pdf" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -o downloaded-file.pdf
+```
+
+### 3. Get Document by ID
+**Endpoint:** `GET /api/documents/{id}`
+**Authentication:** Required
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Document retrieved successfully",
+  "data": {
+    "id": "uuid",
+    "schoolId": "uuid",
+    "entityType": "STUDENT",
+    "entityId": "uuid",
+    "title": "Birth Certificate",
+    "filePath": "school_123e4567/STUDENT/456e7890/document.pdf",
+    "fileType": "application/pdf",
+    "fileSize": 1024000,
+    "uploadedBy": "uuid",
+    "uploadedAt": "2024-01-15T10:00:00Z"
+  }
+}
+```
+
+### 4. Get Documents by Entity
+**Endpoint:** `GET /api/documents/entity/{entityType}/{entityId}`
+**Authentication:** Required
+
+**Path Parameters:**
+- `entityType`: Entity type (STUDENT, TEACHER, COURSE, etc.)
+- `entityId`: UUID of the entity
 
 **Response:**
 ```json
@@ -1987,8 +2075,39 @@ Authorization: Bearer <your-jwt-token>
     {
       "id": "uuid",
       "title": "Birth Certificate",
-      "filePath": "https://example.com/documents/birth-cert.pdf",
+      "filePath": "school_123e4567/STUDENT/456e7890/document.pdf",
       "fileType": "application/pdf",
+      "fileSize": 1024000,
+      "uploadedAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "id": "uuid",
+      "title": "ID Card",
+      "filePath": "school_123e4567/STUDENT/456e7890/id-card.jpg",
+      "fileType": "image/jpeg",
+      "fileSize": 512000,
+      "uploadedAt": "2024-01-16T10:00:00Z"
+    }
+  ]
+}
+```
+
+### 5. Get All School Documents
+**Endpoint:** `GET /api/documents`
+**Authentication:** Required (SCHOOL_ADMIN)
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Documents retrieved successfully",
+  "data": [
+    {
+      "id": "uuid",
+      "entityType": "STUDENT",
+      "entityId": "uuid",
+      "title": "Birth Certificate",
+      "filePath": "school_123e4567/STUDENT/456e7890/document.pdf",
       "fileSize": 1024000,
       "uploadedAt": "2024-01-15T10:00:00Z"
     }
@@ -1996,9 +2115,9 @@ Authorization: Bearer <your-jwt-token>
 }
 ```
 
-### 3. Delete Document
-**Endpoint:** `DELETE /documents/{id}`
-**Authentication:** Required
+### 6. Delete Document
+**Endpoint:** `DELETE /api/documents/{id}`
+**Authentication:** Required (SCHOOL_ADMIN or TEACHER)
 
 **Response:**
 ```json
@@ -2008,6 +2127,23 @@ Authorization: Bearer <your-jwt-token>
   "data": null
 }
 ```
+
+**Note:** This also deletes the physical file from the storage system.
+
+### 7. Get Storage Usage
+**Endpoint:** `GET /api/documents/storage-used`
+**Authentication:** Required (SCHOOL_ADMIN)
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Storage usage retrieved successfully",
+  "data": 157286400
+}
+```
+
+**Note:** Returns total storage used in bytes. Divide by 1024^3 to get GB.
 
 ---
 
@@ -2489,3 +2625,174 @@ http://localhost:8080/swagger-ui.html
 6. **Date Formats**: Use ISO 8601 format for dates and timestamps (e.g., `2024-01-15` for dates, `2024-01-15T10:00:00Z` for timestamps).
 
 7. **Role-Based Access**: Different endpoints require different roles (SUPER_ADMIN, SCHOOL_ADMIN, TEACHER, STUDENT, PARENT). Make sure to use appropriate credentials.
+
+8. **File Storage**: Files are currently stored locally in `C:\saas-school` with organized folder structure by school and entity type. The architecture is designed for easy migration to AWS S3 or other cloud storage providers.
+
+---
+
+## File Storage Configuration
+
+### Current Setup: Local Storage
+
+The application stores files locally on disk with the following structure:
+
+**Default Location:** `C:\saas-school`
+
+**Configurable via Environment Variable:**
+```bash
+STORAGE_PATH=C:/saas-school
+```
+
+**Folder Organization:**
+```
+{base-path}/school_{schoolId}/{entityType}/{entityId}/{filename}
+```
+
+This organization ensures:
+- Easy data separation by school (multi-tenancy)
+- Clear categorization by entity type
+- Simple backup and migration strategies
+- Minimal cross-contamination of data
+
+### Migrating to AWS S3
+
+The storage architecture uses an interface-based design (`StorageService`) that allows easy migration to AWS S3. Here's how to migrate:
+
+#### Step 1: Create S3StorageServiceImpl
+
+Create a new implementation of `StorageService`:
+
+```java
+@Service
+@Primary  // Use this implementation instead of LocalStorageServiceImpl
+@RequiredArgsConstructor
+public class S3StorageServiceImpl implements StorageService {
+
+    @Value("${aws.s3.bucket-name}")
+    private String bucketName;
+
+    private final AmazonS3 s3Client;
+
+    @Override
+    public String uploadFile(MultipartFile file, String entityType, UUID entityId, UUID schoolId) {
+        String key = String.format("school_%s/%s/%s/%s",
+            schoolId, entityType, entityId, generateUniqueFilename(file));
+
+        try {
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+
+            s3Client.putObject(bucketName, key, file.getInputStream(), metadata);
+            return key;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload to S3", e);
+        }
+    }
+
+    @Override
+    public void deleteFile(String filePath) {
+        s3Client.deleteObject(bucketName, filePath);
+    }
+
+    @Override
+    public String generateFileUrl(String filePath) {
+        return s3Client.generatePresignedUrl(
+            bucketName,
+            filePath,
+            Date.from(Instant.now().plus(Duration.ofHours(1)))
+        ).toString();
+    }
+
+    @Override
+    public long calculateStorageUsed(UUID schoolId) {
+        // Implementation to calculate S3 storage usage
+        return 0L;
+    }
+}
+```
+
+#### Step 2: Add AWS Dependencies
+
+Add to `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>aws-java-sdk-s3</artifactId>
+    <version>1.12.529</version>
+</dependency>
+```
+
+#### Step 3: Configure AWS S3
+
+Add to `application.yml`:
+
+```yaml
+aws:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET:school-saas-storage}
+    region: ${AWS_REGION:us-east-1}
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+```
+
+#### Step 4: Update Environment Variables
+
+```bash
+AWS_S3_BUCKET=your-bucket-name
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY=your-access-key
+AWS_SECRET_KEY=your-secret-key
+```
+
+#### Step 5: Migrate Existing Files
+
+Create a migration script to copy files from local storage to S3:
+
+```java
+@Component
+public class StorageMigrationService {
+
+    public void migrateLocalToS3() {
+        Path localPath = Paths.get("C:/saas-school");
+
+        Files.walk(localPath)
+            .filter(Files::isRegularFile)
+            .forEach(file -> {
+                String relativePath = localPath.relativize(file).toString();
+                // Upload to S3 with same folder structure
+                uploadToS3(file, relativePath);
+            });
+    }
+}
+```
+
+### Alternative Storage Options
+
+The same `StorageService` interface can be implemented for:
+
+1. **Azure Blob Storage**
+2. **Google Cloud Storage**
+3. **MinIO (self-hosted S3-compatible)**
+4. **Digital Ocean Spaces**
+
+Simply create a new implementation and mark it with `@Primary` to switch storage providers.
+
+### Storage Best Practices
+
+1. **Backup Strategy**: Regularly backup the `C:\saas-school` folder or configure S3 versioning
+2. **File Naming**: Files are automatically renamed with UUIDs to prevent conflicts
+3. **Access Control**: All file operations require authentication and proper authorization
+4. **Validation**: File types and sizes are validated before upload
+5. **Cleanup**: Deleted documents are automatically removed from storage
+
+### Monitoring Storage Usage
+
+Each school's storage usage can be monitored via the API:
+
+```
+GET /api/documents/storage-used
+```
+
+This helps track storage costs and enforce subscription limits.
