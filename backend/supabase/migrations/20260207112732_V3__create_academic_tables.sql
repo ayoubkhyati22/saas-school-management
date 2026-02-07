@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS courses (
     subject_code text NOT NULL,
     description text,
     schedule text,
-    semester semester_type NOT NULL DEFAULT 'FULL_YEAR',
+    semester text NOT NULL DEFAULT 'FULL_YEAR',
     created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_courses_school

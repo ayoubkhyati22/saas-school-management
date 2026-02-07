@@ -45,7 +45,7 @@ public class Teacher extends BaseEntity {
     private String employeeNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, columnDefinition = "teacher_status")
+    @Column(name = "status", nullable = false)
     private TeacherStatus status;
 
     @Column(name = "salary", precision = 12, scale = 2)

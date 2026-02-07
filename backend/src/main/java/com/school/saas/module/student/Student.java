@@ -48,14 +48,14 @@ public class Student extends BaseEntity {
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", columnDefinition = "gender_type")
+    @Column(name = "gender")
     private Gender gender;
 
     @Column(name = "enrollment_date", nullable = false)
     private LocalDate enrollmentDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, columnDefinition = "student_status")
+    @Column(name = "status", nullable = false)
     private StudentStatus status;
 
     @Column(name = "address", columnDefinition = "TEXT")

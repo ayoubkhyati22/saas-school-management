@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "role_type")
+    @Column(nullable = false)
     private Role role;
 
     @Builder.Default
