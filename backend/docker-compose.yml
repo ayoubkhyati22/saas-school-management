@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school-saas-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
+      SPRING_DATASOURCE_USERNAME: postgres.0ec90b57d6e95fcbda19832f
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      STORAGE_PATH: /app/storage
+      JWT_SECRET: ${JWT_SECRET}
+    volumes:
+      - ./storage:/app/storage
+    networks:
+      - school-saas-network
+    restart: unless-stopped
+
+networks:
+  school-saas-network:
+    driver: bridge
+
+volumes:
+  storage_data:

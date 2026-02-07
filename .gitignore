@@ -1,0 +1,104 @@
+
+############################
+# Compiled class files
+############################
+*.class
+
+############################
+# Logs
+############################
+*.log
+logs/
+log/
+
+############################
+# Spring Boot
+############################
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+############################
+# Maven
+############################
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+############################
+# Gradle
+############################
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+############################
+# IDEs
+############################
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.springBeans
+.sts4-cache/
+
+# VS Code
+.vscode/
+
+############################
+# OS generated files
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# Environment variables
+############################
+.env
+.env.*
+application-local.yml
+application-local.properties
+
+############################
+# Temporary files
+############################
+*.swp
+*.swo
+*~
+
+############################
+# Node (if frontend inside project)
+############################
+node_modules/
+dist/
+coverage/
+
+############################
+# Docker
+############################
+docker-compose.override.yml
+
+############################
+# Test outputs
+############################
+/test-output/
+/surefire-reports/
+

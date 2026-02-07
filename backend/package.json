@@ -1,0 +1,29 @@
+{
+  "name": "school-saas-platform",
+  "version": "1.0.0",
+  "description": "Spring Boot School Management SaaS Platform - Java 17 Required",
+  "private": true,
+  "scripts": {
+    "build": "node index.js",
+    "start": "node index.js",
+    "docker:build": "docker build -t school-saas-platform:latest .",
+    "docker:run": "docker-compose up -d",
+    "docker:logs": "docker-compose logs -f",
+    "docker:stop": "docker-compose down",
+    "info": "cat DEPLOYMENT_GUIDE.md"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "java",
+    "spring-boot",
+    "school-management",
+    "saas",
+    "multi-tenant"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/school-saas-platform.git"
+  }
+}
