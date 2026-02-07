@@ -1,6 +1,7 @@
 package com.school.saas.module.teacher;
 
 import com.school.saas.common.BaseEntity;
+import com.school.saas.common.TeacherStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.school.School;
 import jakarta.persistence.*;
@@ -43,8 +44,9 @@ public class Teacher extends BaseEntity {
     @Column(name = "employee_number", nullable = false, unique = true, length = 50)
     private String employeeNumber;
 
-    @Column(name = "status", nullable = false, length = 20)
-    private String status; // ACTIVE, INACTIVE, ON_LEAVE, TERMINATED
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "teacher_status")
+    private TeacherStatus status;
 
     @Column(name = "salary", precision = 12, scale = 2)
     private BigDecimal salary;

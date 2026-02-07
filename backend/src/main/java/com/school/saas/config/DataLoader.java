@@ -382,7 +382,7 @@ public class DataLoader {
                 .speciality(speciality)
                 .hireDate(LocalDate.of(2024, 1, 15))
                 .employeeNumber(employeeNumber)
-                .status("ACTIVE")
+                .status(TeacherStatus.ACTIVE)
                 .salary(new BigDecimal("50000.00"))
                 .build();
         return teacherRepository.save(teacher);
@@ -422,29 +422,29 @@ public class DataLoader {
 
         // School 1 Students
         students.add(createStudent(schools.get(0), classRooms.get(0), "alice.student@greenvalley.edu",
-                "Alice", "Anderson", "STU2024001", LocalDate.of(2009, 5, 15), "FEMALE"));
+                "Alice", "Anderson", "STU2024001", LocalDate.of(2009, 5, 15), Gender.FEMALE));
         students.add(createStudent(schools.get(0), classRooms.get(0), "bob.student@greenvalley.edu",
-                "Bob", "Baker", "STU2024002", LocalDate.of(2009, 7, 22), "MALE"));
+                "Bob", "Baker", "STU2024002", LocalDate.of(2009, 7, 22), Gender.MALE));
         students.add(createStudent(schools.get(0), classRooms.get(1), "charlie.student@greenvalley.edu",
-                "Charlie", "Clark", "STU2024003", LocalDate.of(2008, 3, 10), "MALE"));
+                "Charlie", "Clark", "STU2024003", LocalDate.of(2008, 3, 10), Gender.MALE));
         students.add(createStudent(schools.get(0), classRooms.get(1), "diana.student@greenvalley.edu",
-                "Diana", "Davis", "STU2024004", LocalDate.of(2008, 11, 30), "FEMALE"));
+                "Diana", "Davis", "STU2024004", LocalDate.of(2008, 11, 30), Gender.FEMALE));
         students.add(createStudent(schools.get(0), classRooms.get(2), "emma.student@greenvalley.edu",
-                "Emma", "Evans", "STU2024005", LocalDate.of(2007, 1, 18), "FEMALE"));
+                "Emma", "Evans", "STU2024005", LocalDate.of(2007, 1, 18), Gender.FEMALE));
 
         // School 2 Students
         students.add(createStudent(schools.get(1), classRooms.get(3), "frank.student@sunshine.edu",
-                "Frank", "Foster", "STU2024001", LocalDate.of(2010, 4, 12), "MALE"));
+                "Frank", "Foster", "STU2024001", LocalDate.of(2010, 4, 12), Gender.MALE));
         students.add(createStudent(schools.get(1), classRooms.get(3), "grace.student@sunshine.edu",
-                "Grace", "Green", "STU2024002", LocalDate.of(2010, 8, 25), "FEMALE"));
+                "Grace", "Green", "STU2024002", LocalDate.of(2010, 8, 25), Gender.FEMALE));
         students.add(createStudent(schools.get(1), classRooms.get(4), "henry.student@sunshine.edu",
-                "Henry", "Harris", "STU2024003", LocalDate.of(2009, 12, 3), "MALE"));
+                "Henry", "Harris", "STU2024003", LocalDate.of(2009, 12, 3), Gender.MALE));
 
         return students;
     }
 
     private Student createStudent(School school, ClassRoom classRoom, String email, String firstName,
-                                  String lastName, String regNumber, LocalDate birthDate, String gender) {
+                                  String lastName, String regNumber, LocalDate birthDate, Gender gender) {
         User user = User.builder()
                 .schoolId(school.getId())
                 .email(email)
@@ -464,7 +464,7 @@ public class DataLoader {
                 .birthDate(birthDate)
                 .gender(gender)
                 .enrollmentDate(LocalDate.of(2024, 9, 1))
-                .status("ACTIVE")
+                .status(StudentStatus.ACTIVE)
                 .build();
         return studentRepository.save(student);
     }

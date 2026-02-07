@@ -34,11 +34,11 @@ public class Subscription extends BaseEntity {
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "billing_cycle", nullable = false, length = 20)
+    @Column(name = "billing_cycle", nullable = false, columnDefinition = "billing_cycle")
     private BillingCycle billingCycle;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, columnDefinition = "subscription_status")
     private SubscriptionStatus status;
 
     @Builder.Default

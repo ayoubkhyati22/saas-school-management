@@ -1,6 +1,8 @@
 package com.school.saas.module.student;
 
 import com.school.saas.common.BaseEntity;
+import com.school.saas.common.Gender;
+import com.school.saas.common.StudentStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.classroom.ClassRoom;
 import com.school.saas.module.school.School;
@@ -45,14 +47,16 @@ public class Student extends BaseEntity {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "gender", length = 20)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", columnDefinition = "gender_type")
+    private Gender gender;
 
     @Column(name = "enrollment_date", nullable = false)
     private LocalDate enrollmentDate;
 
-    @Column(name = "status", nullable = false, length = 20)
-    private String status; // ACTIVE, INACTIVE, GRADUATED, WITHDRAWN
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "student_status")
+    private StudentStatus status;
 
     @Column(name = "address", columnDefinition = "TEXT")
     private String address;
