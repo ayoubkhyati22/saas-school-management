@@ -11,14 +11,17 @@ public class JsonbConverter implements AttributeConverter<String, Object> {
 
     @Override
     public Object convertToDatabaseColumn(String attribute) {
-        if (attribute == null) {
-            return null;
-        }
-
         try {
             PGobject pgObject = new PGobject();
             pgObject.setType("jsonb");
-            pgObject.setValue(attribute);
+
+            // Si null ou vide, utiliser un tableau JSON vide
+            if (attribute == null || attribute.trim().isEmpty()) {
+                pgObject.setValue("[]");
+            } else {
+                pgObject.setValue(attribute);
+            }
+
             return pgObject;
         } catch (SQLException e) {
             throw new IllegalArgumentException("Failed to convert String to JSONB", e);
@@ -28,13 +31,15 @@ public class JsonbConverter implements AttributeConverter<String, Object> {
     @Override
     public String convertToEntityAttribute(Object dbData) {
         if (dbData == null) {
-            return null;
+            return "[]";
         }
 
         if (dbData instanceof PGobject) {
-            return ((PGobject) dbData).getValue();
+            String value = ((PGobject) dbData).getValue();
+            return value != null ? value : "[]";
         }
 
         return dbData.toString();
     }
 }
+
