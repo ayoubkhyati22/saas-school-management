@@ -1,6 +1,7 @@
 package com.school.saas.module.course;
 
 import com.school.saas.common.BaseEntity;
+import com.school.saas.common.JsonbConverter;
 import com.school.saas.module.classroom.ClassRoom;
 import com.school.saas.module.teacher.Teacher;
 import jakarta.persistence.*;
@@ -48,6 +49,7 @@ public class Course extends BaseEntity {
     @Column(name = "semester", length = 50)
     private String semester; // e.g., "Fall 2024", "Spring 2025"
 
+    @Convert(converter = JsonbConverter.class)
     @Column(name = "documents", columnDefinition = "jsonb")
     private String documents;
 }

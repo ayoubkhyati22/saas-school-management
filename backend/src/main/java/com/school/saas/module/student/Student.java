@@ -2,6 +2,7 @@ package com.school.saas.module.student;
 
 import com.school.saas.common.BaseEntity;
 import com.school.saas.common.Gender;
+import com.school.saas.common.JsonbConverter;
 import com.school.saas.common.StudentStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.classroom.ClassRoom;
@@ -64,6 +65,7 @@ public class Student extends BaseEntity {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
+    @Convert(converter = JsonbConverter.class)
     @Column(name = "administrative_documents", columnDefinition = "jsonb")
     private String administrativeDocuments;
 }
