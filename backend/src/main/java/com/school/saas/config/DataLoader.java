@@ -406,7 +406,7 @@ public class DataLoader {
     private ClassRoom createClassroom(School school, String name, String level, String section,
                                       int capacity, Teacher teacher) {
         ClassRoom classRoom = ClassRoom.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .name(name)
                 .level(level)
                 .section(section)
@@ -552,7 +552,7 @@ public class DataLoader {
     private Course createCourse(School school, ClassRoom classRoom, Teacher teacher,
                                 String subject, String code, String schedule, String semester) {
         Course course = Course.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .classRoom(classRoom)
                 .teacher(teacher)
                 .subject(subject)
@@ -585,7 +585,7 @@ public class DataLoader {
     private Absence createAbsence(School school, Student student, Course course, Teacher teacher,
                                   LocalDate date, String reason, boolean justified, String document) {
         Absence absence = Absence.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .student(student)
                 .course(course)
                 .date(date)
@@ -631,7 +631,7 @@ public class DataLoader {
     private Payment createPayment(School school, Student student, BigDecimal amount, PaymentType type,
                                   PaymentStatus status, LocalDate dueDate, LocalDate paidDate, String invoice) {
         Payment payment = Payment.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .student(student)
                 .amount(amount)
                 .paymentType(type)
@@ -666,7 +666,7 @@ public class DataLoader {
     private Event createEvent(School school, User creator, String title, String description,
                              EventType eventType, LocalDateTime eventDate, String location, String targetRole) {
         Event event = Event.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .title(title)
                 .description(description)
                 .eventType(eventType)
@@ -703,7 +703,7 @@ public class DataLoader {
     private Notification createNotification(School school, User user, String title, String message,
                                            NotificationType type, boolean read, LocalDateTime sentAt) {
         Notification notification = Notification.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .user(user)
                 .title(title)
                 .message(message)
@@ -736,7 +736,7 @@ public class DataLoader {
     private Issue createIssue(School school, User reporter, User assignedTo, String title,
                              String description, IssueType issueType, IssuePriority priority, IssueStatus status) {
         Issue issue = Issue.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .reportedBy(reporter.getId())
                 .assignedTo(assignedTo != null ? assignedTo.getId() : null)
                 .title(title)
@@ -769,7 +769,7 @@ public class DataLoader {
     private ChatMessage createChatMessage(School school, Course course, User sender,
                                          String message, String messageType, LocalDateTime timestamp) {
         ChatMessage chatMessage = ChatMessage.builder()
-                .school(school)
+                .schoolId(school.getId())
                 .course(course)
                 .sender(sender)
                 .message(message)
