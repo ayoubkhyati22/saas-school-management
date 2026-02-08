@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useMutation, useQuery } from '@tantml:query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { UserCircle } from 'lucide-react'
 import {
@@ -48,6 +48,7 @@ interface StudentFormDialogProps {
 export default function StudentFormDialog({ open, onClose, student }: StudentFormDialogProps) {
   const isEdit = !!student
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const queryClient = useQueryClient()
 
   const {
     register,
