@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +73,7 @@ public class StudentServiceImpl implements StudentService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phone(request.getPhoneNumber())
-                .role(Role.valueOf("STUDENT"))
+                .role(Role.STUDENT)
                 .schoolId(schoolId)
                 .enabled(true)
                 .build();
@@ -89,8 +88,10 @@ public class StudentServiceImpl implements StudentService {
                 .birthDate(request.getBirthDate())
                 .gender(Gender.valueOf(request.getGender()))
                 .enrollmentDate(request.getEnrollmentDate())
-                .status(StudentStatus.valueOf("ACTIVE"))
+                .status(StudentStatus.ACTIVE)
                 .address(request.getAddress())
+                .avatarUrl(request.getAvatarUrl())
+                .administrativeDocuments(request.getAdministrativeDocuments())
                 .build();
         student = studentRepository.save(student);
 
@@ -110,13 +111,13 @@ public class StudentServiceImpl implements StudentService {
         User user = student.getUser();
 
         // Update user fields
-        if (request.getFirstName() != null) {
+        if (request.getFirstName() != null && !request.getFirstName().isBlank()) {
             user.setFirstName(request.getFirstName());
         }
-        if (request.getLastName() != null) {
+        if (request.getLastName() != null && !request.getLastName().isBlank()) {
             user.setLastName(request.getLastName());
         }
-        if (request.getPhoneNumber() != null) {
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isBlank()) {
             user.setPhone(request.getPhoneNumber());
         }
         userRepository.save(user);
@@ -130,14 +131,28 @@ public class StudentServiceImpl implements StudentService {
         if (request.getBirthDate() != null) {
             student.setBirthDate(request.getBirthDate());
         }
-        if (request.getGender() != null) {
-            student.setGender(Gender.valueOf(request.getGender()));
+        if (request.getGender() != null && !request.getGender().isBlank()) {
+            try {
+                student.setGender(Gender.valueOf(request.getGender()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid gender value: " + request.getGender());
+            }
         }
-        if (request.getStatus() != null) {
-            student.setStatus(StudentStatus.valueOf(request.getStatus()));
+        if (request.getStatus() != null && !request.getStatus().isBlank()) {
+            try {
+                student.setStatus(StudentStatus.valueOf(request.getStatus()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status value: " + request.getStatus());
+            }
         }
         if (request.getAddress() != null) {
             student.setAddress(request.getAddress());
+        }
+        if (request.getAvatarUrl() != null) {
+            student.setAvatarUrl(request.getAvatarUrl());
+        }
+        if (request.getAdministrativeDocuments() != null) {
+            student.setAdministrativeDocuments(request.getAdministrativeDocuments());
         }
 
         student = studentRepository.save(student);
@@ -208,7 +223,7 @@ public class StudentServiceImpl implements StudentService {
         userRepository.save(user);
 
         // Set student status as WITHDRAWN
-        student.setStatus(StudentStatus.valueOf("WITHDRAWN"));
+        student.setStatus(StudentStatus.DROPPED_OUT);
         studentRepository.save(student);
 
         log.info("Student marked as withdrawn: {}", id);
@@ -221,10 +236,12 @@ public class StudentServiceImpl implements StudentService {
         log.debug("Fetching statistics for school: {}", schoolId);
 
         long totalStudents = studentRepository.countBySchoolId(schoolId);
-        long activeStudents = studentRepository.countBySchoolIdAndStatus(schoolId, "ACTIVE");
+
+        // FIXED: Pass enum values instead of strings
+        long activeStudents = studentRepository.countBySchoolIdAndStatus(schoolId, StudentStatus.ACTIVE);
         long inactiveStudents = totalStudents - activeStudents;
-        long maleStudents = studentRepository.countBySchoolIdAndGender(schoolId, "MALE");
-        long femaleStudents = studentRepository.countBySchoolIdAndGender(schoolId, "FEMALE");
+        long maleStudents = studentRepository.countBySchoolIdAndGender(schoolId, Gender.MALE);
+        long femaleStudents = studentRepository.countBySchoolIdAndGender(schoolId, Gender.FEMALE);
 
         // Get students by class
         List<Student> allStudents = studentRepository.findBySchoolId(schoolId);

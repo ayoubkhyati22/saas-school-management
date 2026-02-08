@@ -382,13 +382,16 @@ export interface ApiResponse<T> {
 }
 
 export interface PageResponse<T> {
-  success: boolean
-  message: string
-    content: T[]
-    totalElements: number
-    totalPages: number
-    size: number
-    number: number
+  content: T[]
+  totalElements: number
+  totalPages: number
+  size: number
+  number: number
+  pageable?: any
+  last?: boolean
+  first?: boolean
+  numberOfElements?: number
+  empty?: boolean
 }
 
 export interface LoginRequest {

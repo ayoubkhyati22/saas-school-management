@@ -1,5 +1,6 @@
 package com.school.saas.module.dashboard.service;
 
+import com.school.saas.common.StudentStatus;
 import com.school.saas.module.payment.entity.PaymentStatus;
 import com.school.saas.module.absence.repository.AbsenceRepository;
 import com.school.saas.module.classroom.repository.ClassRoomRepository;
@@ -58,7 +59,7 @@ public class SchoolAdminDashboardServiceImpl implements SchoolAdminDashboardServ
         long totalCourses = courseRepository.countBySchoolId(schoolId);
 
         // Active/Inactive students
-        long activeStudents = studentRepository.countBySchoolIdAndStatus(schoolId, "ACTIVE");
+        long activeStudents = studentRepository.countBySchoolIdAndStatus(schoolId, StudentStatus.valueOf("ACTIVE"));
         long inactiveStudents = totalStudents - activeStudents;
 
         // Pending payments

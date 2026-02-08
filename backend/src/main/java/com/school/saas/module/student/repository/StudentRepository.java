@@ -1,5 +1,7 @@
 package com.school.saas.module.student.repository;
 
+import com.school.saas.common.Gender;
+import com.school.saas.common.StudentStatus;
 import com.school.saas.module.student.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +27,11 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     long countBySchoolId(UUID schoolId);
 
-    long countBySchoolIdAndStatus(UUID schoolId, String status);
+    // Changed: Accept StudentStatus enum instead of String
+    long countBySchoolIdAndStatus(UUID schoolId, StudentStatus status);
 
-    long countBySchoolIdAndGender(UUID schoolId, String gender);
+    // Changed: Accept Gender enum instead of String
+    long countBySchoolIdAndGender(UUID schoolId, Gender gender);
 
     long countByClassRoomId(UUID classRoomId);
 
@@ -38,9 +42,9 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     Optional<Student> findByUserIdAndSchoolId(UUID userId, UUID schoolId);
 
     @Query("SELECT s FROM Student s WHERE s.schoolId = :schoolId AND " +
-           "(LOWER(s.user.firstName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(s.user.lastName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(s.registrationNumber) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+            "(LOWER(s.user.firstName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(s.user.lastName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(s.registrationNumber) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Student> searchByKeyword(@Param("schoolId") UUID schoolId,
                                   @Param("keyword") String keyword,
                                   Pageable pageable);
