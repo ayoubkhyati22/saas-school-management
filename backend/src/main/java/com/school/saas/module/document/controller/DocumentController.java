@@ -37,7 +37,7 @@ public class DocumentController {
     private String basePath;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Upload a document", description = "Upload a document for a specific entity")
     public ResponseEntity<DocumentDTO> uploadDocument(
             @RequestParam("file") @NotNull MultipartFile file,
@@ -49,7 +49,7 @@ public class DocumentController {
     }
 
     @GetMapping("/download")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Download a file", description = "Download a file by its path")
     public ResponseEntity<Resource> downloadFile(@RequestParam("path") String filePath) {
         try {
@@ -86,7 +86,7 @@ public class DocumentController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get document by ID")
     public ResponseEntity<DocumentDTO> getDocumentById(@PathVariable UUID id) {
         DocumentDTO document = documentService.getDocumentById(id);
@@ -94,7 +94,7 @@ public class DocumentController {
     }
 
     @GetMapping("/entity/{entityType}/{entityId}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get documents by entity", description = "Get all documents for a specific entity")
     public ResponseEntity<List<DocumentDTO>> getDocumentsByEntity(
             @PathVariable String entityType,
@@ -104,7 +104,7 @@ public class DocumentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get all documents for the school")
     public ResponseEntity<List<DocumentDTO>> getDocumentsBySchool() {
         List<DocumentDTO> documents = documentService.getDocumentsBySchool();
@@ -112,7 +112,7 @@ public class DocumentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
     @Operation(summary = "Delete a document")
     public ResponseEntity<Void> deleteDocument(@PathVariable UUID id) {
         documentService.deleteDocument(id);
@@ -120,7 +120,7 @@ public class DocumentController {
     }
 
     @GetMapping("/storage-used")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get total storage used by the school")
     public ResponseEntity<Long> getStorageUsed() {
         long storageUsed = documentService.getStorageUsed();

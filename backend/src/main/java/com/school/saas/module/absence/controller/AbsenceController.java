@@ -27,7 +27,7 @@ public class AbsenceController {
     private final AbsenceService absenceService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'SCHOOL_ADMIN')")
     @Operation(summary = "Mark a student absence", description = "Teachers can mark student absences")
     public ResponseEntity<AbsenceDTO> markAbsence(@Valid @RequestBody CreateAbsenceRequest request) {
         AbsenceDTO absence = absenceService.markAbsence(request);
@@ -35,7 +35,7 @@ public class AbsenceController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'SCHOOL_ADMIN')")
     @Operation(summary = "Update an absence record")
     public ResponseEntity<AbsenceDTO> updateAbsence(
             @PathVariable UUID id,
@@ -45,7 +45,7 @@ public class AbsenceController {
     }
 
     @PutMapping("/{id}/justify")
-    @PreAuthorize("hasAnyAuthority('STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
     @Operation(summary = "Justify an absence", description = "Students, parents, or admins can justify absences")
     public ResponseEntity<AbsenceDTO> justifyAbsence(
             @PathVariable UUID id,
@@ -55,7 +55,7 @@ public class AbsenceController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'SCHOOL_ADMIN')")
     @Operation(summary = "Delete an absence record")
     public ResponseEntity<Void> deleteAbsence(@PathVariable UUID id) {
         absenceService.deleteAbsence(id);
@@ -63,7 +63,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get absence by ID")
     public ResponseEntity<AbsenceDTO> getAbsenceById(@PathVariable UUID id) {
         AbsenceDTO absence = absenceService.getAbsenceById(id);
@@ -71,7 +71,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/student/{studentId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get all absences for a student")
     public ResponseEntity<List<AbsenceDTO>> getAbsencesByStudent(@PathVariable UUID studentId) {
         List<AbsenceDTO> absences = absenceService.getAbsencesByStudent(studentId);
@@ -79,7 +79,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/student/{studentId}/course/{courseId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get absences for a student in a specific course")
     public ResponseEntity<List<AbsenceDTO>> getAbsencesByStudentAndCourse(
             @PathVariable UUID studentId,
@@ -89,7 +89,7 @@ public class AbsenceController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get all absences (paginated)")
     public ResponseEntity<Page<AbsenceDTO>> getAllAbsences(Pageable pageable) {
         Page<AbsenceDTO> absences = absenceService.getAllAbsences(pageable);
@@ -97,7 +97,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/statistics/student/{studentId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT', 'PARENT', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get absence statistics for a student")
     public ResponseEntity<AbsenceStatisticsDTO> getAbsenceStatistics(
             @PathVariable UUID studentId,
@@ -108,7 +108,7 @@ public class AbsenceController {
     }
 
     @GetMapping("/date-range")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'SCHOOL_ADMIN')")
     @Operation(summary = "Get absences within a date range")
     public ResponseEntity<List<AbsenceDTO>> getAbsencesByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,

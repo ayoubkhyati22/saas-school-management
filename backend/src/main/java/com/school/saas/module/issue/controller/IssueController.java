@@ -26,7 +26,7 @@ public class IssueController {
     private final IssueService issueService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Create a new issue", description = "School admins can create issues")
     public ResponseEntity<IssueDTO> createIssue(@Valid @RequestBody CreateIssueRequest request) {
         IssueDTO issue = issueService.createIssue(request);
@@ -34,7 +34,7 @@ public class IssueController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Update an issue")
     public ResponseEntity<IssueDTO> updateIssue(
             @PathVariable UUID id,
@@ -44,7 +44,7 @@ public class IssueController {
     }
 
     @PutMapping("/{id}/assign")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Assign issue to a super admin", description = "Only super admins can assign issues")
     public ResponseEntity<IssueDTO> assignIssue(
             @PathVariable UUID id,
@@ -54,7 +54,7 @@ public class IssueController {
     }
 
     @PutMapping("/{id}/status")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Change issue status")
     public ResponseEntity<IssueDTO> changeStatus(
             @PathVariable UUID id,
@@ -64,7 +64,7 @@ public class IssueController {
     }
 
     @PutMapping("/{id}/resolve")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Resolve an issue", description = "Only super admins can resolve issues")
     public ResponseEntity<IssueDTO> resolveIssue(
             @PathVariable UUID id,
@@ -74,7 +74,7 @@ public class IssueController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Delete an issue")
     public ResponseEntity<Void> deleteIssue(@PathVariable UUID id) {
         issueService.deleteIssue(id);
@@ -82,7 +82,7 @@ public class IssueController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Get issue by ID")
     public ResponseEntity<IssueDTO> getIssueById(@PathVariable UUID id) {
         IssueDTO issue = issueService.getIssueById(id);
@@ -90,7 +90,7 @@ public class IssueController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Get issues", description = "School admins see their school's issues, super admins see all")
     public ResponseEntity<List<IssueDTO>> getIssues(
             @RequestParam(required = false) IssueStatus status,
@@ -108,7 +108,7 @@ public class IssueController {
     }
 
     @GetMapping("/assigned-to-me")
-    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Get issues assigned to current user", description = "For super admins")
     public ResponseEntity<List<IssueDTO>> getIssuesAssignedToMe() {
         UUID currentUserId = TenantContext.getCurrentUserId();
@@ -117,7 +117,7 @@ public class IssueController {
     }
 
     @PostMapping("/{id}/comments")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Add a comment to an issue")
     public ResponseEntity<IssueCommentDTO> addComment(
             @PathVariable UUID id,
@@ -127,7 +127,7 @@ public class IssueController {
     }
 
     @GetMapping("/{id}/comments")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Get comments for an issue")
     public ResponseEntity<List<IssueCommentDTO>> getCommentsByIssue(@PathVariable UUID id) {
         List<IssueCommentDTO> comments = issueService.getCommentsByIssue(id);

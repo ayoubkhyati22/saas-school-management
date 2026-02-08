@@ -25,7 +25,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Create a new payment", description = "School admins can create payment records")
     public ResponseEntity<PaymentDTO> createPayment(@Valid @RequestBody CreatePaymentRequest request) {
         PaymentDTO payment = paymentService.createPayment(request);
@@ -33,7 +33,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Update a payment")
     public ResponseEntity<PaymentDTO> updatePayment(
             @PathVariable UUID id,
@@ -43,7 +43,7 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}/mark-paid")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Mark payment as paid")
     public ResponseEntity<PaymentDTO> markAsPaid(
             @PathVariable UUID id,
@@ -53,7 +53,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Delete a payment")
     public ResponseEntity<Void> deletePayment(@PathVariable UUID id) {
         paymentService.deletePayment(id);
@@ -61,7 +61,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get payment by ID")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable UUID id) {
         PaymentDTO payment = paymentService.getPaymentById(id);
@@ -69,7 +69,7 @@ public class PaymentController {
     }
 
     @GetMapping("/student/{studentId}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get all payments for a student")
     public ResponseEntity<List<PaymentDTO>> getPaymentsByStudent(@PathVariable UUID studentId) {
         List<PaymentDTO> payments = paymentService.getPaymentsByStudent(studentId);
@@ -77,7 +77,7 @@ public class PaymentController {
     }
 
     @GetMapping("/overdue")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get all overdue payments")
     public ResponseEntity<List<PaymentDTO>> getOverduePayments() {
         List<PaymentDTO> payments = paymentService.getOverduePayments();
@@ -85,7 +85,7 @@ public class PaymentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get all payments (paginated)")
     public ResponseEntity<Page<PaymentDTO>> getAllPayments(Pageable pageable) {
         Page<PaymentDTO> payments = paymentService.getAllPayments(pageable);
@@ -93,7 +93,7 @@ public class PaymentController {
     }
 
     @GetMapping("/statistics")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get payment statistics")
     public ResponseEntity<PaymentStatisticsDTO> getPaymentStatistics() {
         PaymentStatisticsDTO statistics = paymentService.getPaymentStatistics();

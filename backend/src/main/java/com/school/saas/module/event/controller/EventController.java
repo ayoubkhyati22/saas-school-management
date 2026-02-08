@@ -29,7 +29,7 @@ public class EventController {
     private final EventService eventService;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
     @Operation(summary = "Create a new event")
     public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody CreateEventRequest request) {
         EventDTO event = eventService.createEvent(request);
@@ -37,7 +37,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
     @Operation(summary = "Update an event")
     public ResponseEntity<EventDTO> updateEvent(
             @PathVariable UUID id,
@@ -47,7 +47,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
     @Operation(summary = "Delete an event")
     public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
         eventService.deleteEvent(id);
@@ -55,7 +55,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get event by ID")
     public ResponseEntity<EventDTO> getEventById(@PathVariable UUID id) {
         EventDTO event = eventService.getEventById(id);
@@ -63,7 +63,7 @@ public class EventController {
     }
 
     @GetMapping("/upcoming")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get upcoming events")
     public ResponseEntity<List<EventDTO>> getUpcomingEvents() {
         List<EventDTO> events = eventService.getUpcomingEvents();
@@ -71,7 +71,7 @@ public class EventController {
     }
 
     @GetMapping("/target-role/{targetRole}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get events by target role")
     public ResponseEntity<List<EventDTO>> getEventsByTargetRole(@PathVariable String targetRole) {
         List<EventDTO> events = eventService.getEventsByTargetRole(targetRole);
@@ -79,7 +79,7 @@ public class EventController {
     }
 
     @GetMapping("/date-range")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get events within a date range")
     public ResponseEntity<List<EventDTO>> getEventsByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
@@ -89,7 +89,7 @@ public class EventController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get all events (paginated)")
     public ResponseEntity<Page<EventDTO>> getAllEvents(Pageable pageable) {
         Page<EventDTO> events = eventService.getAllEvents(pageable);

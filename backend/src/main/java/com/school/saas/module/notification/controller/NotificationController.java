@@ -28,7 +28,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @PostMapping("/send")
-    @PreAuthorize("hasAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Send notification to a single user", description = "School admins can send notifications")
     public ResponseEntity<NotificationDTO> sendNotification(@Valid @RequestBody CreateNotificationRequest request) {
         NotificationDTO notification = notificationService.sendNotification(request);
@@ -36,7 +36,7 @@ public class NotificationController {
     }
 
     @PostMapping("/send-bulk")
-    @PreAuthorize("hasAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Send bulk notifications", description = "Send notifications to multiple users by role or classroom")
     public ResponseEntity<List<NotificationDTO>> sendBulkNotification(@Valid @RequestBody SendBulkNotificationRequest request) {
         List<NotificationDTO> notifications = notificationService.sendBulkNotification(request);
@@ -44,7 +44,7 @@ public class NotificationController {
     }
 
     @PutMapping("/{id}/mark-read")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Mark notification as read")
     public ResponseEntity<NotificationDTO> markAsRead(@PathVariable UUID id) {
         NotificationDTO notification = notificationService.markAsRead(id);
@@ -52,7 +52,7 @@ public class NotificationController {
     }
 
     @PutMapping("/mark-all-read")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Mark all notifications as read for current user")
     public ResponseEntity<Integer> markAllAsRead() {
         UUID currentUserId = TenantContext.getCurrentUserId();
@@ -61,7 +61,7 @@ public class NotificationController {
     }
 
     @GetMapping("/unread")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get unread notifications for current user")
     public ResponseEntity<List<NotificationDTO>> getUnreadNotifications() {
         UUID currentUserId = TenantContext.getCurrentUserId();
@@ -70,7 +70,7 @@ public class NotificationController {
     }
 
     @GetMapping("/unread/count")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get unread notification count for current user")
     public ResponseEntity<Long> getUnreadCount() {
         UUID currentUserId = TenantContext.getCurrentUserId();
@@ -79,7 +79,7 @@ public class NotificationController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get notifications for current user (paginated)")
     public ResponseEntity<Page<NotificationDTO>> getNotifications(Pageable pageable) {
         UUID currentUserId = TenantContext.getCurrentUserId();
@@ -88,7 +88,7 @@ public class NotificationController {
     }
 
     @GetMapping("/user/{userId}")
-    @PreAuthorize("hasAuthority('SCHOOL_ADMIN')")
+    @PreAuthorize("hasRole('SCHOOL_ADMIN')")
     @Operation(summary = "Get notifications for a specific user (paginated)", description = "School admins only")
     public ResponseEntity<Page<NotificationDTO>> getNotificationsByUser(
             @PathVariable UUID userId,
@@ -98,7 +98,7 @@ public class NotificationController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Delete a notification")
     public ResponseEntity<Void> deleteNotification(@PathVariable UUID id) {
         notificationService.deleteNotification(id);
