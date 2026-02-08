@@ -8,11 +8,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,5 +94,22 @@ public class StudentController {
     public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         studentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/export")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
+    @Operation(summary = "Export students to CSV", description = "Export all students to CSV format")
+    public ResponseEntity<byte[]> exportStudents() {
+        byte[] csvData = studentService.exportToCSV();
+
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        String filename = "students_export_" + timestamp + ".csv";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDispositionFormData("attachment", filename);
+        headers.setCacheControl("no-cache, no-store, must-revalidate");
+
+        return new ResponseEntity<>(csvData, headers, HttpStatus.OK);
     }
 }

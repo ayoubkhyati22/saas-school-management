@@ -1,4 +1,3 @@
-// frontend/src/features/students/StudentDetailDialog.tsx
 import { useQuery } from '@tanstack/react-query'
 import {
   Dialog,
@@ -8,7 +7,7 @@ import {
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { studentService } from '@/api/student.service'
+import { studentService } from '../api/student.service'
 import { formatDate } from '@/lib/utils'
 import { Mail, Phone, MapPin, Calendar, Hash, School, User, Clock } from 'lucide-react'
 
@@ -36,7 +35,6 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
           <div className="text-center py-8">Loading...</div>
         ) : student ? (
           <div className="space-y-6">
-            {/* Header with Avatar */}
             <div className="flex items-center gap-4 pb-4 border-b">
               {student.avatarUrl ? (
                 <img
@@ -60,7 +58,6 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </div>
             </div>
 
-            {/* Contact Information */}
             <Card className="border-border shadow-sm bg-background/50">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
@@ -88,7 +85,6 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            {/* Academic Information */}
             <Card className="border-border shadow-sm bg-background/50">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
@@ -123,7 +119,6 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            {/* Personal Information */}
             <Card className="border-border shadow-sm bg-background/50">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
@@ -149,7 +144,6 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            {/* Timestamps */}
             <Card className="border-border shadow-sm bg-background/50">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">

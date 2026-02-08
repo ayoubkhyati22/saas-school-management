@@ -25,4 +25,6 @@ public interface StudentService {
     StudentStatisticsDTO getStatistics();
 
     long countByClassroom(UUID classRoomId);
+
+    byte[] exportToCSV();
 }

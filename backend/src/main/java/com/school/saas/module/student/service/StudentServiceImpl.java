@@ -273,4 +273,45 @@ public class StudentServiceImpl implements StudentService {
     public long countByClassroom(UUID classRoomId) {
         return studentRepository.countByClassRoomId(classRoomId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] exportToCSV() {
+        UUID schoolId = TenantContext.getTenantId();
+        log.info("Exporting students to CSV for school: {}", schoolId);
+
+        List<Student> students = studentRepository.findBySchoolId(schoolId);
+
+        StringBuilder csv = new StringBuilder();
+        csv.append("Registration Number,First Name,Last Name,Email,Phone Number,")
+           .append("Birth Date,Gender,Enrollment Date,Status,Class,Address\n");
+
+        for (Student student : students) {
+            User user = student.getUser();
+            csv.append(escapeCsv(student.getRegistrationNumber())).append(",")
+               .append(escapeCsv(user.getFirstName())).append(",")
+               .append(escapeCsv(user.getLastName())).append(",")
+               .append(escapeCsv(user.getEmail())).append(",")
+               .append(escapeCsv(user.getPhone() != null ? user.getPhone() : "")).append(",")
+               .append(student.getBirthDate() != null ? student.getBirthDate().toString() : "").append(",")
+               .append(student.getGender() != null ? student.getGender().toString() : "").append(",")
+               .append(student.getEnrollmentDate() != null ? student.getEnrollmentDate().toString() : "").append(",")
+               .append(student.getStatus() != null ? student.getStatus().toString() : "").append(",")
+               .append(escapeCsv(student.getClassRoom() != null ? student.getClassRoom().getName() : "")).append(",")
+               .append(escapeCsv(student.getAddress() != null ? student.getAddress() : "")).append("\n");
+        }
+
+        log.info("Exported {} students to CSV for school: {}", students.size(), schoolId);
+        return csv.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
+
+    private String escapeCsv(String value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
+    }
 }

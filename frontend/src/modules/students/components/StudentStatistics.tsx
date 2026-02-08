@@ -1,12 +1,10 @@
-// frontend/src/features/students/StudentStatistics.tsx
 import { useQuery } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { studentService } from '@/api/student.service'
+import { studentService } from '../api/student.service'
 import {
   Users,
   UserCheck,
   School,
-  PieChart as PieChartIcon,
 } from 'lucide-react'
 import {
   BarChart,
@@ -27,16 +25,14 @@ const COLORS = {
   purple: '#8b5cf6',
   pink: '#ec4899',
   cyan: '#06b6d4',
-  indigo: '#6366f1',
 }
-
 
 export default function StudentStatistics() {
   const { data: statistics, isLoading } = useQuery({
     queryKey: ['student-statistics'],
     queryFn: () => studentService.getStatistics(),
   })
-console.log('Student Statistics Data:', statistics)
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -64,7 +60,6 @@ console.log('Student Statistics Data:', statistics)
     )
   }
 
-  // Prepare data for classroom chart
   const classData = Object.entries(statistics.studentsByClass || {})
     .map(([name, value]) => ({
       name,
@@ -73,13 +68,8 @@ console.log('Student Statistics Data:', statistics)
     .sort((a, b) => b.students - a.students)
     .slice(0, 10)
 
-  const renderCustomLabel = ({ name, percent }: any) => {
-    return `${name}: ${(percent * 100).toFixed(0)}%`
-  }
-
   return (
     <div className="space-y-6">
-      {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="hover:shadow-lg transition-shadow border-l-4 border-l-blue-500">
           <CardContent className="pt-6">
@@ -160,7 +150,6 @@ console.log('Student Statistics Data:', statistics)
         </Card>
       </div>
 
-      {/* Classroom Bar Chart */}
       <Card className="hover:shadow-lg transition-shadow">
         <CardHeader className="border-b">
           <CardTitle className="flex items-center gap-2">
@@ -224,7 +213,6 @@ console.log('Student Statistics Data:', statistics)
         </CardContent>
       </Card>
 
-      {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="hover:shadow-md transition-shadow">
           <CardContent className="pt-6">

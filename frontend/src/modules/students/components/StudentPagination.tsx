@@ -1,0 +1,51 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+
+interface StudentPaginationProps {
+  currentPage: number
+  totalPages: number
+  totalItems: number
+  pageSize: number
+  onPageChange: (page: number) => void
+}
+
+export default function StudentPagination({
+  currentPage,
+  totalPages,
+  totalItems,
+  pageSize,
+  onPageChange,
+}: StudentPaginationProps) {
+  if (totalPages <= 1) return null
+
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+      <div className="text-sm text-muted-foreground order-2 sm:order-1">
+        Showing {currentPage * pageSize + 1} to {Math.min((currentPage + 1) * pageSize, totalItems)} of {totalItems} students
+      </div>
+      <div className="flex items-center gap-2 order-1 sm:order-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 0}
+        >
+          <ChevronLeft className="h-4 w-4 sm:mr-1" />
+          <span className="hidden sm:inline">Previous</span>
+        </Button>
+        <div className="text-sm whitespace-nowrap">
+          Page {currentPage + 1} of {totalPages}
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages - 1}
+        >
+          <span className="hidden sm:inline">Next</span>
+          <ChevronRight className="h-4 w-4 sm:ml-1" />
+        </Button>
+      </div>
+    </div>
+  )
+}
