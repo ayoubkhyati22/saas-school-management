@@ -247,7 +247,7 @@ export default function StudentListPage() {
                               )}
                             </TableCell>
                             <TableCell>
-                              <Badge variant={student.status === 'ACTIVE' ? 'success' : 'secondary'}>
+                              <Badge variant={student.status === 'ACTIVE' ? 'success' : 'warning'}>
                                 {student.status}
                               </Badge>
                             </TableCell>

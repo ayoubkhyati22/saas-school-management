@@ -28,6 +28,7 @@ import { studentService, type CreateStudentRequest, type UpdateStudentRequest } 
 import { classroomService } from '@/api/classroom.service'
 import { queryClient } from '@/lib/queryClient'
 import type { Student } from '@/types'
+import { User, Mail, Phone, Calendar, Hash, School, MapPin, Image, UserCircle } from 'lucide-react'
 
 const studentSchema = z.object({
   firstName: z.string().min(1, 'First name is required').max(100),
@@ -73,22 +74,26 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
   })
 
   useEffect(() => {
-    if (student) {
+    if (student && open) {
+      console.log('Loading student data for edit:', student)
+      
+      // Map the student data to form fields
       reset({
         firstName: student.firstName || '',
         lastName: student.lastName || '',
         email: student.email || '',
         phoneNumber: student.phoneNumber || '',
-        classRoomId: student.classRoom?.id || '',
-        registrationNumber: student.registrationNumber,
-        birthDate: student.birthDate,
+        classRoomId: student.classRoomId || student.classRoom?.id || '',
+        registrationNumber: student.registrationNumber || '',
+        birthDate: student.birthDate || '',
         gender: student.gender as 'MALE' | 'FEMALE' | 'OTHER',
-        enrollmentDate: student.enrollmentDate,
+        enrollmentDate: student.enrollmentDate || '',
         address: student.address || '',
         avatarUrl: student.avatarUrl || '',
         status: student.status as 'ACTIVE' | 'INACTIVE' | 'GRADUATED' | 'WITHDRAWN',
       })
-    } else {
+    } else if (!student && open) {
+      // Reset form for new student
       reset({
         firstName: '',
         lastName: '',
@@ -104,7 +109,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         status: 'ACTIVE',
       })
     }
-  }, [student, reset])
+  }, [student, open, reset])
 
   const createMutation = useMutation({
     mutationFn: (data: CreateStudentRequest) => studentService.create(data),
@@ -140,6 +145,8 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
   })
 
   const onSubmit = (data: StudentFormData) => {
+    console.log('Form submitted:', data)
+    
     if (isEdit && student) {
       // For update, only send changed fields
       const updateData: UpdateStudentRequest = {
@@ -153,6 +160,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         avatarUrl: data.avatarUrl,
         status: data.status,
       }
+      console.log('Updating student with data:', updateData)
       updateMutation.mutate({ id: student.id, data: updateData })
     } else {
       // For create, send all required fields
@@ -169,37 +177,50 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         address: data.address,
         avatarUrl: data.avatarUrl,
       }
+      console.log('Creating student with data:', createData)
       createMutation.mutate(createData)
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto bg-background">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Student' : 'Create New Student'}</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <UserCircle className="h-5 w-5" />
+            {isEdit ? 'Edit Student' : 'Create New Student'}
+          </DialogTitle>
           <DialogDescription>
             {isEdit ? 'Update student information' : 'Add a new student to the system'}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Personal Information */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Personal Information</h3>
-
+          <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+            <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
+              <User className="h-4 w-4" />
+              Personal Information
+            </h3>
+            
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input id="firstName" {...register('firstName')} />
+                <Label htmlFor="firstName" className="flex items-center gap-2">
+                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                  First Name *
+                </Label>
+                <Input id="firstName" {...register('firstName')} className="bg-background" />
                 {errors.firstName && (
                   <p className="text-sm text-destructive">{errors.firstName.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input id="lastName" {...register('lastName')} />
+                <Label htmlFor="lastName" className="flex items-center gap-2">
+                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                  Last Name *
+                </Label>
+                <Input id="lastName" {...register('lastName')} className="bg-background" />
                 {errors.lastName && (
                   <p className="text-sm text-destructive">{errors.lastName.message}</p>
                 )}
@@ -208,12 +229,16 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  {...register('email')}
+                <Label htmlFor="email" className="flex items-center gap-2">
+                  <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                  Email *
+                </Label>
+                <Input 
+                  id="email" 
+                  type="email" 
+                  {...register('email')} 
                   disabled={isEdit}
+                  className="bg-background"
                 />
                 {errors.email && (
                   <p className="text-sm text-destructive">{errors.email.message}</p>
@@ -221,8 +246,16 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number *</Label>
-                <Input id="phoneNumber" {...register('phoneNumber')} placeholder="+1234567890" />
+                <Label htmlFor="phoneNumber" className="flex items-center gap-2">
+                  <Phone className="h-3.5 w-3.5 text-muted-foreground" />
+                  Phone Number *
+                </Label>
+                <Input 
+                  id="phoneNumber" 
+                  {...register('phoneNumber')} 
+                  placeholder="+1234567890"
+                  className="bg-background"
+                />
                 {errors.phoneNumber && (
                   <p className="text-sm text-destructive">{errors.phoneNumber.message}</p>
                 )}
@@ -231,20 +264,31 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="birthDate">Birth Date *</Label>
-                <Input id="birthDate" type="date" {...register('birthDate')} />
+                <Label htmlFor="birthDate" className="flex items-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                  Birth Date *
+                </Label>
+                <Input 
+                  id="birthDate" 
+                  type="date" 
+                  {...register('birthDate')}
+                  className="bg-background"
+                />
                 {errors.birthDate && (
                   <p className="text-sm text-destructive">{errors.birthDate.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="gender">Gender *</Label>
+                <Label htmlFor="gender" className="flex items-center gap-2">
+                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                  Gender *
+                </Label>
                 <Select
                   onValueChange={(value) => setValue('gender', value as any)}
                   value={watch('gender')}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
                   <SelectContent>
@@ -261,17 +305,24 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           </div>
 
           {/* Academic Information */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Academic Information</h3>
-
+          <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+            <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
+              <School className="h-4 w-4" />
+              Academic Information
+            </h3>
+            
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="registrationNumber">Registration Number *</Label>
-                <Input
-                  id="registrationNumber"
-                  {...register('registrationNumber')}
+                <Label htmlFor="registrationNumber" className="flex items-center gap-2">
+                  <Hash className="h-3.5 w-3.5 text-muted-foreground" />
+                  Registration Number *
+                </Label>
+                <Input 
+                  id="registrationNumber" 
+                  {...register('registrationNumber')} 
                   disabled={isEdit}
                   placeholder="STU-2024-001"
+                  className="bg-background"
                 />
                 {errors.registrationNumber && (
                   <p className="text-sm text-destructive">{errors.registrationNumber.message}</p>
@@ -279,12 +330,16 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="enrollmentDate">Enrollment Date *</Label>
-                <Input
-                  id="enrollmentDate"
-                  type="date"
-                  {...register('enrollmentDate')}
+                <Label htmlFor="enrollmentDate" className="flex items-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                  Enrollment Date *
+                </Label>
+                <Input 
+                  id="enrollmentDate" 
+                  type="date" 
+                  {...register('enrollmentDate')} 
                   disabled={isEdit}
+                  className="bg-background"
                 />
                 {errors.enrollmentDate && (
                   <p className="text-sm text-destructive">{errors.enrollmentDate.message}</p>
@@ -294,12 +349,15 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="classRoomId">Classroom (Optional)</Label>
+                <Label htmlFor="classRoomId" className="flex items-center gap-2">
+                  <School className="h-3.5 w-3.5 text-muted-foreground" />
+                  Classroom (Optional)
+                </Label>
                 <Select
                   onValueChange={(value) => setValue('classRoomId', value === 'none' ? '' : value)}
                   value={watch('classRoomId') || 'none'}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select classroom" />
                   </SelectTrigger>
                   <SelectContent>
@@ -315,12 +373,15 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
               {isEdit && (
                 <div className="space-y-2">
-                  <Label htmlFor="status">Status</Label>
+                  <Label htmlFor="status" className="flex items-center gap-2">
+                    <UserCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                    Status
+                  </Label>
                   <Select
                     onValueChange={(value) => setValue('status', value as any)}
                     value={watch('status')}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-background">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -336,24 +397,43 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           </div>
 
           {/* Additional Information */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Additional Information</h3>
-
+          <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+            <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
+              <MapPin className="h-4 w-4" />
+              Additional Information
+            </h3>
+            
             <div className="space-y-2">
-              <Label htmlFor="address">Address (Optional)</Label>
-              <Textarea id="address" {...register('address')} rows={2} />
+              <Label htmlFor="address" className="flex items-center gap-2">
+                <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                Address (Optional)
+              </Label>
+              <Textarea 
+                id="address" 
+                {...register('address')} 
+                rows={2}
+                className="bg-background"
+              />
               {errors.address && (
                 <p className="text-sm text-destructive">{errors.address.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="avatarUrl">Avatar URL (Optional)</Label>
-              <Input id="avatarUrl" {...register('avatarUrl')} placeholder="https://..." />
+              <Label htmlFor="avatarUrl" className="flex items-center gap-2">
+                <Image className="h-3.5 w-3.5 text-muted-foreground" />
+                Avatar URL (Optional)
+              </Label>
+              <Input 
+                id="avatarUrl" 
+                {...register('avatarUrl')} 
+                placeholder="https://..."
+                className="bg-background"
+              />
             </div>
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
