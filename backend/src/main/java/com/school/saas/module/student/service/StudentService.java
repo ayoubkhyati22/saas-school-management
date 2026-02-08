@@ -3,6 +3,7 @@ package com.school.saas.module.student.service;
 import com.school.saas.module.student.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,4 +28,6 @@ public interface StudentService {
     long countByClassroom(UUID classRoomId);
 
     byte[] exportToCSV();
+
+    StudentDetailDTO uploadAvatar(UUID id, MultipartFile file);
 }

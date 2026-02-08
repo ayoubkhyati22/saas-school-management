@@ -26,9 +26,9 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-black dark:text-white">
         <DialogHeader>
-          <DialogTitle>Student Details</DialogTitle>
+          <DialogTitle className="text-black dark:text-white">Student Details</DialogTitle>
         </DialogHeader>
 
         {isLoading ? (

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tantml:query'
 import { toast } from 'sonner'
 import { UserCircle } from 'lucide-react'
 import {
@@ -47,6 +47,7 @@ interface StudentFormDialogProps {
 
 export default function StudentFormDialog({ open, onClose, student }: StudentFormDialogProps) {
   const isEdit = !!student
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
 
   const {
     register,
@@ -80,6 +81,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         avatarUrl: student.avatarUrl || '',
         status: student.status as 'ACTIVE' | 'INACTIVE' | 'GRADUATED' | 'WITHDRAWN',
       })
+      setAvatarFile(null)
     } else if (!student && open) {
       reset({
         firstName: '',
@@ -95,6 +97,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         avatarUrl: '',
         status: 'ACTIVE',
       })
+      setAvatarFile(null)
     }
   }, [student, open, reset])
 
@@ -129,7 +132,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
     },
   })
 
-  const onSubmit = (data: StudentFormData) => {
+  const onSubmit = async (data: StudentFormData) => {
     if (isEdit && student) {
       const updateData: UpdateStudentRequest = {
         firstName: data.firstName,
@@ -142,7 +145,20 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         avatarUrl: data.avatarUrl,
         status: data.status,
       }
-      updateMutation.mutate({ id: student.id, data: updateData })
+      updateMutation.mutate({ id: student.id, data: updateData }, {
+        onSuccess: async (updatedStudent) => {
+          if (avatarFile) {
+            try {
+              await studentService.uploadAvatar(student.id, avatarFile)
+              queryClient.invalidateQueries({ queryKey: ['students'] })
+              queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
+              toast.success('Student and avatar updated successfully')
+            } catch (error) {
+              toast.error('Student updated but avatar upload failed')
+            }
+          }
+        }
+      })
     } else {
       const createData: CreateStudentRequest = {
         firstName: data.firstName,
@@ -157,19 +173,32 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         address: data.address,
         avatarUrl: data.avatarUrl,
       }
-      createMutation.mutate(createData)
+      createMutation.mutate(createData, {
+        onSuccess: async (newStudent) => {
+          if (avatarFile) {
+            try {
+              await studentService.uploadAvatar(newStudent.id, avatarFile)
+              queryClient.invalidateQueries({ queryKey: ['students'] })
+              queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
+              toast.success('Student and avatar created successfully')
+            } catch (error) {
+              toast.error('Student created but avatar upload failed')
+            }
+          }
+        }
+      })
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 text-black dark:text-white">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-black dark:text-white">
             <UserCircle className="h-5 w-5" />
             {isEdit ? 'Edit Student' : 'Create New Student'}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {isEdit ? 'Update student information' : 'Add a new student to the system'}
           </DialogDescription>
         </DialogHeader>
@@ -195,6 +224,8 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           <AdditionalInfoSection
             register={register}
             errors={errors}
+            currentAvatarUrl={student?.avatarUrl}
+            onAvatarChange={setAvatarFile}
           />
 
           <DialogFooter className="gap-2">

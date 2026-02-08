@@ -1,5 +1,6 @@
 package com.school.saas.module.student.controller;
 
+import com.school.saas.dto.ApiResponse;
 import com.school.saas.module.student.dto.*;
 import com.school.saas.module.student.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -111,5 +113,15 @@ public class StudentController {
         headers.setCacheControl("no-cache, no-store, must-revalidate");
 
         return new ResponseEntity<>(csvData, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/avatar")
+    @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER')")
+    @Operation(summary = "Upload student avatar", description = "Upload avatar image for a student")
+    public ResponseEntity<ApiResponse<StudentDetailDTO>> uploadAvatar(
+            @PathVariable UUID id,
+            @RequestParam("file") MultipartFile file) {
+        StudentDetailDTO student = studentService.uploadAvatar(id, file);
+        return ResponseEntity.ok(ApiResponse.success(student));
     }
 }

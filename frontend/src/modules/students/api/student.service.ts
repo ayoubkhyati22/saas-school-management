@@ -116,4 +116,15 @@ export const studentService = {
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
   },
+
+  uploadAvatar: async (id: string, file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await apiClient.post<ApiResponse<Student>>(`/students/${id}/avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data.data
+  },
 }

@@ -16,12 +16,19 @@ import com.school.saas.module.user.User;
 import com.school.saas.module.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +46,9 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
     private final SubscriptionLimitService subscriptionLimitService;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${storage.local.base-path:C:/school-storage}")
+    private String basePath;
 
     @Override
     @Transactional
@@ -313,5 +323,54 @@ public class StudentServiceImpl implements StudentService {
             return "\"" + value.replace("\"", "\"\"") + "\"";
         }
         return value;
+    }
+
+    @Override
+    @Transactional
+    public StudentDetailDTO uploadAvatar(UUID id, MultipartFile file) {
+        UUID schoolId = TenantContext.getTenantId();
+        log.info("Uploading avatar for student: {} in school: {}", id, schoolId);
+
+        Student student = studentRepository.findByIdAndSchoolId(id, schoolId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File is empty");
+        }
+
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new IllegalArgumentException("Only image files are allowed for avatars");
+        }
+
+        if (file.getSize() > 5 * 1024 * 1024) {
+            throw new IllegalArgumentException("Avatar file size must not exceed 5MB");
+        }
+
+        try {
+            String relativePath = String.format("school_%s/avatars/students", schoolId.toString());
+            Path directoryPath = Paths.get(basePath, relativePath);
+            Files.createDirectories(directoryPath);
+
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename != null && originalFilename.contains(".")
+                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                    : ".jpg";
+            String filename = id.toString() + extension;
+
+            Path filePath = directoryPath.resolve(filename);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            String avatarUrl = "/api/avatars/students/" + id.toString() + extension;
+            student.setAvatarUrl(avatarUrl);
+            student = studentRepository.save(student);
+
+            log.info("Avatar uploaded successfully for student: {}", id);
+            return studentMapper.toDetailDTO(student);
+
+        } catch (IOException e) {
+            log.error("Failed to upload avatar", e);
+            throw new RuntimeException("Failed to upload avatar: " + e.getMessage());
+        }
     }
 }
