@@ -26,7 +26,7 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-card border-border">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
         <DialogHeader>
           <DialogTitle>Student Details</DialogTitle>
         </DialogHeader>
@@ -58,25 +58,25 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </div>
             </div>
 
-            <Card className="border-border shadow-sm bg-background/50">
+            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
                   <Mail className="h-4 w-4 text-primary" />
                   Contact Information
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     <span className="flex-1">{student.email}</span>
                   </div>
                   {student.phoneNumber && (
-                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                       <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <span className="flex-1">{student.phoneNumber}</span>
                     </div>
                   )}
                   {student.address && (
-                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                       <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <span className="flex-1">{student.address}</span>
                     </div>
@@ -85,14 +85,14 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            <Card className="border-border shadow-sm bg-background/50">
+            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
                   <School className="h-4 w-4 text-primary" />
                   Academic Information
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Hash className="h-4 w-4 flex-shrink-0" />
                       <span>Registration Number</span>
@@ -100,7 +100,7 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
                     <span className="font-medium">{student.registrationNumber}</span>
                   </div>
                   {student.classRoom && (
-                    <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                       <div className="flex items-center gap-3 text-muted-foreground">
                         <School className="h-4 w-4 flex-shrink-0" />
                         <span>Classroom</span>
@@ -108,7 +108,7 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
                       <span className="font-medium">{student.classRoom.name}</span>
                     </div>
                   )}
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Calendar className="h-4 w-4 flex-shrink-0" />
                       <span>Enrollment Date</span>
@@ -119,21 +119,21 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            <Card className="border-border shadow-sm bg-background/50">
+            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
                   <User className="h-4 w-4 text-primary" />
                   Personal Information
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <Calendar className="h-4 w-4 flex-shrink-0" />
                       <span>Birth Date</span>
                     </div>
                     <span className="font-medium">{formatDate(student.birthDate)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <div className="flex items-center gap-3 text-muted-foreground">
                       <User className="h-4 w-4 flex-shrink-0" />
                       <span>Gender</span>
@@ -144,18 +144,18 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </CardContent>
             </Card>
 
-            <Card className="border-border shadow-sm bg-background/50">
+            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-4 flex items-center gap-2">
                   <Clock className="h-4 w-4 text-primary" />
                   System Information
                 </h3>
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <span className="text-muted-foreground">Created At</span>
                     <span className="font-medium">{formatDate(student.createdAt)}</span>
                   </div>
-                  <div className="flex justify-between p-2 rounded-md hover:bg-muted/50 transition-colors">
+                  <div className="flex justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <span className="text-muted-foreground">Last Updated</span>
                     <span className="font-medium">{formatDate(student.updatedAt)}</span>
                   </div>

@@ -14,7 +14,7 @@ interface PersonalInfoSectionProps {
 
 export default function PersonalInfoSection({ register, errors, setValue, watch, isEdit }: PersonalInfoSectionProps) {
   return (
-    <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+    <div className="space-y-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
       <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
         <User className="h-4 w-4" />
         Personal Information
@@ -26,7 +26,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             <User className="h-3.5 w-3.5 text-muted-foreground" />
             First Name *
           </Label>
-          <Input id="firstName" {...register('firstName')} className="bg-background" />
+          <Input id="firstName" {...register('firstName')} className="bg-white dark:bg-gray-900" />
           {errors.firstName && (
             <p className="text-sm text-destructive">{errors.firstName.message as string}</p>
           )}
@@ -37,7 +37,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             <User className="h-3.5 w-3.5 text-muted-foreground" />
             Last Name *
           </Label>
-          <Input id="lastName" {...register('lastName')} className="bg-background" />
+          <Input id="lastName" {...register('lastName')} className="bg-white dark:bg-gray-900" />
           {errors.lastName && (
             <p className="text-sm text-destructive">{errors.lastName.message as string}</p>
           )}
@@ -55,7 +55,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             type="email"
             {...register('email')}
             disabled={isEdit}
-            className="bg-background"
+            className="bg-white dark:bg-gray-900"
           />
           {errors.email && (
             <p className="text-sm text-destructive">{errors.email.message as string}</p>
@@ -71,7 +71,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             id="phoneNumber"
             {...register('phoneNumber')}
             placeholder="+1234567890"
-            className="bg-background"
+            className="bg-white dark:bg-gray-900"
           />
           {errors.phoneNumber && (
             <p className="text-sm text-destructive">{errors.phoneNumber.message as string}</p>
@@ -89,7 +89,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             id="birthDate"
             type="date"
             {...register('birthDate')}
-            className="bg-background"
+            className="bg-white dark:bg-gray-900"
           />
           {errors.birthDate && (
             <p className="text-sm text-destructive">{errors.birthDate.message as string}</p>
@@ -105,7 +105,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             onValueChange={(value) => setValue('gender', value as any)}
             value={watch('gender')}
           >
-            <SelectTrigger className="bg-background">
+            <SelectTrigger className="bg-white dark:bg-gray-900">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
             <SelectContent>

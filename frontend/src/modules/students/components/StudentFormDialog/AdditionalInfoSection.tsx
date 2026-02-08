@@ -11,7 +11,7 @@ interface AdditionalInfoSectionProps {
 
 export default function AdditionalInfoSection({ register, errors }: AdditionalInfoSectionProps) {
   return (
-    <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+    <div className="space-y-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
       <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
         <MapPin className="h-4 w-4" />
         Additional Information
@@ -26,7 +26,7 @@ export default function AdditionalInfoSection({ register, errors }: AdditionalIn
           id="address"
           {...register('address')}
           rows={2}
-          className="bg-background"
+          className="bg-white dark:bg-gray-900"
         />
         {errors.address && (
           <p className="text-sm text-destructive">{errors.address.message as string}</p>
@@ -42,7 +42,7 @@ export default function AdditionalInfoSection({ register, errors }: AdditionalIn
           id="avatarUrl"
           {...register('avatarUrl')}
           placeholder="https://..."
-          className="bg-background"
+          className="bg-white dark:bg-gray-900"
         />
       </div>
     </div>

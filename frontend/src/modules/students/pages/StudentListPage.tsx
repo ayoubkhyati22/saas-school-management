@@ -23,16 +23,17 @@ export default function StudentListPage() {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null)
   const [viewingStudentId, setViewingStudentId] = useState<string | null>(null)
   const [searchKeyword, setSearchKeyword] = useState('')
+  const [activeSearchKeyword, setActiveSearchKeyword] = useState('')
   const [isSearching, setIsSearching] = useState(false)
   const [activeTab, setActiveTab] = useState('list')
   const [isExporting, setIsExporting] = useState(false)
   const pageSize = 10
 
   const { data, isLoading } = useQuery({
-    queryKey: ['students', page, searchKeyword, isSearching],
+    queryKey: ['students', page, activeSearchKeyword, isSearching],
     queryFn: () =>
-      isSearching && searchKeyword
-        ? studentService.search(searchKeyword, page, pageSize)
+      isSearching && activeSearchKeyword
+        ? studentService.search(activeSearchKeyword, page, pageSize)
         : studentService.getAll(page, pageSize),
   })
 
@@ -65,6 +66,7 @@ export default function StudentListPage() {
 
   const handleSearch = () => {
     if (searchKeyword.trim()) {
+      setActiveSearchKeyword(searchKeyword.trim())
       setIsSearching(true)
       setPage(0)
     }
@@ -72,6 +74,7 @@ export default function StudentListPage() {
 
   const handleClearSearch = () => {
     setSearchKeyword('')
+    setActiveSearchKeyword('')
     setIsSearching(false)
     setPage(0)
   }

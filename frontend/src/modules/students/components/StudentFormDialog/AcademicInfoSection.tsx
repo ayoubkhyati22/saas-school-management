@@ -15,7 +15,7 @@ interface AcademicInfoSectionProps {
 
 export default function AcademicInfoSection({ register, errors, setValue, watch, isEdit, classrooms }: AcademicInfoSectionProps) {
   return (
-    <div className="space-y-4 p-4 rounded-lg border border-border/50 bg-muted/20">
+    <div className="space-y-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
       <h3 className="text-sm font-semibold flex items-center gap-2 text-primary">
         <School className="h-4 w-4" />
         Academic Information
@@ -32,7 +32,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             {...register('registrationNumber')}
             disabled={isEdit}
             placeholder="STU-2024-001"
-            className="bg-background"
+            className="bg-white dark:bg-gray-900"
           />
           {errors.registrationNumber && (
             <p className="text-sm text-destructive">{errors.registrationNumber.message as string}</p>
@@ -49,7 +49,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             type="date"
             {...register('enrollmentDate')}
             disabled={isEdit}
-            className="bg-background"
+            className="bg-white dark:bg-gray-900"
           />
           {errors.enrollmentDate && (
             <p className="text-sm text-destructive">{errors.enrollmentDate.message as string}</p>
@@ -67,7 +67,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             onValueChange={(value) => setValue('classRoomId', value === 'none' ? '' : value)}
             value={watch('classRoomId') || 'none'}
           >
-            <SelectTrigger className="bg-background">
+            <SelectTrigger className="bg-white dark:bg-gray-900">
               <SelectValue placeholder="Select classroom" />
             </SelectTrigger>
             <SelectContent>
@@ -91,7 +91,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
               onValueChange={(value) => setValue('status', value as any)}
               value={watch('status')}
             >
-              <SelectTrigger className="bg-background">
+              <SelectTrigger className="bg-white dark:bg-gray-900">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
