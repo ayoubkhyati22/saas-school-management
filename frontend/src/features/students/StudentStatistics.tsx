@@ -5,8 +5,6 @@ import { studentService } from '@/api/student.service'
 import {
   Users,
   UserCheck,
-  UserX,
-  TrendingUp,
   School,
   PieChart as PieChartIcon,
 } from 'lucide-react'
@@ -19,9 +17,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts'
 
 const COLORS = {
