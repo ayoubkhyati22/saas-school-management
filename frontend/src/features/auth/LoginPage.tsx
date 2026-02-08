@@ -35,10 +35,11 @@ export default function LoginPage() {
     setIsLoading(true)
     try {
       const response = await authService.login(data)
+      console.log('Login successful:', response)
       console.log('Login response:', response)
       console.log('User object:', response.user)
       console.log('Access token:', response.accessToken)
-      setAuth(response.user, response.accessToken, response.refreshToken)
+      setAuth(response, response.accessToken, response.refreshToken)
       toast.success('Login successful!')
       navigate('/dashboard')
     } catch (error) {

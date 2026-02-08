@@ -14,3 +14,4 @@ public class SchoolSaasApplication {
         SpringApplication.run(SchoolSaasApplication.class, args);
     }
 }
+    

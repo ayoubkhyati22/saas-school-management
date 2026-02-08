@@ -70,13 +70,9 @@ const navigationItems = {
 export default function Sidebar() {
   const user = useAuthStore((state) => state.user)
   const { isCollapsed, toggle } = useSidebarStore()
-
   console.log('Sidebar - User object:', user)
-  console.log('Sidebar - User role:', user?.role)
 
   const navItems = user?.role ? navigationItems[user.role] || [] : []
-
-  console.log('Sidebar - Navigation items:', navItems)
 
   return (
     <aside

@@ -384,13 +384,11 @@ export interface ApiResponse<T> {
 export interface PageResponse<T> {
   success: boolean
   message: string
-  data: {
     content: T[]
     totalElements: number
     totalPages: number
     size: number
     number: number
-  }
 }
 
 export interface LoginRequest {
