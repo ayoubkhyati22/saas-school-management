@@ -95,7 +95,7 @@ export default function StudentListPage() {
             <Download className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Export</span>
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" disabled>
             <Upload className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Import</span>
           </Button>
@@ -367,7 +367,6 @@ export default function StudentListPage() {
                               onClick={() => setViewingStudentId(student.id)}
                             >
                               <Eye className="h-4 w-4 mr-1" />
-                              View
                             </Button>
                             <Button
                               variant="outline"
