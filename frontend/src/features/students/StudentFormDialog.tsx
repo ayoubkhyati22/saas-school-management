@@ -75,17 +75,17 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
   useEffect(() => {
     if (student) {
       reset({
-        firstName: student.user?.firstName || '',
-        lastName: student.user?.lastName || '',
-        email: student.user?.email || '',
-        phoneNumber: student.user?.phoneNumber || '',
+        firstName: student.firstName || '',
+        lastName: student.lastName || '',
+        email: student.email || '',
+        phoneNumber: student.phoneNumber || '',
         classRoomId: student.classRoom?.id || '',
         registrationNumber: student.registrationNumber,
         birthDate: student.birthDate,
         gender: student.gender as 'MALE' | 'FEMALE' | 'OTHER',
         enrollmentDate: student.enrollmentDate,
         address: student.address || '',
-        avatarUrl: student.user?.avatarUrl || '',
+        avatarUrl: student.avatarUrl || '',
         status: student.status as 'ACTIVE' | 'INACTIVE' | 'GRADUATED' | 'WITHDRAWN',
       })
     } else {
@@ -187,7 +187,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           {/* Personal Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Personal Information</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name *</Label>
@@ -209,10 +209,10 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email *</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  {...register('email')} 
+                <Input
+                  id="email"
+                  type="email"
+                  {...register('email')}
                   disabled={isEdit}
                 />
                 {errors.email && (
@@ -263,13 +263,13 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           {/* Academic Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Academic Information</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="registrationNumber">Registration Number *</Label>
-                <Input 
-                  id="registrationNumber" 
-                  {...register('registrationNumber')} 
+                <Input
+                  id="registrationNumber"
+                  {...register('registrationNumber')}
                   disabled={isEdit}
                   placeholder="STU-2024-001"
                 />
@@ -280,10 +280,10 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
               <div className="space-y-2">
                 <Label htmlFor="enrollmentDate">Enrollment Date *</Label>
-                <Input 
-                  id="enrollmentDate" 
-                  type="date" 
-                  {...register('enrollmentDate')} 
+                <Input
+                  id="enrollmentDate"
+                  type="date"
+                  {...register('enrollmentDate')}
                   disabled={isEdit}
                 />
                 {errors.enrollmentDate && (
@@ -296,14 +296,14 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
               <div className="space-y-2">
                 <Label htmlFor="classRoomId">Classroom (Optional)</Label>
                 <Select
-                  onValueChange={(value) => setValue('classRoomId', value)}
-                  value={watch('classRoomId')}
+                  onValueChange={(value) => setValue('classRoomId', value === 'none' ? '' : value)}
+                  value={watch('classRoomId') || 'none'}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select classroom" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">No Classroom</SelectItem>
+                    <SelectItem value="none">No Classroom</SelectItem>
                     {classroomsData?.content.map((classroom: any) => (
                       <SelectItem key={classroom.id} value={classroom.id}>
                         {classroom.name} - {classroom.level} {classroom.section}
@@ -338,7 +338,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
           {/* Additional Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Additional Information</h3>
-            
+
             <div className="space-y-2">
               <Label htmlFor="address">Address (Optional)</Label>
               <Textarea id="address" {...register('address')} rows={2} />
