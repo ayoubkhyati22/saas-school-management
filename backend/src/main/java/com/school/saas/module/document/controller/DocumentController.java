@@ -99,12 +99,25 @@ public class DocumentController {
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() && resource.isReadable()) {
-                String contentType = "application/octet-stream";
                 String filename = file.getFileName().toString();
+                String contentType = "application/octet-stream";
+
+                if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
+                    contentType = "image/jpeg";
+                } else if (filename.toLowerCase().endsWith(".png")) {
+                    contentType = "image/png";
+                } else if (filename.toLowerCase().endsWith(".gif")) {
+                    contentType = "image/gif";
+                } else if (filename.toLowerCase().endsWith(".pdf")) {
+                    contentType = "application/pdf";
+                }
+
+                boolean isImage = contentType.startsWith("image/");
+                String disposition = isImage ? "inline" : "attachment";
 
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType(contentType))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                        .header(HttpHeaders.CONTENT_DISPOSITION, disposition + "; filename=\"" + filename + "\"")
                         .body(resource);
             } else {
                 return ResponseEntity.notFound().build();

@@ -2,6 +2,7 @@ import { Eye, Mail, Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { AvatarImage } from '@/components/ui/avatar-image'
 import { formatDate } from '@/lib/utils'
 import type { Student } from '@/types'
 
@@ -18,18 +19,17 @@ export default function StudentCard({ student, onView, onEdit, onDelete }: Stude
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            {student.avatarUrl ? (
-              <img
-                src={student.avatarUrl}
-                alt="student"
-                className="h-12 w-12 rounded-full object-cover"
-              />
-            ) : (
-              <div className="h-12 w-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-base font-medium">
-                {student.firstName?.[0]}
-                {student.lastName?.[0]}
-              </div>
-            )}
+            <AvatarImage
+              avatarPath={student.avatarUrl}
+              alt={`${student.firstName} ${student.lastName}`}
+              className="h-12 w-12 rounded-full object-cover"
+              fallback={
+                <div className="h-12 w-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-base font-medium">
+                  {student.firstName?.[0]}
+                  {student.lastName?.[0]}
+                </div>
+              }
+            />
             <div>
               <h3 className="font-semibold text-base">
                 {student.firstName} {student.lastName}

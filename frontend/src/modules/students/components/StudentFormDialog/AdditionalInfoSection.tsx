@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { AvatarImage } from '@/components/ui/avatar-image'
 import type { UseFormRegister } from 'react-hook-form'
 
 interface AdditionalInfoSectionProps {
@@ -14,7 +15,7 @@ interface AdditionalInfoSectionProps {
 }
 
 export default function AdditionalInfoSection({ register, errors, currentAvatarUrl, onAvatarChange }: AdditionalInfoSectionProps) {
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(currentAvatarUrl || null)
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +44,8 @@ export default function AdditionalInfoSection({ register, errors, currentAvatarU
     setSelectedFile(null)
     onAvatarChange?.(null)
   }
+
+  const hasAvatar = avatarPreview || currentAvatarUrl
 
   return (
     <div className="space-y-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
@@ -73,13 +76,22 @@ export default function AdditionalInfoSection({ register, errors, currentAvatarU
           Avatar (Optional)
         </Label>
 
-        {avatarPreview ? (
+        {hasAvatar ? (
           <div className="flex items-center gap-4">
-            <img
-              src={avatarPreview}
-              alt="Avatar preview"
-              className="h-20 w-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
-            />
+            {avatarPreview ? (
+              <img
+                src={avatarPreview}
+                alt="Avatar preview"
+                className="h-20 w-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
+              />
+            ) : (
+              <AvatarImage
+                avatarPath={currentAvatarUrl}
+                alt="Current avatar"
+                className="h-20 w-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
+                fallback={null}
+              />
+            )}
             <Button
               type="button"
               variant="outline"

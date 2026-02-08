@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { AvatarImage } from '@/components/ui/avatar-image'
 import { studentService } from '../api/student.service'
 import { formatDate } from '@/lib/utils'
 import { Mail, Phone, MapPin, Calendar, Hash, School, User, Clock } from 'lucide-react'
@@ -36,18 +37,17 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
         ) : student ? (
           <div className="space-y-6">
             <div className="flex items-center gap-4 pb-4 border-b">
-              {student.avatarUrl ? (
-                <img
-                  src={student.avatarUrl}
-                  alt="student"
-                  className="h-20 w-20 rounded-full object-cover border-2 border-primary/20"
-                />
-              ) : (
-                <div className="h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold border-2 border-primary/20">
-                  {student.firstName[0]}
-                  {student.lastName[0]}
-                </div>
-              )}
+              <AvatarImage
+                avatarPath={student.avatarUrl}
+                alt={`${student.firstName} ${student.lastName}`}
+                className="h-20 w-20 rounded-full object-cover border-2 border-primary/20"
+                fallback={
+                  <div className="h-20 w-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold border-2 border-primary/20">
+                    {student.firstName[0]}
+                    {student.lastName[0]}
+                  </div>
+                }
+              />
               <div className="flex-1">
                 <h2 className="text-2xl font-bold">
                   {student.firstName} {student.lastName}

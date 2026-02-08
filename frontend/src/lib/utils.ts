@@ -31,3 +31,11 @@ export function formatCurrency(amount: number): string {
     currency: 'USD',
   }).format(amount)
 }
+
+export function getAvatarUrl(avatarPath: string | null | undefined): string | null {
+  if (!avatarPath) return null
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+
+  return `${API_BASE_URL}/documents/download?path=${encodeURIComponent(avatarPath)}`
+}

@@ -2,6 +2,7 @@ import { Eye, Mail, Phone, Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
+import { AvatarImage } from '@/components/ui/avatar-image'
 import { formatDate } from '@/lib/utils'
 import type { Student } from '@/types'
 
@@ -31,18 +32,17 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
           <TableRow key={student.id}>
             <TableCell className="font-medium">
               <div className="flex items-center gap-3">
-                {student.avatarUrl ? (
-                  <img
-                    src={student.avatarUrl}
-                    alt="student"
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
-                    {student.firstName?.[0]}
-                    {student.lastName?.[0]}
-                  </div>
-                )}
+                <AvatarImage
+                  avatarPath={student.avatarUrl}
+                  alt={`${student.firstName} ${student.lastName}`}
+                  className="h-10 w-10 rounded-full object-cover"
+                  fallback={
+                    <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
+                      {student.firstName?.[0]}
+                      {student.lastName?.[0]}
+                    </div>
+                  }
+                />
                 <div>
                   <div className="font-medium">
                     {student.firstName} {student.lastName}
