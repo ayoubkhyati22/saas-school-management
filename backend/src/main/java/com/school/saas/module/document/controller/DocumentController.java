@@ -2,12 +2,14 @@ package com.school.saas.module.document.controller;
 
 import com.school.saas.module.document.dto.DocumentDTO;
 import com.school.saas.module.document.service.DocumentService;
+import com.school.saas.security.TenantContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,6 +30,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/documents")
 @RequiredArgsConstructor
+@Slf4j
 @Tag(name = "Document", description = "Document management endpoints")
 public class DocumentController {
 
@@ -53,7 +56,26 @@ public class DocumentController {
     @Operation(summary = "Download a file", description = "Download a file by its path")
     public ResponseEntity<Resource> downloadFile(@RequestParam("path") String filePath) {
         try {
-            Path file = Paths.get(basePath).resolve(filePath).normalize();
+            log.debug("Download request for path: {}", filePath);
+            String cleanPath = filePath;
+
+            // Handle legacy avatar URLs that start with /api/avatars/
+            if (filePath.startsWith("/api/avatars/")) {
+                UUID schoolId = TenantContext.getTenantId();
+                // Strip /api/ and prepend school path
+                cleanPath = "school_" + schoolId.toString() + "/" + filePath.substring(5);
+                log.debug("Mapped avatar path to: {}", cleanPath);
+            } else if (filePath.startsWith("/api/")) {
+                // Strip /api/ prefix for other paths
+                cleanPath = filePath.substring(5);
+                log.debug("Stripped /api/ prefix, new path: {}", cleanPath);
+            }
+
+            // Remove leading slash if present
+            cleanPath = cleanPath.startsWith("/") ? cleanPath.substring(1) : cleanPath;
+
+            Path file = Paths.get(basePath).resolve(cleanPath).normalize();
+            log.debug("Resolved file path: {}", file.toAbsolutePath());
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() && resource.isReadable()) {
