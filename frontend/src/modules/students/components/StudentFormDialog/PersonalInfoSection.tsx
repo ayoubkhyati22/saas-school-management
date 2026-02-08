@@ -2,11 +2,11 @@ import { User, Mail, Phone, Calendar } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import type { UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 
 interface PersonalInfoSectionProps {
   register: UseFormRegister<any>
-  errors: FieldErrors<any>
+  errors: any
   setValue: UseFormSetValue<any>
   watch: UseFormWatch<any>
   isEdit: boolean

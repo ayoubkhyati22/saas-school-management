@@ -2,11 +2,11 @@ import { MapPin, Image } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { UseFormRegister, FieldErrors } from 'react-hook-form'
+import type { UseFormRegister } from 'react-hook-form'
 
 interface AdditionalInfoSectionProps {
   register: UseFormRegister<any>
-  errors: FieldErrors<any>
+  errors: any
 }
 
 export default function AdditionalInfoSection({ register, errors }: AdditionalInfoSectionProps) {
