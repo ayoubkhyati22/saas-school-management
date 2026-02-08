@@ -48,6 +48,43 @@ public class DocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(document);
     }
 
+    @GetMapping("/download")
+    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @Operation(summary = "Download a file", description = "Download a file by its path")
+    public ResponseEntity<Resource> downloadFile(@RequestParam("path") String filePath) {
+        try {
+            Path file = Paths.get(basePath).resolve(filePath).normalize();
+            Resource resource = new UrlResource(file.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                String filename = file.getFileName().toString();
+                String contentType = "application/octet-stream";
+
+                if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
+                    contentType = "image/jpeg";
+                } else if (filename.toLowerCase().endsWith(".png")) {
+                    contentType = "image/png";
+                } else if (filename.toLowerCase().endsWith(".gif")) {
+                    contentType = "image/gif";
+                } else if (filename.toLowerCase().endsWith(".pdf")) {
+                    contentType = "application/pdf";
+                }
+
+                boolean isImage = contentType.startsWith("image/");
+                String disposition = isImage ? "inline" : "attachment";
+
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, disposition + "; filename=\"" + filename + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @Operation(summary = "Get document by ID")
@@ -88,42 +125,5 @@ public class DocumentController {
     public ResponseEntity<Long> getStorageUsed() {
         long storageUsed = documentService.getStorageUsed();
         return ResponseEntity.ok(storageUsed);
-    }
-
-    @GetMapping("/download/**")
-    @PreAuthorize("hasAnyAuthority('SCHOOL_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
-    @Operation(summary = "Download a file", description = "Download a file by its path")
-    public ResponseEntity<Resource> downloadFile(@RequestParam("path") String filePath) {
-        try {
-            Path file = Paths.get(basePath).resolve(filePath).normalize();
-            Resource resource = new UrlResource(file.toUri());
-
-            if (resource.exists() && resource.isReadable()) {
-                String filename = file.getFileName().toString();
-                String contentType = "application/octet-stream";
-
-                if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
-                    contentType = "image/jpeg";
-                } else if (filename.toLowerCase().endsWith(".png")) {
-                    contentType = "image/png";
-                } else if (filename.toLowerCase().endsWith(".gif")) {
-                    contentType = "image/gif";
-                } else if (filename.toLowerCase().endsWith(".pdf")) {
-                    contentType = "application/pdf";
-                }
-
-                boolean isImage = contentType.startsWith("image/");
-                String disposition = isImage ? "inline" : "attachment";
-
-                return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(contentType))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, disposition + "; filename=\"" + filename + "\"")
-                        .body(resource);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (MalformedURLException e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
 }
