@@ -71,17 +71,17 @@ export default function Sidebar() {
   const user = useAuthStore((state) => state.user)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const { isCollapsed, toggle } = useSidebarStore()
-  
+
   // Debug logs
   console.log('=== SIDEBAR DEBUG ===')
   console.log('User object:', user)
   console.log('User role:', user?.role)
   console.log('Is authenticated:', isAuthenticated)
   console.log('Available roles:', Object.keys(navigationItems))
-  
+
   // Get navigation items, with fallback to SCHOOL_ADMIN if role is missing
   let navItems: typeof navigationItems[keyof typeof navigationItems] = []
-  
+
   if (user?.role && navigationItems[user.role]) {
     navItems = navigationItems[user.role]
     console.log('Using role:', user.role, 'Items count:', navItems.length)
@@ -89,29 +89,30 @@ export default function Sidebar() {
     console.warn('No valid role found, using SCHOOL_ADMIN as fallback')
     navItems = navigationItems[Role.SCHOOL_ADMIN]
   }
-  
+
   console.log('Final nav items:', navItems)
   console.log('==================')
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 h-screen border-r bg-card transition-all duration-300 ${
-        isCollapsed ? 'w-16' : 'w-64'
-      }`}
+      className={`fixed left-0 top-0 z-40 h-screen border-r bg-slate-900 text-slate-200 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'
+        }`}
     >
       <div className="flex h-full flex-col">
+
         {/* Header */}
-        <div className="flex h-16 items-center justify-between border-b px-4">
+        <div className="flex h-16 items-center justify-between border-b border-slate-800 px-4">
           {!isCollapsed && (
-            <h1 className="text-xl font-bold text-foreground">
+            <h1 className="text-xl font-bold text-white">
               School SaaS
             </h1>
           )}
+
           <Button
             variant="ghost"
             size="icon"
             onClick={toggle}
-            className="h-8 w-8"
+            className="h-8 w-8 text-slate-300 hover:bg-slate-800 hover:text-white"
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />
@@ -124,7 +125,7 @@ export default function Sidebar() {
         {/* Navigation */}
         <nav className="flex-1 space-y-1 p-2 overflow-y-auto">
           {navItems.length === 0 ? (
-            <div className="p-4 text-center text-sm text-muted-foreground">
+            <div className="p-4 text-center text-sm text-slate-400">
               No menu items available
             </div>
           ) : (
@@ -133,15 +134,14 @@ export default function Sidebar() {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  `group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${isActive
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                   } ${isCollapsed ? 'justify-center' : ''}`
                 }
                 title={isCollapsed ? item.label : undefined}
               >
-                <item.icon className="h-5 w-5 shrink-0" />
+                <item.icon className="h-5 w-5 shrink-0 transition-transform group-hover:scale-110" />
                 {!isCollapsed && <span>{item.label}</span>}
               </NavLink>
             ))
@@ -150,27 +150,32 @@ export default function Sidebar() {
 
         {/* User Profile */}
         {!isCollapsed && user && (
-          <div className="border-t p-4">
+          <div className="border-t border-slate-800 p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white font-semibold">
                 {user.firstName?.[0]?.toUpperCase() || 'U'}
                 {user.lastName?.[0]?.toUpperCase() || 'U'}
               </div>
+
               <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-medium truncate">
-                  {user.firstName && user.lastName 
+                <p className="text-sm font-medium truncate text-white">
+                  {user.firstName && user.lastName
                     ? `${user.firstName} ${user.lastName}`
-                    : user.email || 'User'
-                  }
+                    : user.email || 'User'}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
+
+                <p className="text-xs text-slate-400 truncate">
                   {user.role?.replace(/_/g, ' ') || 'No role'}
                 </p>
               </div>
+
             </div>
           </div>
         )}
+
       </div>
     </aside>
   )
+
 }

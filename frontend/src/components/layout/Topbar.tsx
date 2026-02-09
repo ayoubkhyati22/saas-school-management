@@ -32,7 +32,7 @@ export default function Topbar() {
   const displayName = user?.firstName || user?.email?.split('@')[0] || 'User'
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b bg-card">
+    <header className="sticky top-0 z-30 h-16 border-b bg-white">
       <div className="flex h-full items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-4">
           <h2 className="text-lg font-semibold">
@@ -41,24 +41,26 @@ export default function Topbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
             title="Toggle theme"
+            className="text-slate-900 hover:bg-slate-800 hover:text-white transition"
           >
             {theme === 'dark' ? (
               <Sun className="h-5 w-5" />
             ) : (
               <Moon className="h-5 w-5" />
             )}
-          </Button>
+          </Button> */}
 
           <Button
             variant="ghost"
             size="icon"
-            className="relative"
+            className="relative text-slate-900 hover:bg-slate-800 hover:text-white transition"
             title="Notifications"
+
           >
             <Bell className="h-5 w-5" />
             {unreadCount > 0 && (
@@ -72,6 +74,7 @@ export default function Topbar() {
             variant="ghost"
             size="icon"
             title="Profile"
+            className="text-slate-900 hover:bg-slate-800 hover:text-white transition"
           >
             <User className="h-5 w-5" />
           </Button>
@@ -81,6 +84,7 @@ export default function Topbar() {
             size="icon"
             onClick={handleLogout}
             title="Logout"
+            className="text-slate-900 hover:bg-red-500 hover:text-white transition"
           >
             <LogOut className="h-5 w-5" />
           </Button>

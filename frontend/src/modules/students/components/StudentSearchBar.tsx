@@ -32,15 +32,27 @@ export default function StudentSearchBar({
               className="pl-10"
             />
           </div>
-          <Button onClick={onSearch} disabled={!searchKeyword.trim()}>
+          <Button
+            onClick={onSearch}
+            disabled={!searchKeyword.trim()}
+            className="border-2 border-blue-200 hover:border-blue-400 hover:bg-emerald-50 text-blue-700 transition-all disabled:cursor-not-allowed"
+          >
             Search
           </Button>
           {isSearching && (
-            <Button variant="outline" onClick={onClearSearch}>
+            <Button
+              variant="outline"
+              onClick={onClearSearch}
+              className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700 font-medium transition-all"
+            >
               Clear
             </Button>
           )}
-          <Button variant="outline" size="icon">
+          <Button
+            variant="outline"
+            size="icon"
+            className="border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 text-emerald-700 transition-all"
+          >
             <Filter className="h-4 w-4" />
           </Button>
         </div>

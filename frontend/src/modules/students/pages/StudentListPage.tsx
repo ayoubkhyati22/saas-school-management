@@ -16,6 +16,7 @@ import StudentSearchBar from '../components/StudentSearchBar'
 import StudentTable from '../components/StudentTable'
 import StudentCard from '../components/StudentCard'
 import StudentPagination from '../components/StudentPagination'
+import { IfElse } from '../components/logic/IfElse'
 
 export default function StudentListPage() {
   const [page, setPage] = useState(0)
@@ -101,37 +102,77 @@ export default function StudentListPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handleExport} disabled={isExporting}>
+          <Button
+            size="sm"
+            onClick={handleExport}
+            disabled={isExporting}
+            className="bg-green-600 hover:bg-green-700 text-white border-green-600"
+          >
             <Download className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Export'}</span>
+            <span className="hidden sm:inline">
+              {/* {isExporting ? 'Exporting...' : 'Export'} */}
+              <IfElse condition={isExporting}>
+                <span>Exporting...</span>
+                <span>Export</span>
+              </IfElse>
+            </span>
           </Button>
+
           <Button variant="outline" size="sm" disabled>
             <Upload className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Import</span>
           </Button>
-          <Button onClick={() => setIsCreateOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
+          <Button
+            size="sm"
+            onClick={() => setIsCreateOpen(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+
+          >
+            <Plus className="mr-2 size-4" />
             <span className="hidden sm:inline">Add Student</span>
-            <span className="sm:hidden">Add</span>
           </Button>
+
         </div>
       </div>
 
       {statistics && activeTab === 'list' && <StudentQuickStats statistics={statistics} />}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="list" className="flex items-center gap-2">
+
+        {/* Tabs Header */}
+        <TabsList className="grid w-full max-w-md grid-cols-2 bg-gray-100 p-1 rounded-xl">
+
+          {/* Student List Tab */}
+          <TabsTrigger
+            value="list"
+            className="flex items-center gap-2 rounded-lg transition-all
+           data-[state=active]:bg-blue-600
+           data-[state=active]:text-white
+            data-[state=active]:shadow-md
+          hover:bg-blue-100"
+          >
             <Users className="h-4 w-4" />
             Student List
           </TabsTrigger>
-          <TabsTrigger value="statistics" className="flex items-center gap-2">
+
+          {/* Statistics Tab */}
+          <TabsTrigger
+            value="statistics"
+            className="flex items-center gap-2 rounded-lg transition-all
+      data-[state=active]:bg-blue-600
+      data-[state=active]:text-white
+      data-[state=active]:shadow-md
+      hover:bg-blue-100"
+          >
             <BarChart3 className="h-4 w-4" />
             Statistics
           </TabsTrigger>
+
         </TabsList>
 
+        {/* Student List Content */}
         <TabsContent value="list" className="space-y-6">
+
           <StudentSearchBar
             searchKeyword={searchKeyword}
             isSearching={isSearching}
@@ -143,20 +184,26 @@ export default function StudentListPage() {
           <Card>
             <CardHeader>
               <CardTitle>
-                {isSearching ? `Search Results (${totalStudents})` : 'All Students'}
+                {isSearching
+                  ? `Search Results (${totalStudents})`
+                  : 'All Students'}
               </CardTitle>
             </CardHeader>
+
             <CardContent>
               {isLoading ? (
                 <div className="text-center py-8">Loading...</div>
               ) : data?.content.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground">
-                    {isSearching ? 'No students found matching your search' : 'No students yet'}
+                    {isSearching
+                      ? 'No students found matching your search'
+                      : 'No students yet'}
                   </p>
                 </div>
               ) : (
                 <>
+                  {/* Desktop Table */}
                   <div className="hidden md:block">
                     <StudentTable
                       students={data?.content || []}
@@ -166,6 +213,7 @@ export default function StudentListPage() {
                     />
                   </div>
 
+                  {/* Mobile Cards */}
                   <div className="md:hidden space-y-4">
                     {data?.content.map((student: Student) => (
                       <StudentCard
@@ -178,6 +226,7 @@ export default function StudentListPage() {
                     ))}
                   </div>
 
+                  {/* Pagination */}
                   <StudentPagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -189,12 +238,16 @@ export default function StudentListPage() {
               )}
             </CardContent>
           </Card>
+
         </TabsContent>
 
+        {/* Statistics Content */}
         <TabsContent value="statistics">
           <StudentStatistics />
         </TabsContent>
+
       </Tabs>
+
 
       <StudentFormDialog
         open={isCreateOpen || !!editingStudent}

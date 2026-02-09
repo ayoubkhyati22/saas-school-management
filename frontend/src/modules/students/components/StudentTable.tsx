@@ -72,54 +72,66 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
             <TableCell>{formatDate(student.enrollmentDate)}</TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-1.5">
+
+                {/* View */}
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onView(student.id)}
                   title="View Details"
-                  className="h-9 w-9 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 group/btn"
+                  className="h-9 w-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 group/btn"
                 >
                   <Eye className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
+
+                {/* Email */}
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => window.location.href = `mailto:${student.email}`}
                   title="Send Email"
-                  className="h-9 w-9 rounded-lg hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 group/btn"
+                  className="h-9 w-9 rounded-lg bg-purple-50 text-purple-600 hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 group/btn"
                 >
                   <Mail className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
+
+                {/* Call */}
                 {student.phoneNumber && (
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => window.location.href = `tel:${student.phoneNumber}`}
                     title="Call"
-                    className="h-9 w-9 rounded-lg hover:bg-emerald-100 hover:text-emerald-700 transition-all duration-200 group/btn"
+                    className="h-9 w-9 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700 transition-all duration-200 group/btn"
                   >
                     <Phone className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                   </Button>
                 )}
+
+                {/* Edit */}
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onEdit(student)}
                   title="Edit"
-                  className="h-9 w-9 rounded-lg hover:bg-amber-100 hover:text-amber-700 transition-all duration-200 group/btn"
+                  className="h-9 w-9 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-700 transition-all duration-200 group/btn"
                 >
                   <Edit className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
+
+                {/* Delete */}
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onDelete(student.id, `${student.firstName} ${student.lastName}`)}
                   title="Delete"
-                  className="h-9 w-9 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200 group/btn"
+                  className="h-9 w-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-all duration-200 group/btn"
                 >
                   <Trash2 className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
+
               </div>
+
             </TableCell>
           </TableRow>
         ))}
