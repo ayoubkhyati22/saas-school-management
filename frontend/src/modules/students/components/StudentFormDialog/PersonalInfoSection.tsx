@@ -28,7 +28,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
           </Label>
           <Input id="firstName" {...register('firstName')} className="bg-white dark:bg-gray-900" />
           {errors.firstName && (
-            <p className="text-sm text-destructive">{errors.firstName.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.firstName.message as string}</p>
           )}
         </div>
 
@@ -39,7 +39,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
           </Label>
           <Input id="lastName" {...register('lastName')} className="bg-white dark:bg-gray-900" />
           {errors.lastName && (
-            <p className="text-sm text-destructive">{errors.lastName.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.lastName.message as string}</p>
           )}
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             className="bg-white dark:bg-gray-900"
           />
           {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.email.message as string}</p>
           )}
         </div>
 
@@ -74,7 +74,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             className="bg-white dark:bg-gray-900"
           />
           {errors.phoneNumber && (
-            <p className="text-sm text-destructive">{errors.phoneNumber.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.phoneNumber.message as string}</p>
           )}
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             className="bg-white dark:bg-gray-900"
           />
           {errors.birthDate && (
-            <p className="text-sm text-destructive">{errors.birthDate.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.birthDate.message as string}</p>
           )}
         </div>
 
@@ -115,7 +115,7 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
             </SelectContent>
           </Select>
           {errors.gender && (
-            <p className="text-sm text-destructive">{errors.gender.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.gender.message as string}</p>
           )}
         </div>
       </div>

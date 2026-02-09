@@ -420,25 +420,263 @@ public class DataLoader {
     private List<Student> createStudents(List<School> schools, List<ClassRoom> classRooms) {
         List<Student> students = new ArrayList<>();
 
-        // School 1 Students
+        // School 1 Students - Green Valley Elementary
+        // Classroom 0 (Grade 9)
         students.add(createStudent(schools.get(0), classRooms.get(0), "alice.student@greenvalley.edu",
                 "Alice", "Anderson", "STU2024001", LocalDate.of(2009, 5, 15), Gender.FEMALE));
         students.add(createStudent(schools.get(0), classRooms.get(0), "bob.student@greenvalley.edu",
                 "Bob", "Baker", "STU2024002", LocalDate.of(2009, 7, 22), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "oliver.student@greenvalley.edu",
+                "Oliver", "Miller", "STU2024006", LocalDate.of(2009, 6, 14), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "sophia.student@greenvalley.edu",
+                "Sophia", "Wilson", "STU2024007", LocalDate.of(2009, 8, 21), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "noah.student@greenvalley.edu",
+                "Noah", "Moore", "STU2024008", LocalDate.of(2009, 4, 3), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "isabella.student@greenvalley.edu",
+                "Isabella", "Taylor", "STU2024009", LocalDate.of(2009, 9, 17), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "liam.student@greenvalley.edu",
+                "Liam", "Anderson", "STU2024010", LocalDate.of(2009, 2, 28), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "mia.student@greenvalley.edu",
+                "Mia", "Thomas", "STU2024011", LocalDate.of(2009, 11, 5), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "ethan.student@greenvalley.edu",
+                "Ethan", "Jackson", "STU2024012", LocalDate.of(2009, 7, 19), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "ava.student@greenvalley.edu",
+                "Ava", "White", "STU2024013", LocalDate.of(2009, 3, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "james.student@greenvalley.edu",
+                "James", "Harris", "STU2024014", LocalDate.of(2009, 10, 8), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "emily.student@greenvalley.edu",
+                "Emily", "Martin", "STU2024015", LocalDate.of(2009, 1, 12), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "samuel.student@greenvalley.edu",
+                "Samuel", "Turner", "STU2024041", LocalDate.of(2009, 5, 11), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "layla.student@greenvalley.edu",
+                "Layla", "Diaz", "STU2024042", LocalDate.of(2009, 9, 28), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "wyatt.student@greenvalley.edu",
+                "Wyatt", "Reyes", "STU2024047", LocalDate.of(2009, 7, 29), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "lily.student@greenvalley.edu",
+                "Lily", "Stewart", "STU2024048", LocalDate.of(2009, 11, 11), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "nathan.student@greenvalley.edu",
+                "Nathan", "Rogers", "STU2024053", LocalDate.of(2009, 10, 4), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "stella.student@greenvalley.edu",
+                "Stella", "Morgan", "STU2024054", LocalDate.of(2009, 2, 16), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "gabriel.student@greenvalley.edu",
+                "Gabriel", "Bell", "STU2024059", LocalDate.of(2009, 1, 30), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "aurora.student@greenvalley.edu",
+                "Aurora", "Gomez", "STU2024060", LocalDate.of(2009, 6, 8), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "anthony.student@greenvalley.edu",
+                "Anthony", "Richardson", "STU2024065", LocalDate.of(2009, 4, 14), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(0), "lucy.student@greenvalley.edu",
+                "Lucy", "Watson", "STU2024066", LocalDate.of(2009, 8, 27), Gender.FEMALE));
+
+        // Classroom 1 (Grade 10)
         students.add(createStudent(schools.get(0), classRooms.get(1), "charlie.student@greenvalley.edu",
                 "Charlie", "Clark", "STU2024003", LocalDate.of(2008, 3, 10), Gender.MALE));
         students.add(createStudent(schools.get(0), classRooms.get(1), "diana.student@greenvalley.edu",
                 "Diana", "Davis", "STU2024004", LocalDate.of(2008, 11, 30), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "mason.student@greenvalley.edu",
+                "Mason", "Thompson", "STU2024016", LocalDate.of(2008, 5, 22), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "charlotte.student@greenvalley.edu",
+                "Charlotte", "Garcia", "STU2024017", LocalDate.of(2008, 9, 14), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "william.student@greenvalley.edu",
+                "William", "Martinez", "STU2024018", LocalDate.of(2008, 2, 7), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "amelia.student@greenvalley.edu",
+                "Amelia", "Robinson", "STU2024019", LocalDate.of(2008, 12, 30), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "benjamin.student@greenvalley.edu",
+                "Benjamin", "Lopez", "STU2024020", LocalDate.of(2008, 4, 16), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "harper.student@greenvalley.edu",
+                "Harper", "Lee", "STU2024021", LocalDate.of(2008, 8, 3), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "lucas.student@greenvalley.edu",
+                "Lucas", "Walker", "STU2024022", LocalDate.of(2008, 11, 27), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "evelyn.student@greenvalley.edu",
+                "Evelyn", "Hall", "STU2024023", LocalDate.of(2008, 6, 9), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "henry.student@greenvalley.edu",
+                "Henry", "Allen", "STU2024024", LocalDate.of(2008, 10, 21), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "ella.student@greenvalley.edu",
+                "Ella", "Young", "STU2024025", LocalDate.of(2008, 3, 15), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "jack.student@greenvalley.edu",
+                "Jack", "Parker", "STU2024043", LocalDate.of(2008, 1, 19), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "zoey.student@greenvalley.edu",
+                "Zoey", "Cruz", "STU2024044", LocalDate.of(2008, 6, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "luke.student@greenvalley.edu",
+                "Luke", "Morris", "STU2024049", LocalDate.of(2008, 4, 5), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "hannah.student@greenvalley.edu",
+                "Hannah", "Morales", "STU2024050", LocalDate.of(2008, 8, 18), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "caleb.student@greenvalley.edu",
+                "Caleb", "Peterson", "STU2024055", LocalDate.of(2008, 7, 23), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "ellie.student@greenvalley.edu",
+                "Ellie", "Cooper", "STU2024056", LocalDate.of(2008, 12, 6), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "julian.student@greenvalley.edu",
+                "Julian", "Kelly", "STU2024061", LocalDate.of(2008, 10, 15), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "hazel.student@greenvalley.edu",
+                "Hazel", "Howard", "STU2024062", LocalDate.of(2008, 3, 21), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "max.student@greenvalley.edu",
+                "Max", "Rivera", "STU2024067", LocalDate.of(2008, 11, 9), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(1), "sophie.student@greenvalley.edu",
+                "Sophie", "Barnes", "STU2024068", LocalDate.of(2008, 2, 14), Gender.FEMALE));
+
+        // Classroom 2 (Grade 11)
         students.add(createStudent(schools.get(0), classRooms.get(2), "emma.student@greenvalley.edu",
                 "Emma", "Evans", "STU2024005", LocalDate.of(2007, 1, 18), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "alexander.student@greenvalley.edu",
+                "Alexander", "King", "STU2024026", LocalDate.of(2007, 7, 11), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "scarlett.student@greenvalley.edu",
+                "Scarlett", "Wright", "STU2024027", LocalDate.of(2007, 11, 23), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "jackson.student@greenvalley.edu",
+                "Jackson", "Scott", "STU2024028", LocalDate.of(2007, 4, 29), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "grace.student@greenvalley.edu",
+                "Grace", "Torres", "STU2024029", LocalDate.of(2007, 8, 6), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "sebastian.student@greenvalley.edu",
+                "Sebastian", "Nguyen", "STU2024030", LocalDate.of(2007, 12, 18), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "chloe.student@greenvalley.edu",
+                "Chloe", "Hill", "STU2024031", LocalDate.of(2007, 2, 24), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "aiden.student@greenvalley.edu",
+                "Aiden", "Flores", "STU2024032", LocalDate.of(2007, 5, 31), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "victoria.student@greenvalley.edu",
+                "Victoria", "Rivera", "STU2024033", LocalDate.of(2007, 9, 14), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "matthew.student@greenvalley.edu",
+                "Matthew", "Campbell", "STU2024034", LocalDate.of(2007, 1, 7), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "madison.student@greenvalley.edu",
+                "Madison", "Mitchell", "STU2024035", LocalDate.of(2007, 10, 19), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "daniel.student@greenvalley.edu",
+                "Daniel", "Carter", "STU2024036", LocalDate.of(2007, 3, 26), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "luna.student@greenvalley.edu",
+                "Luna", "Roberts", "STU2024037", LocalDate.of(2007, 7, 2), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "joseph.student@greenvalley.edu",
+                "Joseph", "Gomez", "STU2024038", LocalDate.of(2007, 11, 15), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "penelope.student@greenvalley.edu",
+                "Penelope", "Phillips", "STU2024039", LocalDate.of(2007, 4, 8), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "david.student@greenvalley.edu",
+                "David", "Evans", "STU2024040", LocalDate.of(2007, 8, 22), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "owen.student@greenvalley.edu",
+                "Owen", "Edwards", "STU2024045", LocalDate.of(2007, 12, 3), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "nora.student@greenvalley.edu",
+                "Nora", "Collins", "STU2024046", LocalDate.of(2007, 3, 17), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "ryan.student@greenvalley.edu",
+                "Ryan", "Murphy", "STU2024051", LocalDate.of(2007, 2, 13), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "zoe.student@greenvalley.edu",
+                "Zoe", "Cook", "STU2024052", LocalDate.of(2007, 6, 27), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "isaac.student@greenvalley.edu",
+                "Isaac", "Reed", "STU2024057", LocalDate.of(2007, 5, 12), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "violet.student@greenvalley.edu",
+                "Violet", "Bailey", "STU2024058", LocalDate.of(2007, 9, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "leo.student@greenvalley.edu",
+                "Leo", "Ward", "STU2024063", LocalDate.of(2007, 7, 28), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "savannah.student@greenvalley.edu",
+                "Savannah", "Cox", "STU2024064", LocalDate.of(2007, 11, 9), Gender.FEMALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "thomas.student@greenvalley.edu",
+                "Thomas", "Sanders", "STU2024069", LocalDate.of(2007, 4, 19), Gender.MALE));
+        students.add(createStudent(schools.get(0), classRooms.get(2), "aria.student@greenvalley.edu",
+                "Aria", "Price", "STU2024070", LocalDate.of(2007, 10, 25), Gender.FEMALE));
 
-        // School 2 Students
+        // School 2 Students - Sunshine Academy
+        // Classroom 3 (Grade 7)
         students.add(createStudent(schools.get(1), classRooms.get(3), "frank.student@sunshine.edu",
                 "Frank", "Foster", "STU2024001", LocalDate.of(2010, 4, 12), Gender.MALE));
         students.add(createStudent(schools.get(1), classRooms.get(3), "grace.student@sunshine.edu",
                 "Grace", "Green", "STU2024002", LocalDate.of(2010, 8, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "ivy.student@sunshine.edu",
+                "Ivy", "Watson", "STU2024004", LocalDate.of(2010, 5, 20), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "luke.student@sunshine.edu",
+                "Luke", "Brooks", "STU2024005", LocalDate.of(2010, 9, 7), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "maya.student@sunshine.edu",
+                "Maya", "Bennett", "STU2024006", LocalDate.of(2010, 2, 13), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "owen.student@sunshine.edu",
+                "Owen", "Gray", "STU2024007", LocalDate.of(2010, 6, 28), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "ruby.student@sunshine.edu",
+                "Ruby", "James", "STU2024008", LocalDate.of(2010, 11, 4), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "elijah.student@sunshine.edu",
+                "Elijah", "Ross", "STU2024009", LocalDate.of(2010, 3, 19), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "bella.student@sunshine.edu",
+                "Bella", "Henderson", "STU2024010", LocalDate.of(2010, 7, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "carter.student@sunshine.edu",
+                "Carter", "Coleman", "STU2024011", LocalDate.of(2010, 12, 12), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "aria.student@sunshine.edu",
+                "Aria", "Jenkins", "STU2024012", LocalDate.of(2010, 4, 30), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "jayden.student@sunshine.edu",
+                "Jayden", "Perry", "STU2024013", LocalDate.of(2010, 8, 16), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "alice.student@sunshine.edu",
+                "Alice", "Powell", "STU2024014", LocalDate.of(2010, 1, 22), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "grayson.student@sunshine.edu",
+                "Grayson", "Long", "STU2024015", LocalDate.of(2010, 10, 9), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "eleanor.student@sunshine.edu",
+                "Eleanor", "Patterson", "STU2024016", LocalDate.of(2010, 5, 5), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "lincoln.student@sunshine.edu",
+                "Lincoln", "Hughes", "STU2024017", LocalDate.of(2010, 9, 18), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "claire.student@sunshine.edu",
+                "Claire", "Flores", "STU2024018", LocalDate.of(2010, 2, 27), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "austin.student@sunshine.edu",
+                "Austin", "Price", "STU2024039", LocalDate.of(2010, 1, 7), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "aubrey.student@sunshine.edu",
+                "Aubrey", "Murray", "STU2024040", LocalDate.of(2010, 5, 18), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "adam.student@sunshine.edu",
+                "Adam", "Jordan", "STU2024043", LocalDate.of(2010, 6, 13), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "sarah.student@sunshine.edu",
+                "Sarah", "Reynolds", "STU2024044", LocalDate.of(2010, 10, 28), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "tyler.student@sunshine.edu",
+                "Tyler", "Stevens", "STU2024047", LocalDate.of(2010, 3, 4), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "julia.student@sunshine.edu",
+                "Julia", "Dixon", "STU2024048", LocalDate.of(2010, 7, 17), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "eli.student@sunshine.edu",
+                "Eli", "Freeman", "STU2024049", LocalDate.of(2010, 11, 21), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "violet.student@sunshine.edu",
+                "Violet", "Chapman", "STU2024050", LocalDate.of(2010, 4, 26), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "micah.student@sunshine.edu",
+                "Micah", "Lawson", "STU2024051", LocalDate.of(2010, 8, 9), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(3), "nova.student@sunshine.edu",
+                "Nova", "Warren", "STU2024052", LocalDate.of(2010, 12, 14), Gender.FEMALE));
+
+        // Classroom 4 (Grade 8)
         students.add(createStudent(schools.get(1), classRooms.get(4), "henry.student@sunshine.edu",
                 "Henry", "Harris", "STU2024003", LocalDate.of(2009, 12, 3), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "landon.student@sunshine.edu",
+                "Landon", "Washington", "STU2024019", LocalDate.of(2009, 6, 11), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "skylar.student@sunshine.edu",
+                "Skylar", "Butler", "STU2024020", LocalDate.of(2009, 10, 24), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "levi.student@sunshine.edu",
+                "Levi", "Simmons", "STU2024021", LocalDate.of(2009, 3, 8), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "addison.student@sunshine.edu",
+                "Addison", "Foster", "STU2024022", LocalDate.of(2009, 7, 15), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "hudson.student@sunshine.edu",
+                "Hudson", "Gonzales", "STU2024023", LocalDate.of(2009, 11, 30), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "brooklyn.student@sunshine.edu",
+                "Brooklyn", "Bryant", "STU2024024", LocalDate.of(2009, 4, 17), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "elias.student@sunshine.edu",
+                "Elias", "Alexander", "STU2024025", LocalDate.of(2009, 8, 22), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "lillian.student@sunshine.edu",
+                "Lillian", "Russell", "STU2024026", LocalDate.of(2009, 12, 5), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "colton.student@sunshine.edu",
+                "Colton", "Griffin", "STU2024027", LocalDate.of(2009, 1, 28), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "leah.student@sunshine.edu",
+                "Leah", "Hayes", "STU2024028", LocalDate.of(2009, 5, 14), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "xavier.student@sunshine.edu",
+                "Xavier", "Palmer", "STU2024029", LocalDate.of(2009, 9, 29), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "anna.student@sunshine.edu",
+                "Anna", "Robertson", "STU2024030", LocalDate.of(2009, 2, 11), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "jaxon.student@sunshine.edu",
+                "Jaxon", "Hunt", "STU2024031", LocalDate.of(2009, 6, 26), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "samantha.student@sunshine.edu",
+                "Samantha", "Black", "STU2024032", LocalDate.of(2009, 10, 8), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "connor.student@sunshine.edu",
+                "Connor", "Stone", "STU2024033", LocalDate.of(2009, 3, 23), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "paisley.student@sunshine.edu",
+                "Paisley", "Meyer", "STU2024034", LocalDate.of(2009, 7, 31), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "asher.student@sunshine.edu",
+                "Asher", "Ford", "STU2024035", LocalDate.of(2009, 12, 16), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "caroline.student@sunshine.edu",
+                "Caroline", "Wells", "STU2024036", LocalDate.of(2009, 4, 3), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "cameron.student@sunshine.edu",
+                "Cameron", "Barnes", "STU2024037", LocalDate.of(2009, 8, 19), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "piper.student@sunshine.edu",
+                "Piper", "Sanders", "STU2024038", LocalDate.of(2009, 11, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "jordan.student@sunshine.edu",
+                "Jordan", "Cole", "STU2024041", LocalDate.of(2009, 9, 2), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "natalie.student@sunshine.edu",
+                "Natalie", "West", "STU2024042", LocalDate.of(2009, 2, 25), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "chase.student@sunshine.edu",
+                "Chase", "Fisher", "STU2024045", LocalDate.of(2009, 4, 9), Gender.MALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "kennedy.student@sunshine.edu",
+                "Kennedy", "Ellis", "STU2024046", LocalDate.of(2009, 8, 21), Gender.FEMALE));
+        students.add(createStudent(schools.get(1), classRooms.get(4), "evan.student@sunshine.edu",
+                "Evan", "Marshall", "STU2024053", LocalDate.of(2009, 5, 7), Gender.MALE));
 
         return students;
     }

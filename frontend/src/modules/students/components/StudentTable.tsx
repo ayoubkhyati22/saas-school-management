@@ -73,7 +73,7 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
                   alt={`${student.firstName} ${student.lastName}`}
                   className="h-10 w-10 rounded-full object-cover"
                   fallback={
-                    <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-semibold">
+                    <div className="h-10 w-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-sm font-semibold">
                       {student.firstName?.[0]}
                       {student.lastName?.[0]}
                     </div>

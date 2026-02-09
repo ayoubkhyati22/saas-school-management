@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface StudentPaginationProps {
@@ -27,6 +27,15 @@ export default function StudentPagination({
         <Button
           variant="outline"
           size="sm"
+          onClick={() => onPageChange(0)}
+          disabled={currentPage === 0}
+        >
+          <ChevronsLeft className="h-4 w-4" />
+          <span className="hidden sm:inline ml-1">First</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 0}
         >
@@ -44,6 +53,15 @@ export default function StudentPagination({
         >
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="h-4 w-4 sm:ml-1" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(totalPages - 1)}
+          disabled={currentPage >= totalPages - 1}
+        >
+          <span className="hidden sm:inline mr-1">Last</span>
+          <ChevronsRight className="h-4 w-4" />
         </Button>
       </div>
     </div>

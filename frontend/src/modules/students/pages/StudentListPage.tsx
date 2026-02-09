@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Plus, Download, Upload, BarChart3, Users } from 'lucide-react'
+import { Plus, Download, Upload, BarChart3, Users, Search } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Input } from '@/components/ui/input'
 import { studentService } from '../api/student.service'
 import { queryClient } from '@/lib/queryClient'
 import type { Student } from '@/types'
@@ -12,7 +13,6 @@ import StudentFormDialog from '../components/StudentFormDialog/StudentFormDialog
 import StudentDetailDialog from '../components/StudentDetailDialog'
 import StudentStatistics from '../components/StudentStatistics'
 import StudentQuickStats from '../components/StudentQuickStats'
-import StudentSearchBar from '../components/StudentSearchBar'
 import StudentTable from '../components/StudentTable'
 import StudentCard from '../components/StudentCard'
 import StudentPagination from '../components/StudentPagination'
@@ -121,65 +121,82 @@ export default function StudentListPage() {
             size="sm"
             onClick={() => setIsCreateOpen(true)}
             className="bg-blue-500 hover:bg-blue-600 text-white"
-
           >
             <Plus className="mr-2 size-4" />
             <span className="hidden sm:inline">Add Student</span>
           </Button>
-
         </div>
       </div>
 
       {statistics && activeTab === 'list' && <StudentQuickStats statistics={statistics} />}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
+        {/* Tabs Header with Search */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <TabsList className="grid grid-cols-2 bg-gray-100 p-2 rounded-xl w-full sm:w-auto gap-2">
+            {/* Student List Tab */}
+            <TabsTrigger
+              value="list"
+              className="flex items-center gap-2 rounded-lg transition-all
+                hover:bg-blue-50
+                hover:text-blue-600"
+            >
+              <Users className="size-4 " />
+              <span className="hidden sm:inline">Student List</span>
+              <span className="sm:hidden">List</span>
+            </TabsTrigger>
 
-        {/* Tabs Header */}
-        <TabsList className="grid w-full max-w-md grid-cols-2 bg-gray-100 p-1 rounded-xl">
+            {/* Statistics Tab */}
+            <TabsTrigger
+              value="statistics"
+              className="flex items-center gap-2 rounded-lg transition-all
+                hover:bg-blue-50
+                hover:text-blue-600"
+            >
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Statistics</span>
+              <span className="sm:hidden">Stats</span>
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Student List Tab */}
-          <TabsTrigger
-            value="list"
-            className="flex items-center gap-2 rounded-lg transition-all
-    data-[state=active]:bg-blue-600
-    data-[state=active]:text-white
-    data-[state=active]:shadow-md
-    data-[state=active]:border-2
-    data-[state=active]:border-black
-    hover:bg-blue-100"
-          >
-            <Users className="h-4 w-4" />
-            Student List
-          </TabsTrigger>
-
-          {/* Statistics Tab */}
-          <TabsTrigger
-            value="statistics"
-            className="flex items-center gap-2 rounded-lg transition-all
-    data-[state=active]:bg-blue-600
-    data-[state=active]:text-white
-    data-[state=active]:shadow-md
-    data-[state=active]:border-2
-    data-[state=active]:border-black
-    hover:bg-blue-100"
-          >
-            <BarChart3 className="h-4 w-4" />
-            Statistics
-          </TabsTrigger>
-
-        </TabsList>
+          {/* Search Bar - Only visible on list tab */}
+          {activeTab === 'list' && (
+            <div className="flex gap-2 flex-1 w-full sm:w-auto">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name or registration..."
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  className="pl-10"
+                />
+              </div>
+              <Button
+                onClick={handleSearch}
+                disabled={!searchKeyword.trim()}
+                size="sm"
+                className="border-2 border-blue-200 hover:border-blue-400 hover:bg-emerald-50 text-blue-700 transition-all"
+              >
+                <Search className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Search</span>
+              </Button>
+              {isSearching && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClearSearch}
+                  className="border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-700"
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Student List Content */}
         <TabsContent value="list" className="space-y-6">
-
-          <StudentSearchBar
-            searchKeyword={searchKeyword}
-            isSearching={isSearching}
-            onSearchKeywordChange={setSearchKeyword}
-            onSearch={handleSearch}
-            onClearSearch={handleClearSearch}
-          />
-
           <Card>
             <CardHeader>
               <CardTitle>
@@ -237,16 +254,13 @@ export default function StudentListPage() {
               )}
             </CardContent>
           </Card>
-
         </TabsContent>
 
         {/* Statistics Content */}
         <TabsContent value="statistics">
           <StudentStatistics />
         </TabsContent>
-
       </Tabs>
-
 
       <StudentFormDialog
         open={isCreateOpen || !!editingStudent}

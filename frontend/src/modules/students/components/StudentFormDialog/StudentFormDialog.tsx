@@ -193,7 +193,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 text-black dark:text-white">
+      <DialogContent className="sm:max-w-[950px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-black dark:text-white">
             <UserCircle className="h-5 w-5" />
@@ -205,37 +205,54 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <PersonalInfoSection
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            watch={watch}
-            isEdit={isEdit}
-          />
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Left Column */}
+            <div className="space-y-6">
+              <PersonalInfoSection
+                register={register}
+                errors={errors}
+                setValue={setValue}
+                watch={watch}
+                isEdit={isEdit}
+              />
 
-          <AcademicInfoSection
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            watch={watch}
-            isEdit={isEdit}
-            classrooms={classroomsData?.content || []}
-          />
+              <AdditionalInfoSection
+                register={register}
+                errors={errors}
+                currentAvatarUrl={student?.avatarUrl}
+                onAvatarChange={setAvatarFile}
+              />
+            </div>
 
-          <AdditionalInfoSection
-            register={register}
-            errors={errors}
-            currentAvatarUrl={student?.avatarUrl}
-            onAvatarChange={setAvatarFile}
-          />
+            {/* Right Column */}
+            <div className="space-y-6">
+              <AcademicInfoSection
+                register={register}
+                errors={errors}
+                setValue={setValue}
+                watch={watch}
+                isEdit={isEdit}
+                classrooms={classroomsData?.content || []}
+              />
+            </div>
+
+          </div>
 
           <DialogFooter className="gap-2">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={onClose}
+              className="border-gray-300 hover:bg-gray-100 text-gray-700"
+            >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={createMutation.isPending || updateMutation.isPending}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               {createMutation.isPending || updateMutation.isPending ? (
                 <>Processing...</>

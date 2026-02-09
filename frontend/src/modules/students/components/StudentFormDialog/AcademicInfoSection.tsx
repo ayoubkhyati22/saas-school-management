@@ -35,7 +35,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             className="bg-white dark:bg-gray-900"
           />
           {errors.registrationNumber && (
-            <p className="text-sm text-destructive">{errors.registrationNumber.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.registrationNumber.message as string}</p>
           )}
         </div>
 
@@ -52,7 +52,7 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             className="bg-white dark:bg-gray-900"
           />
           {errors.enrollmentDate && (
-            <p className="text-sm text-destructive">{errors.enrollmentDate.message as string}</p>
+            <p className="text-sm text-red-600 font-medium">{errors.enrollmentDate.message as string}</p>
           )}
         </div>
       </div>

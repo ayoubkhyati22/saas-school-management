@@ -66,7 +66,7 @@ export default function AdditionalInfoSection({ register, errors, currentAvatarU
           className="bg-white dark:bg-gray-900"
         />
         {errors.address && (
-          <p className="text-sm text-destructive">{errors.address.message as string}</p>
+          <p className="text-sm text-red-600 font-medium">{errors.address.message as string}</p>
         )}
       </div>
 
@@ -97,7 +97,7 @@ export default function AdditionalInfoSection({ register, errors, currentAvatarU
               variant="outline"
               size="sm"
               onClick={handleRemoveAvatar}
-              className="text-red-600 hover:text-red-700"
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-300"
             >
               <X className="h-4 w-4 mr-1" />
               Remove
@@ -114,7 +114,7 @@ export default function AdditionalInfoSection({ register, errors, currentAvatarU
             />
             <Label
               htmlFor="avatar-upload"
-              className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 border border-blue-300 rounded-md hover:bg-blue-50 text-blue-600"
             >
               <Upload className="h-4 w-4" />
               <span className="text-sm">Choose File</span>

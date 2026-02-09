@@ -27,7 +27,7 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-black dark:text-white">
+      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle className="text-black dark:text-white">Student Details</DialogTitle>
         </DialogHeader>
@@ -36,6 +36,7 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
           <div className="text-center py-8">Loading...</div>
         ) : student ? (
           <div className="space-y-6">
+            {/* Header with Avatar and Basic Info */}
             <div className="flex items-center gap-4 pb-4 border-b">
               <AvatarImage
                 avatarPath={student.avatarUrl}
@@ -58,110 +59,129 @@ export default function StudentDetailDialog({ open, onClose, studentId }: Studen
               </div>
             </div>
 
-            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-primary" />
-                  Contact Information
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="flex-1">{student.email}</span>
-                  </div>
-                  {student.phoneNumber && (
-                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <span className="flex-1">{student.phoneNumber}</span>
-                    </div>
-                  )}
-                  {student.address && (
-                    <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <span className="flex-1">{student.address}</span>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  <School className="h-4 w-4 text-primary" />
-                  Academic Information
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <Hash className="h-4 w-4 flex-shrink-0" />
-                      <span>Registration Number</span>
-                    </div>
-                    <span className="font-medium">{student.registrationNumber}</span>
-                  </div>
-                  {student.classRoom && (
-                    <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                      <div className="flex items-center gap-3 text-muted-foreground">
-                        <School className="h-4 w-4 flex-shrink-0" />
-                        <span>Classroom</span>
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              
+              {/* Left Column */}
+              <div className="space-y-4">
+                
+                {/* Contact Information */}
+                <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-primary" />
+                      Contact Information
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="flex-1 break-all">{student.email}</span>
                       </div>
-                      <span className="font-medium">{student.classRoom.name}</span>
+                      {student.phoneNumber && (
+                        <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                          <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          <span className="flex-1">{student.phoneNumber}</span>
+                        </div>
+                      )}
+                      {student.address && (
+                        <div className="flex items-center gap-3 text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                          <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          <span className="flex-1">{student.address}</span>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <Calendar className="h-4 w-4 flex-shrink-0" />
-                      <span>Enrollment Date</span>
-                    </div>
-                    <span className="font-medium">{formatDate(student.enrollmentDate)}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
 
-            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  <User className="h-4 w-4 text-primary" />
-                  Personal Information
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <Calendar className="h-4 w-4 flex-shrink-0" />
-                      <span>Birth Date</span>
+                {/* Personal Information */}
+                <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <User className="h-4 w-4 text-primary" />
+                      Personal Information
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <Calendar className="h-4 w-4 flex-shrink-0" />
+                          <span>Birth Date</span>
+                        </div>
+                        <span className="font-medium">{formatDate(student.birthDate)}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <User className="h-4 w-4 flex-shrink-0" />
+                          <span>Gender</span>
+                        </div>
+                        <span className="font-medium">{student.gender}</span>
+                      </div>
                     </div>
-                    <span className="font-medium">{formatDate(student.birthDate)}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <User className="h-4 w-4 flex-shrink-0" />
-                      <span>Gender</span>
-                    </div>
-                    <span className="font-medium">{student.gender}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
 
-            <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-primary" />
-                  System Information
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <span className="text-muted-foreground">Created At</span>
-                    <span className="font-medium">{formatDate(student.createdAt)}</span>
-                  </div>
-                  <div className="flex justify-between p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <span className="text-muted-foreground">Last Updated</span>
-                    <span className="font-medium">{formatDate(student.updatedAt)}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              {/* Right Column */}
+              <div className="space-y-4">
+                
+                {/* Academic Information */}
+                <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <School className="h-4 w-4 text-primary" />
+                      Academic Information
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <Hash className="h-4 w-4 flex-shrink-0" />
+                          <span>Registration Number</span>
+                        </div>
+                        <span className="font-medium">{student.registrationNumber}</span>
+                      </div>
+                      {student.classRoom && (
+                        <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                          <div className="flex items-center gap-3 text-muted-foreground">
+                            <School className="h-4 w-4 flex-shrink-0" />
+                            <span>Classroom</span>
+                          </div>
+                          <span className="font-medium">{student.classRoom.name}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <Calendar className="h-4 w-4 flex-shrink-0" />
+                          <span>Enrollment Date</span>
+                        </div>
+                        <span className="font-medium">{formatDate(student.enrollmentDate)}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* System Information */}
+                <Card className="border-gray-200 dark:border-gray-700 shadow-sm bg-gray-50 dark:bg-gray-800">
+                  <CardContent className="pt-6">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-primary" />
+                      System Information
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <span className="text-muted-foreground">Created At</span>
+                        <span className="font-medium">{formatDate(student.createdAt)}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <span className="text-muted-foreground">Last Updated</span>
+                        <span className="font-medium">{formatDate(student.updatedAt)}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+              </div>
+
+            </div>
           </div>
         ) : (
           <div className="text-center py-8">Student not found</div>
