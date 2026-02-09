@@ -45,15 +45,19 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
                 />
                 <div>
                   <div className="font-medium">
-                    {student.firstName} {student.lastName}
+                    <b>{student.firstName} {student.lastName}</b>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {student.email}
+                    <span className="text-gray-500">{student.email}</span>
                   </div>
                 </div>
               </div>
             </TableCell>
-            <TableCell>{student.registrationNumber}</TableCell>
+            <TableCell>
+              <span className="font-mono text-sm font-semibold text-indigo-600 px-3 py-1 rounded-md">
+                {student.registrationNumber}
+              </span>
+            </TableCell>
             <TableCell>{formatDate(student.birthDate)}</TableCell>
             <TableCell>
               {student.classRoomName || (
@@ -67,22 +71,24 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
             </TableCell>
             <TableCell>{formatDate(student.enrollmentDate)}</TableCell>
             <TableCell className="text-right">
-              <div className="flex justify-end gap-1">
+              <div className="flex justify-end gap-1.5">
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onView(student.id)}
                   title="View Details"
+                  className="h-9 w-9 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 group/btn"
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => window.location.href = `mailto:${student.email}`}
                   title="Send Email"
+                  className="h-9 w-9 rounded-lg hover:bg-purple-100 hover:text-purple-700 transition-all duration-200 group/btn"
                 >
-                  <Mail className="h-4 w-4" />
+                  <Mail className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
                 {student.phoneNumber && (
                   <Button
@@ -90,8 +96,9 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
                     size="icon"
                     onClick={() => window.location.href = `tel:${student.phoneNumber}`}
                     title="Call"
+                    className="h-9 w-9 rounded-lg hover:bg-emerald-100 hover:text-emerald-700 transition-all duration-200 group/btn"
                   >
-                    <Phone className="h-4 w-4" />
+                    <Phone className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                   </Button>
                 )}
                 <Button
@@ -99,16 +106,18 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
                   size="icon"
                   onClick={() => onEdit(student)}
                   title="Edit"
+                  className="h-9 w-9 rounded-lg hover:bg-amber-100 hover:text-amber-700 transition-all duration-200 group/btn"
                 >
-                  <Edit className="h-4 w-4" />
+                  <Edit className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onDelete(student.id, `${student.firstName} ${student.lastName}`)}
                   title="Delete"
+                  className="h-9 w-9 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200 group/btn"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4.5 w-4.5 group-hover/btn:scale-110 transition-transform" />
                 </Button>
               </div>
             </TableCell>
