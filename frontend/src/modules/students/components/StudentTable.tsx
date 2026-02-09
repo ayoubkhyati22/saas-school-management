@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { AvatarImage } from '@/components/ui/avatar-image'
 import { formatDate } from '@/lib/utils'
 import type { Student } from '@/types'
+import { User, Hash, Calendar, GraduationCap, CheckCircle, CalendarClock, Settings } from 'lucide-react'
 
 interface StudentTableProps {
   students: Student[]
@@ -18,13 +19,48 @@ export default function StudentTable({ students, onView, onEdit, onDelete }: Stu
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Student</TableHead>
-          <TableHead>Registration #</TableHead>
-          <TableHead>Birth Date</TableHead>
-          <TableHead>Class</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Enrollment</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              Student
+            </div>
+          </TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <Hash className="h-4 w-4" />
+              Registration #
+            </div>
+          </TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Birth Date
+            </div>
+          </TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4" />
+              Class
+            </div>
+          </TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Status
+            </div>
+          </TableHead>
+          <TableHead>
+            <div className="flex items-center gap-2">
+              <CalendarClock className="h-4 w-4" />
+              Enrollment
+            </div>
+          </TableHead>
+          <TableHead className="text-right">
+            <div className="flex items-center justify-end gap-2">
+              <Settings className="h-4 w-4" />
+              Actions
+            </div>
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

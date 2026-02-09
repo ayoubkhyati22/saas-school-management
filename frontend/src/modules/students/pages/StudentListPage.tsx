@@ -16,7 +16,6 @@ import StudentSearchBar from '../components/StudentSearchBar'
 import StudentTable from '../components/StudentTable'
 import StudentCard from '../components/StudentCard'
 import StudentPagination from '../components/StudentPagination'
-import { IfElse } from '../components/logic/IfElse'
 
 export default function StudentListPage() {
   const [page, setPage] = useState(0)
@@ -110,11 +109,7 @@ export default function StudentListPage() {
           >
             <Download className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">
-              {/* {isExporting ? 'Exporting...' : 'Export'} */}
-              <IfElse condition={isExporting}>
-                <span>Exporting...</span>
-                <span>Export</span>
-              </IfElse>
+              {isExporting ? 'Exporting...' : 'Export'}
             </span>
           </Button>
 
@@ -146,10 +141,12 @@ export default function StudentListPage() {
           <TabsTrigger
             value="list"
             className="flex items-center gap-2 rounded-lg transition-all
-           data-[state=active]:bg-blue-600
-           data-[state=active]:text-white
-            data-[state=active]:shadow-md
-          hover:bg-blue-100"
+    data-[state=active]:bg-blue-600
+    data-[state=active]:text-white
+    data-[state=active]:shadow-md
+    data-[state=active]:border-2
+    data-[state=active]:border-black
+    hover:bg-blue-100"
           >
             <Users className="h-4 w-4" />
             Student List
@@ -159,10 +156,12 @@ export default function StudentListPage() {
           <TabsTrigger
             value="statistics"
             className="flex items-center gap-2 rounded-lg transition-all
-      data-[state=active]:bg-blue-600
-      data-[state=active]:text-white
-      data-[state=active]:shadow-md
-      hover:bg-blue-100"
+    data-[state=active]:bg-blue-600
+    data-[state=active]:text-white
+    data-[state=active]:shadow-md
+    data-[state=active]:border-2
+    data-[state=active]:border-black
+    hover:bg-blue-100"
           >
             <BarChart3 className="h-4 w-4" />
             Statistics
