@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
+import ConfirmationDialog from '@/components/ui/confirmation-dialog'
 import { studentService } from '../api/student.service'
 import { queryClient } from '@/lib/queryClient'
 import type { Student } from '@/types'
@@ -27,6 +28,7 @@ export default function StudentListPage() {
   const [isSearching, setIsSearching] = useState(false)
   const [activeTab, setActiveTab] = useState('list')
   const [isExporting, setIsExporting] = useState(false)
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{ id: string; name: string } | null>(null)
   const pageSize = 10
 
   const { data, isLoading } = useQuery({
@@ -48,9 +50,11 @@ export default function StudentListPage() {
       queryClient.invalidateQueries({ queryKey: ['students'] })
       queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
       toast.success('Student deleted successfully', { position: 'bottom-right' })
+      setDeleteConfirmation(null)
     },
     onError: () => {
       toast.error('Failed to delete student', { position: 'bottom-right' })
+      setDeleteConfirmation(null)
     },
   })
 
@@ -59,8 +63,12 @@ export default function StudentListPage() {
   const currentPage = data?.number ?? 0
 
   const handleDelete = (id: string, name: string) => {
-    if (confirm(`Are you sure you want to delete ${name}? This will mark the student as withdrawn.`)) {
-      deleteMutation.mutate(id)
+    setDeleteConfirmation({ id, name })
+  }
+
+  const confirmDelete = () => {
+    if (deleteConfirmation) {
+      deleteMutation.mutate(deleteConfirmation.id)
     }
   }
 
@@ -278,6 +286,18 @@ export default function StudentListPage() {
           studentId={viewingStudentId}
         />
       )}
+
+      <ConfirmationDialog
+        open={!!deleteConfirmation}
+        onClose={() => setDeleteConfirmation(null)}
+        onConfirm={confirmDelete}
+        title="Delete Student"
+        description="Are you sure you want to delete this student? This will mark the student as withdrawn and cannot be undone."
+        itemName={deleteConfirmation?.name}
+        confirmText="Delete Student"
+        variant="danger"
+        isLoading={deleteMutation.isPending}
+      />
     </div>
   )
 }
