@@ -77,12 +77,12 @@ export default function IssueFormDialog({ open, onClose, issue }: IssueFormDialo
     mutationFn: issueService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issues'] })
-      toast.success('Issue created successfully')
+      toast.success('Issue created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create issue')
+      toast.error('Failed to create issue', { position: 'bottom-right' })
     },
   })
 
@@ -91,12 +91,12 @@ export default function IssueFormDialog({ open, onClose, issue }: IssueFormDialo
       issueService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issues'] })
-      toast.success('Issue updated successfully')
+      toast.success('Issue updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update issue')
+      toast.error('Failed to update issue', { position: 'bottom-right' })
     },
   })
 

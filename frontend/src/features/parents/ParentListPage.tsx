@@ -24,10 +24,10 @@ export default function ParentListPage() {
     mutationFn: parentService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parents'] })
-      toast.success('Parent deleted successfully')
+      toast.success('Parent deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete parent')
+      toast.error('Failed to delete parent', { position: 'bottom-right' })
     },
   })
 

@@ -24,10 +24,10 @@ export default function CourseListPage() {
     mutationFn: courseService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] })
-      toast.success('Course deleted successfully')
+      toast.success('Course deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete course')
+      toast.error('Failed to delete course', { position: 'bottom-right' })
     },
   })
 

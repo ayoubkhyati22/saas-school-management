@@ -62,12 +62,12 @@ export default function AbsenceFormDialog({ open, onClose }: AbsenceFormDialogPr
     mutationFn: absenceService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['absences'] })
-      toast.success('Absence recorded successfully')
+      toast.success('Absence recorded successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to record absence')
+      toast.error('Failed to record absence', { position: 'bottom-right' })
     },
   })
 

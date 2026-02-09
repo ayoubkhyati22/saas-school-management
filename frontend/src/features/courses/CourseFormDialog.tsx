@@ -78,12 +78,12 @@ export default function CourseFormDialog({ open, onClose, course }: CourseFormDi
     mutationFn: courseService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] })
-      toast.success('Course created successfully')
+      toast.success('Course created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create course')
+      toast.error('Failed to create course', { position: 'bottom-right' })
     },
   })
 
@@ -92,12 +92,12 @@ export default function CourseFormDialog({ open, onClose, course }: CourseFormDi
       courseService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['courses'] })
-      toast.success('Course updated successfully')
+      toast.success('Course updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update course')
+      toast.error('Failed to update course', { position: 'bottom-right' })
     },
   })
 

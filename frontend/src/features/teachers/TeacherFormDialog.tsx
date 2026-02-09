@@ -88,12 +88,12 @@ export default function TeacherFormDialog({ open, onClose, teacher }: TeacherFor
     mutationFn: teacherService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['teachers'] })
-      toast.success('Teacher created successfully')
+      toast.success('Teacher created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create teacher')
+      toast.error('Failed to create teacher', { position: 'bottom-right' })
     },
   })
 
@@ -102,12 +102,12 @@ export default function TeacherFormDialog({ open, onClose, teacher }: TeacherFor
       teacherService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['teachers'] })
-      toast.success('Teacher updated successfully')
+      toast.success('Teacher updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update teacher')
+      toast.error('Failed to update teacher', { position: 'bottom-right' })
     },
   })
 

@@ -69,10 +69,29 @@ const navigationItems = {
 
 export default function Sidebar() {
   const user = useAuthStore((state) => state.user)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const { isCollapsed, toggle } = useSidebarStore()
-  console.log('Sidebar - User object:', user)
-
-  const navItems = user?.role ? navigationItems[user.role] || [] : []
+  
+  // Debug logs
+  console.log('=== SIDEBAR DEBUG ===')
+  console.log('User object:', user)
+  console.log('User role:', user?.role)
+  console.log('Is authenticated:', isAuthenticated)
+  console.log('Available roles:', Object.keys(navigationItems))
+  
+  // Get navigation items, with fallback to SCHOOL_ADMIN if role is missing
+  let navItems: typeof navigationItems[keyof typeof navigationItems] = []
+  
+  if (user?.role && navigationItems[user.role]) {
+    navItems = navigationItems[user.role]
+    console.log('Using role:', user.role, 'Items count:', navItems.length)
+  } else {
+    console.warn('No valid role found, using SCHOOL_ADMIN as fallback')
+    navItems = navigationItems[Role.SCHOOL_ADMIN]
+  }
+  
+  console.log('Final nav items:', navItems)
+  console.log('==================')
 
   return (
     <aside
@@ -81,6 +100,7 @@ export default function Sidebar() {
       }`}
     >
       <div className="flex h-full flex-col">
+        {/* Header */}
         <div className="flex h-16 items-center justify-between border-b px-4">
           {!isCollapsed && (
             <h1 className="text-xl font-bold text-foreground">
@@ -101,39 +121,50 @@ export default function Sidebar() {
           </Button>
         </div>
 
+        {/* Navigation */}
         <nav className="flex-1 space-y-1 p-2 overflow-y-auto">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                } ${isCollapsed ? 'justify-center' : ''}`
-              }
-              title={isCollapsed ? item.label : undefined}
-            >
-              <item.icon className="h-5 w-5 shrink-0" />
-              {!isCollapsed && <span>{item.label}</span>}
-            </NavLink>
-          ))}
+          {navItems.length === 0 ? (
+            <div className="p-4 text-center text-sm text-muted-foreground">
+              No menu items available
+            </div>
+          ) : (
+            navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  } ${isCollapsed ? 'justify-center' : ''}`
+                }
+                title={isCollapsed ? item.label : undefined}
+              >
+                <item.icon className="h-5 w-5 shrink-0" />
+                {!isCollapsed && <span>{item.label}</span>}
+              </NavLink>
+            ))
+          )}
         </nav>
 
-        {!isCollapsed && user && user.firstName && user.lastName && (
+        {/* User Profile */}
+        {!isCollapsed && user && (
           <div className="border-t p-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
-                {user.firstName[0]?.toUpperCase()}
-                {user.lastName[0]?.toUpperCase()}
+                {user.firstName?.[0]?.toUpperCase() || 'U'}
+                {user.lastName?.[0]?.toUpperCase() || 'U'}
               </div>
               <div className="flex-1 overflow-hidden">
                 <p className="text-sm font-medium truncate">
-                  {user.firstName} {user.lastName}
+                  {user.firstName && user.lastName 
+                    ? `${user.firstName} ${user.lastName}`
+                    : user.email || 'User'
+                  }
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {user.role.replace(/_/g, ' ')}
+                  {user.role?.replace(/_/g, ' ') || 'No role'}
                 </p>
               </div>
             </div>

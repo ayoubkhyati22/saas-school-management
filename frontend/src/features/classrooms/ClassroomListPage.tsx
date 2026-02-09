@@ -25,10 +25,10 @@ export default function ClassroomListPage() {
     mutationFn: classroomService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] })
-      toast.success('Classroom deleted successfully')
+      toast.success('Classroom deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete classroom')
+      toast.error('Failed to delete classroom', { position: 'bottom-right' })
     },
   })
 

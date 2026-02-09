@@ -26,10 +26,10 @@ export default function IssueListPage() {
     mutationFn: issueService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issues'] })
-      toast.success('Issue deleted successfully')
+      toast.success('Issue deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete issue')
+      toast.error('Failed to delete issue', { position: 'bottom-right' })
     },
   })
 
@@ -37,7 +37,7 @@ export default function IssueListPage() {
     mutationFn: issueService.resolve,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issues'] })
-      toast.success('Issue marked as resolved')
+      toast.success('Issue marked as resolved', { position: 'bottom-right' })
     },
   })
 

@@ -47,10 +47,10 @@ export default function StudentListPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
       queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
-      toast.success('Student deleted successfully')
+      toast.success('Student deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete student')
+      toast.error('Failed to delete student', { position: 'bottom-right' })
     },
   })
 
@@ -83,9 +83,9 @@ export default function StudentListPage() {
     try {
       setIsExporting(true)
       await studentService.exportToCSV()
-      toast.success('Students exported successfully')
+      toast.success('Students exported successfully', { position: 'bottom-right' })
     } catch (error) {
-      toast.error('Failed to export students')
+      toast.error('Failed to export students', { position: 'bottom-right' })
     } finally {
       setIsExporting(false)
     }

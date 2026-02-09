@@ -74,12 +74,12 @@ export default function ClassroomFormDialog({ open, onClose, classroom }: Classr
     mutationFn: classroomService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] })
-      toast.success('Classroom created successfully')
+      toast.success('Classroom created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create classroom')
+      toast.error('Failed to create classroom', { position: 'bottom-right' })
     },
   })
 
@@ -88,12 +88,12 @@ export default function ClassroomFormDialog({ open, onClose, classroom }: Classr
       classroomService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['classrooms'] })
-      toast.success('Classroom updated successfully')
+      toast.success('Classroom updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update classroom')
+      toast.error('Failed to update classroom', { position: 'bottom-right' })
     },
   })
 

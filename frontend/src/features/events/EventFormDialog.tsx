@@ -86,12 +86,12 @@ export default function EventFormDialog({ open, onClose, event }: EventFormDialo
     mutationFn: eventService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] })
-      toast.success('Event created successfully')
+      toast.success('Event created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create event')
+      toast.error('Failed to create event', { position: 'bottom-right' })
     },
   })
 
@@ -100,12 +100,12 @@ export default function EventFormDialog({ open, onClose, event }: EventFormDialo
       eventService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] })
-      toast.success('Event updated successfully')
+      toast.success('Event updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update event')
+      toast.error('Failed to update event', { position: 'bottom-right' })
     },
   })
 

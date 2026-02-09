@@ -25,10 +25,10 @@ export default function DocumentListPage() {
     mutationFn: documentService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] })
-      toast.success('Document deleted successfully')
+      toast.success('Document deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete document')
+      toast.error('Failed to delete document', { position: 'bottom-right' })
     },
   })
 
@@ -49,9 +49,9 @@ export default function DocumentListPage() {
       a.click()
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
-      toast.success('Download started')
+      toast.success('Download started', { position: 'bottom-right' })
     } catch (error) {
-      toast.error('Failed to download document')
+      toast.error('Failed to download document', { position: 'bottom-right' })
     }
   }
 

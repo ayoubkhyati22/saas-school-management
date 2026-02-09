@@ -25,10 +25,10 @@ export default function AbsenceListPage() {
     mutationFn: absenceService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['absences'] })
-      toast.success('Absence deleted successfully')
+      toast.success('Absence deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete absence')
+      toast.error('Failed to delete absence', { position: 'bottom-right' })
     },
   })
 

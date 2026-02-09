@@ -13,6 +13,12 @@ export default function Topbar() {
   const setTheme = useThemeStore((state) => state.setTheme)
   const unreadCount = useNotificationStore((state) => state.unreadCount)
 
+  // Debug log
+  console.log('=== TOPBAR DEBUG ===')
+  console.log('User in topbar:', user)
+  console.log('User firstName:', user?.firstName)
+  console.log('==================')
+
   const handleLogout = () => {
     clearAuth()
     navigate('/login')
@@ -22,12 +28,15 @@ export default function Topbar() {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
+  // Get display name with fallback
+  const displayName = user?.firstName || user?.email?.split('@')[0] || 'User'
+
   return (
     <header className="sticky top-0 z-30 h-16 border-b bg-card">
       <div className="flex h-full items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-4">
           <h2 className="text-lg font-semibold">
-            Welcome, {user?.firstName}!
+            Welcome, {displayName}!
           </h2>
         </div>
 

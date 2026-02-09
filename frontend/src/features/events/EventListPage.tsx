@@ -26,10 +26,10 @@ export default function EventListPage() {
     mutationFn: eventService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['events'] })
-      toast.success('Event deleted successfully')
+      toast.success('Event deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete event')
+      toast.error('Failed to delete event', { position: 'bottom-right' })
     },
   })
 

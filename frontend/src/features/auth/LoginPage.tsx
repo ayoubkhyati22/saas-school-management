@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { authService } from '@/api/auth.service'
 import { useAuthStore } from '@/store/auth.store'
+import { Shield, GraduationCap } from 'lucide-react'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -27,6 +28,7 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
@@ -35,19 +37,33 @@ export default function LoginPage() {
     setIsLoading(true)
     try {
       const response = await authService.login(data)
-      console.log('Login successful:', response)
-      console.log('Login response:', response)
-      console.log('User object:', response.user)
-      console.log('Access token:', response.accessToken)
-      setAuth(response.user, response.accessToken, response.refreshToken)
-      toast.success('Login successful!')
+      setAuth(response, response.accessToken, response.refreshToken)
+      toast.success('Login successful!', { position: 'bottom-right' })
       navigate('/dashboard')
     } catch (error) {
       console.error('Login error:', error)
-      toast.error('Login failed. Please check your credentials.')
+      toast.error('Login failed. Please check your credentials.', { position: 'bottom-right' })
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleQuickLogin = async (role: 'super' | 'school') => {
+    const credentials = {
+      super: {
+        email: 'admin@schoolsaas.com',
+        password: 'SuperAdmin@123',
+      },
+      school: {
+        email: 'admin@greenvalley.edu',
+        password: 'SchoolAdmin@123',
+      },
+    }
+
+    setValue('email', credentials[role].email)
+    setValue('password', credentials[role].password)
+    
+    await onSubmit(credentials[role])
   }
 
   return (
@@ -92,13 +108,43 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm">
-            <p className="text-muted-foreground">
-              Demo Credentials:
-              <br />
-              Super Admin: admin@schoolsaas.com / SuperAdmin@123
-              <br />
-              School Admin: admin@greenvalley.edu / SchoolAdmin@123
+          <div className="mt-6 space-y-3">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Quick Demo Access
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleQuickLogin('super')}
+                disabled={isLoading}
+                className="w-full"
+              >
+                <Shield className="mr-2 h-4 w-4" />
+                Super Admin
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleQuickLogin('school')}
+                disabled={isLoading}
+                className="w-full"
+              >
+                <GraduationCap className="mr-2 h-4 w-4" />
+                School Admin
+              </Button>
+            </div>
+
+            <p className="text-xs text-center text-muted-foreground mt-4">
+              Click the buttons above to instantly log in with demo credentials
             </p>
           </div>
         </CardContent>

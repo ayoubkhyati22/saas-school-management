@@ -83,12 +83,12 @@ export default function PaymentFormDialog({ open, onClose, payment }: PaymentFor
     mutationFn: paymentService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] })
-      toast.success('Payment created successfully')
+      toast.success('Payment created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create payment')
+      toast.error('Failed to create payment', { position: 'bottom-right' })
     },
   })
 
@@ -97,12 +97,12 @@ export default function PaymentFormDialog({ open, onClose, payment }: PaymentFor
       paymentService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] })
-      toast.success('Payment updated successfully')
+      toast.success('Payment updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update payment')
+      toast.error('Failed to update payment', { position: 'bottom-right' })
     },
   })
 

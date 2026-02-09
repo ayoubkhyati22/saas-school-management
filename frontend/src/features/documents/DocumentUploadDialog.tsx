@@ -54,19 +54,19 @@ export default function DocumentUploadDialog({ open, onClose }: DocumentUploadDi
       documentService.upload(file, data.entityType, data.entityId, data.description),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['documents'] })
-      toast.success('Document uploaded successfully')
+      toast.success('Document uploaded successfully', { position: 'bottom-right' })
       onClose()
       reset()
       setFile(null)
     },
     onError: () => {
-      toast.error('Failed to upload document')
+      toast.error('Failed to upload document', { position: 'bottom-right' })
     },
   })
 
   const onSubmit = (data: UploadFormData) => {
     if (!file) {
-      toast.error('Please select a file')
+      toast.error('Please select a file', { position: 'bottom-right' })
       return
     }
     uploadMutation.mutate({ ...data, file })

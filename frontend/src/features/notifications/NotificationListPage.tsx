@@ -21,7 +21,7 @@ export default function NotificationListPage() {
     mutationFn: notificationService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] })
-      toast.success('Notification deleted')
+      toast.success('Notification deleted', { position: 'bottom-right' })
     },
   })
 
@@ -29,7 +29,7 @@ export default function NotificationListPage() {
     mutationFn: notificationService.markAsRead,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] })
-      toast.success('Marked as read')
+      toast.success('Marked as read', { position: 'bottom-right' })
     },
   })
 
@@ -37,7 +37,7 @@ export default function NotificationListPage() {
     mutationFn: notificationService.markAllAsRead,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notifications'] })
-      toast.success('All notifications marked as read')
+      toast.success('All notifications marked as read', { position: 'bottom-right' })
     },
   })
 

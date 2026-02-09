@@ -29,10 +29,10 @@ export default function TeacherListPage() {
     mutationFn: teacherService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['teachers'] })
-      toast.success('Teacher deleted successfully')
+      toast.success('Teacher deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete teacher')
+      toast.error('Failed to delete teacher', { position: 'bottom-right' })
     },
   })
 

@@ -68,12 +68,12 @@ export default function ParentFormDialog({ open, onClose, parent }: ParentFormDi
     mutationFn: parentService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parents'] })
-      toast.success('Parent created successfully')
+      toast.success('Parent created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create parent')
+      toast.error('Failed to create parent', { position: 'bottom-right' })
     },
   })
 
@@ -82,12 +82,12 @@ export default function ParentFormDialog({ open, onClose, parent }: ParentFormDi
       parentService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['parents'] })
-      toast.success('Parent updated successfully')
+      toast.success('Parent updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update parent')
+      toast.error('Failed to update parent', { position: 'bottom-right' })
     },
   })
 

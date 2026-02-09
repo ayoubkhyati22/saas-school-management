@@ -107,13 +107,13 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
       queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
-      toast.success('Student created successfully')
+      toast.success('Student created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.message || 'Failed to create student'
-      toast.error(errorMessage)
+      toast.error(errorMessage, { position: 'bottom-right' })
     },
   })
 
@@ -123,7 +123,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
       queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
-      toast.success('Student updated successfully')
+      toast.success('Student updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
@@ -153,9 +153,9 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
               await studentService.uploadAvatar(student.id, avatarFile)
               queryClient.invalidateQueries({ queryKey: ['students'] })
               queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
-              toast.success('Student and avatar updated successfully')
+              toast.success('Student and avatar updated successfully', { position: 'bottom-right' })
             } catch (error) {
-              toast.error('Student updated but avatar upload failed')
+              toast.error('Student updated but avatar upload failed', { position: 'bottom-right' })
             }
           }
         }
@@ -181,9 +181,9 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
               await studentService.uploadAvatar(newStudent.id, avatarFile)
               queryClient.invalidateQueries({ queryKey: ['students'] })
               queryClient.invalidateQueries({ queryKey: ['student-statistics'] })
-              toast.success('Student and avatar created successfully')
+              toast.success('Student and avatar created successfully', { position: 'bottom-right' })
             } catch (error) {
-              toast.error('Student created but avatar upload failed')
+              toast.error('Student created but avatar upload failed', { position: 'bottom-right' })
             }
           }
         }
