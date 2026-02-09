@@ -2,19 +2,24 @@ import { Bell, Moon, Sun, LogOut, User } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
-import { useTheme } from '@/contexts/ThemeContext'
+import { useThemeStore } from '@/store/theme.store'
 import { useNotificationStore } from '@/store/notification.store'
 
 export default function Topbar() {
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.user)
   const clearAuth = useAuthStore((state) => state.clearAuth)
-  const { theme, toggleTheme } = useTheme()
+  const theme = useThemeStore((state) => state.theme)
+  const setTheme = useThemeStore((state) => state.setTheme)
   const unreadCount = useNotificationStore((state) => state.unreadCount)
 
   const handleLogout = () => {
     clearAuth()
     navigate('/login')
+  }
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
   return (
