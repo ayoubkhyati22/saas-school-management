@@ -1,7 +1,6 @@
 import { User, Mail, Phone, Calendar } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import type { UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 
 interface PersonalInfoSectionProps {
@@ -97,23 +96,30 @@ export default function PersonalInfoSection({ register, errors, setValue, watch,
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="gender" className="flex items-center gap-2">
+          <Label className="flex items-center gap-2">
             <User className="h-3.5 w-3.5 text-muted-foreground" />
             Gender *
           </Label>
-          <Select
-            onValueChange={(value) => setValue('gender', value as any)}
-            value={watch('gender')}
-          >
-            <SelectTrigger className="bg-white dark:bg-gray-900">
-              <SelectValue placeholder="Select gender" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="MALE">Male</SelectItem>
-              <SelectItem value="FEMALE">Female</SelectItem>
-              <SelectItem value="OTHER">Other</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-6 pt-2">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                value="MALE"
+                {...register('gender')}
+                className="h-4 w-4 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Male</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                value="FEMALE"
+                {...register('gender')}
+                className="h-4 w-4 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Female</span>
+            </label>
+          </div>
           {errors.gender && (
             <p className="text-sm text-red-600 font-medium">{errors.gender.message as string}</p>
           )}

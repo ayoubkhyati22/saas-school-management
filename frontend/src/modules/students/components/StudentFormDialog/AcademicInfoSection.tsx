@@ -67,13 +67,22 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
             onValueChange={(value) => setValue('classRoomId', value === 'none' ? '' : value)}
             value={watch('classRoomId') || 'none'}
           >
-            <SelectTrigger className="bg-white dark:bg-gray-900">
+            <SelectTrigger className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600">
               <SelectValue placeholder="Select classroom" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">No Classroom</SelectItem>
+            <SelectContent className="bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700">
+              <SelectItem 
+                value="none" 
+                className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+              >
+                No Classroom
+              </SelectItem>
               {classrooms?.map((classroom: any) => (
-                <SelectItem key={classroom.id} value={classroom.id}>
+                <SelectItem 
+                  key={classroom.id} 
+                  value={classroom.id}
+                  className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+                >
                   {classroom.name} - {classroom.level} {classroom.section}
                 </SelectItem>
               ))}
@@ -91,14 +100,34 @@ export default function AcademicInfoSection({ register, errors, setValue, watch,
               onValueChange={(value) => setValue('status', value as any)}
               value={watch('status')}
             >
-              <SelectTrigger className="bg-white dark:bg-gray-900">
+              <SelectTrigger className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ACTIVE">Active</SelectItem>
-                <SelectItem value="INACTIVE">Inactive</SelectItem>
-                <SelectItem value="GRADUATED">Graduated</SelectItem>
-                <SelectItem value="WITHDRAWN">Withdrawn</SelectItem>
+              <SelectContent className="bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700">
+                <SelectItem 
+                  value="ACTIVE"
+                  className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+                >
+                  Active
+                </SelectItem>
+                <SelectItem 
+                  value="INACTIVE"
+                  className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+                >
+                  Inactive
+                </SelectItem>
+                <SelectItem 
+                  value="GRADUATED"
+                  className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+                >
+                  Graduated
+                </SelectItem>
+                <SelectItem 
+                  value="WITHDRAWN"
+                  className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800"
+                >
+                  Withdrawn
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
