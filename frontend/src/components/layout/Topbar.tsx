@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, LogOut, User } from 'lucide-react'
+import { Bell, Moon, Sun, LogOut, User, Settings } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/store/auth.store'
@@ -54,6 +54,21 @@ export default function Topbar() {
               <Moon className="h-5 w-5" />
             )}
           </Button> */}
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative text-slate-900 hover:bg-slate-800 hover:text-white transition"
+            title="Settings"
+
+          >
+            <Settings className="h-5 w-5" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
+                {unreadCount}
+              </span>
+            )}
+          </Button>
 
           <Button
             variant="ghost"

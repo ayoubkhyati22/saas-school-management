@@ -15,6 +15,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Award,
+  Bus,
+  Clock,
+  FileCheck,
+  StickyNote,
+  Settings,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
 import { useSidebarStore } from '@/store/sidebar.store'
@@ -39,9 +44,14 @@ const navigationItems = {
     { icon: BookOpen, label: 'Courses', path: '/courses' },
     { icon: Calendar, label: 'Events', path: '/events' },
     { icon: UserX, label: 'Absences', path: '/absences' },
+    { icon: Bus, label: 'Transports', path: '/transports' },
+    { icon: Clock, label: 'Times', path: '/times' },
+    { icon: FileCheck, label: 'Exams', path: '/exams' },
+    { icon: StickyNote, label: 'Notes', path: '/notes' },
     { icon: CreditCard, label: 'Payments', path: '/payments' },
     { icon: Bell, label: 'Notifications', path: '/notifications' },
     { icon: FileText, label: 'Documents', path: '/documents' },
+    { icon: Settings, label: 'Referentiels', path: '/referentiels' },
   ],
   [Role.TEACHER]: [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
