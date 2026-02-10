@@ -63,7 +63,7 @@ apiClient.interceptors.response.use(
       'An unexpected error occurred'
 
     if (error.response?.status !== 401) {
-      toast.error(errorMessage)
+      toast.error(errorMessage, { position: 'bottom-right' })
     }
 
     return Promise.reject(error)
