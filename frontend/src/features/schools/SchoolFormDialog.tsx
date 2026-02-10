@@ -71,12 +71,12 @@ export default function SchoolFormDialog({ open, onClose, school }: SchoolFormDi
     mutationFn: schoolService.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schools'] })
-      toast.success('School created successfully')
+      toast.success('School created successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to create school')
+      toast.error('Failed to create school', { position: 'bottom-right' })
     },
   })
 
@@ -85,12 +85,12 @@ export default function SchoolFormDialog({ open, onClose, school }: SchoolFormDi
       schoolService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schools'] })
-      toast.success('School updated successfully')
+      toast.success('School updated successfully', { position: 'bottom-right' })
       onClose()
       reset()
     },
     onError: () => {
-      toast.error('Failed to update school')
+      toast.error('Failed to update school', { position: 'bottom-right' })
     },
   })
 

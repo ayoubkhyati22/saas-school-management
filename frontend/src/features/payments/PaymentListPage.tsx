@@ -26,10 +26,10 @@ export default function PaymentListPage() {
     mutationFn: paymentService.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] })
-      toast.success('Payment deleted successfully')
+      toast.success('Payment deleted successfully', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to delete payment')
+      toast.error('Failed to delete payment', { position: 'bottom-right' })
     },
   })
 
@@ -38,10 +38,10 @@ export default function PaymentListPage() {
       paymentService.markAsPaid(id, method),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['payments'] })
-      toast.success('Payment marked as paid')
+      toast.success('Payment marked as paid', { position: 'bottom-right' })
     },
     onError: () => {
-      toast.error('Failed to mark payment as paid')
+      toast.error('Failed to mark payment as paid', { position: 'bottom-right' })
     },
   })
 

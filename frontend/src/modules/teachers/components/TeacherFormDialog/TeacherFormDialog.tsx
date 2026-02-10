@@ -124,7 +124,7 @@ export default function TeacherFormDialog({ open, onClose, teacher }: TeacherFor
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.message || 'Failed to update teacher'
-      toast.error(errorMessage)
+      toast.error(errorMessage, { position: 'bottom-right' })
     },
   })
 

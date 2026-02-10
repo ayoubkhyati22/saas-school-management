@@ -129,7 +129,7 @@ export default function StudentFormDialog({ open, onClose, student }: StudentFor
     },
     onError: (error: any) => {
       const errorMessage = error.response?.data?.message || 'Failed to update student'
-      toast.error(errorMessage)
+      toast.error(errorMessage, { position: 'bottom-right' })
     },
   })
 
