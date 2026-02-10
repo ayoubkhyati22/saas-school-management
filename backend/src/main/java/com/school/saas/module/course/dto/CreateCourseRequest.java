@@ -22,6 +22,8 @@ public class CreateCourseRequest {
     @NotNull(message = "Teacher ID is required")
     private UUID teacherId;
 
+    private UUID specialityId;
+
     @NotBlank(message = "Subject is required")
     @Size(max = 100, message = "Subject must not exceed 100 characters")
     private String subject;

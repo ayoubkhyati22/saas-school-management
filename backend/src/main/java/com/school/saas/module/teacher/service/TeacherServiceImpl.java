@@ -8,6 +8,8 @@ import com.school.saas.module.teacher.Teacher;
 import com.school.saas.module.teacher.dto.*;
 import com.school.saas.module.teacher.mapper.TeacherMapper;
 import com.school.saas.module.teacher.repository.TeacherRepository;
+import com.school.saas.module.speciality.Speciality;
+import com.school.saas.module.speciality.repository.SpecialityRepository;
 import com.school.saas.module.subscription.SubscriptionLimitService;
 import com.school.saas.module.user.User;
 import com.school.saas.module.user.UserRepository;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -31,6 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
+    private final SpecialityRepository specialityRepository;
     private final TeacherMapper teacherMapper;
     private final SubscriptionLimitService subscriptionLimitService;
     private final PasswordEncoder passwordEncoder;
@@ -54,6 +58,13 @@ public class TeacherServiceImpl implements TeacherService {
             throw new IllegalArgumentException("Email already exists");
         }
 
+        // Get speciality if provided
+        Speciality speciality = null;
+        if (request.getSpecialityId() != null) {
+            speciality = specialityRepository.findByIdAndSchoolId(request.getSpecialityId(), schoolId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Speciality not found"));
+        }
+
         // Create User account
         User user = User.builder()
                 .email(request.getEmail())
@@ -71,7 +82,7 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher teacher = Teacher.builder()
                 .user(user)
                 .schoolId(schoolId)
-                .speciality(request.getSpeciality())
+                .speciality(speciality)
                 .hireDate(request.getHireDate())
                 .employeeNumber(request.getEmployeeNumber())
                 .status(TeacherStatus.valueOf("ACTIVE"))
@@ -107,8 +118,10 @@ public class TeacherServiceImpl implements TeacherService {
         userRepository.save(user);
 
         // Update teacher fields
-        if (request.getSpeciality() != null) {
-            teacher.setSpeciality(request.getSpeciality());
+        if (request.getSpecialityId() != null) {
+            Speciality speciality = specialityRepository.findByIdAndSchoolId(request.getSpecialityId(), schoolId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Speciality not found"));
+            teacher.setSpeciality(speciality);
         }
         if (request.getStatus() != null) {
             teacher.setStatus(TeacherStatus.valueOf(request.getStatus()));
@@ -199,11 +212,19 @@ public class TeacherServiceImpl implements TeacherService {
         // Get teachers by speciality
         List<Teacher> allTeachers = teacherRepository.findBySchoolId(schoolId);
         Map<String, Long> teachersBySpeciality = allTeachers.stream()
-                .filter(t -> t.getSpeciality() != null && !t.getSpeciality().isEmpty())
+                .filter(t -> t.getSpeciality() != null)
                 .collect(Collectors.groupingBy(
-                        Teacher::getSpeciality,
+                        t -> t.getSpeciality().getName(),
                         Collectors.counting()
                 ));
+
+        // Add count for teachers without speciality
+        long noSpeciality = allTeachers.stream()
+                .filter(t -> t.getSpeciality() == null)
+                .count();
+        if (noSpeciality > 0) {
+            teachersBySpeciality.put("No Speciality", noSpeciality);
+        }
 
         return TeacherStatisticsDTO.builder()
                 .totalTeachers(totalTeachers)

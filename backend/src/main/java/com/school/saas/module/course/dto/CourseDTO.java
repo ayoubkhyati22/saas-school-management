@@ -19,6 +19,9 @@ public class CourseDTO {
     private String classRoomName;
     private UUID teacherId;
     private String teacherName;
+    private UUID specialityId;
+    private String specialityName;
+    private String specialityCode;
     private String subject;
     private String subjectCode;
     private String description;

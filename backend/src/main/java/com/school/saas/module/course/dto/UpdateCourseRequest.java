@@ -16,6 +16,8 @@ public class UpdateCourseRequest {
 
     private UUID teacherId;
 
+    private UUID specialityId;
+
     @Size(max = 100, message = "Subject must not exceed 100 characters")
     private String subject;
 

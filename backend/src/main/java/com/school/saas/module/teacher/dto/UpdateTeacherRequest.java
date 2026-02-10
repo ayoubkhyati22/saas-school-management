@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -23,8 +24,7 @@ public class UpdateTeacherRequest {
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number must be valid")
     private String phoneNumber;
 
-    @Size(max = 100, message = "Speciality must not exceed 100 characters")
-    private String speciality;
+    private UUID specialityId;
 
     @Pattern(regexp = "ACTIVE|INACTIVE|ON_LEAVE|TERMINATED", message = "Status must be ACTIVE, INACTIVE, ON_LEAVE, or TERMINATED")
     private String status;

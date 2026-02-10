@@ -43,6 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import com.school.saas.module.speciality.Speciality;
+import com.school.saas.module.speciality.repository.SpecialityRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -76,6 +78,7 @@ public class DataLoader {
     private final NotificationRepository notificationRepository;
     private final IssueRepository issueRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final SpecialityRepository specialityRepository;
 
     @PostConstruct
     @Transactional
@@ -109,8 +112,11 @@ public class DataLoader {
             List<User> schoolAdmins = createSchoolAdmins(schools);
             log.info("Created {} school admins", schoolAdmins.size());
 
+            List<Speciality> specialities = createSpecialities(schools);
+            log.info("Created {} specialities", specialities.size());
+
             // 6. Create Teachers
-            List<Teacher> teachers = createTeachers(schools);
+            List<Teacher> teachers = createTeachers(schools, specialities);
             log.info("Created {} teachers", teachers.size());
 
             // 7. Create Classrooms
@@ -130,7 +136,7 @@ public class DataLoader {
             log.info("Created {} parent-student relationships", parentStudents.size());
 
             // 11. Create Courses
-            List<Course> courses = createCourses(schools, classRooms, teachers);
+            List<Course> courses = createCourses(schools, classRooms, teachers, specialities);
             log.info("Created {} courses", courses.size());
 
             // 12. Create Absences
@@ -156,6 +162,8 @@ public class DataLoader {
             // 17. Create Chat Messages
             List<ChatMessage> chatMessages = createChatMessages(schools, courses, students, teachers);
             log.info("Created {} chat messages", chatMessages.size());
+
+
 
             log.info("Test data initialization completed successfully!");
             logSummary();
@@ -251,6 +259,43 @@ public class DataLoader {
         return plans;
     }
 
+    private List<Speciality> createSpecialities(List<School> schools) {
+        List<Speciality> specialities = new ArrayList<>();
+
+        // School 1 Specialities - Green Valley High School
+        specialities.add(createSpeciality(schools.get(0), "Mathematics", "MATH", "Mathematical sciences including algebra, geometry, and calculus"));
+        specialities.add(createSpeciality(schools.get(0), "Physics", "PHYS", "Physical sciences and mechanics"));
+        specialities.add(createSpeciality(schools.get(0), "Chemistry", "CHEM", "Chemical sciences and laboratory work"));
+        specialities.add(createSpeciality(schools.get(0), "Biology", "BIO", "Life sciences and natural studies"));
+        specialities.add(createSpeciality(schools.get(0), "English Literature", "ENG", "English language and literature studies"));
+        specialities.add(createSpeciality(schools.get(0), "History", "HIST", "Historical studies and social sciences"));
+        specialities.add(createSpeciality(schools.get(0), "Geography", "GEO", "Physical and human geography"));
+        specialities.add(createSpeciality(schools.get(0), "Computer Science", "CS", "Programming and information technology"));
+        specialities.add(createSpeciality(schools.get(0), "Physical Education", "PE", "Sports and physical activities"));
+        specialities.add(createSpeciality(schools.get(0), "Art", "ART", "Visual arts and creative expression"));
+
+        // School 2 Specialities - Sunshine Academy
+        specialities.add(createSpeciality(schools.get(1), "Mathematics", "MATH", "Mathematical sciences"));
+        specialities.add(createSpeciality(schools.get(1), "Science", "SCI", "General sciences"));
+        specialities.add(createSpeciality(schools.get(1), "English", "ENG", "English language studies"));
+        specialities.add(createSpeciality(schools.get(1), "Physical Education", "PE", "Sports and fitness"));
+        specialities.add(createSpeciality(schools.get(1), "Music", "MUS", "Music theory and practice"));
+
+        return specialities;
+    }
+
+    private Speciality createSpeciality(School school, String name, String code, String description) {
+        Speciality speciality = Speciality.builder()
+                .schoolId(school.getId())
+                .name(name)
+                .code(code)
+                .description(description)
+                .active(true)
+                .build();
+        return specialityRepository.save(speciality);
+    }
+
+
     private PlanFeature createPlanFeature(SubscriptionPlan plan, PlanFeatureType featureType) {
         return PlanFeature.builder()
                 .subscriptionPlan(plan)
@@ -343,28 +388,45 @@ public class DataLoader {
         return admins;
     }
 
-    private List<Teacher> createTeachers(List<School> schools) {
+    private List<Teacher> createTeachers(List<School> schools, List<Speciality> specialities) {
         List<Teacher> teachers = new ArrayList<>();
+
+        // Find specialities for school 1
+        Speciality mathSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("MATH"))
+                .findFirst().orElse(null);
+        Speciality engSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("ENG"))
+                .findFirst().orElse(null);
+        Speciality physSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("PHYS"))
+                .findFirst().orElse(null);
 
         // School 1 Teachers
         teachers.add(createTeacher(schools.get(0), "math.teacher@greenvalley.edu", "Robert", "Johnson",
-                "Mathematics", "EMP001"));
+                mathSpec, "EMP001"));
         teachers.add(createTeacher(schools.get(0), "english.teacher@greenvalley.edu", "Emily", "Williams",
-                "English Literature", "EMP002"));
+                engSpec, "EMP002"));
         teachers.add(createTeacher(schools.get(0), "science.teacher@greenvalley.edu", "David", "Brown",
-                "Physics", "EMP003"));
+                physSpec, "EMP003"));
+
+        // Find specialities for school 2
+        Speciality sciSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(1).getId()) && s.getCode().equals("SCI"))
+                .findFirst().orElse(null);
 
         // School 2 Teachers
         teachers.add(createTeacher(schools.get(1), "physics.teacher@sunshine.edu", "Michael", "Davis",
-                "Physics", "EMP001"));
+                physSpec, "EMP001"));
         teachers.add(createTeacher(schools.get(1), "chemistry.teacher@sunshine.edu", "Sarah", "Wilson",
-                "Chemistry", "EMP002"));
+                sciSpec, "EMP002"));
 
         return teachers;
     }
 
+
     private Teacher createTeacher(School school, String email, String firstName, String lastName,
-                                  String speciality, String employeeNumber) {
+                                  Speciality speciality, String employeeNumber) {
         User user = User.builder()
                 .schoolId(school.getId())
                 .email(email)
@@ -387,6 +449,7 @@ public class DataLoader {
                 .build();
         return teacherRepository.save(teacher);
     }
+
 
     private List<ClassRoom> createClassrooms(List<School> schools, List<Teacher> teachers) {
         List<ClassRoom> classRooms = new ArrayList<>();
@@ -767,32 +830,51 @@ public class DataLoader {
         return parentStudentRepository.save(ps);
     }
 
-    private List<Course> createCourses(List<School> schools, List<ClassRoom> classRooms, List<Teacher> teachers) {
+    private List<Course> createCourses(List<School> schools, List<ClassRoom> classRooms,
+                                       List<Teacher> teachers, List<Speciality> specialities) {
         List<Course> courses = new ArrayList<>();
+
+        // Find specialities for school 1
+        Speciality mathSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("MATH"))
+                .findFirst().orElse(null);
+        Speciality engSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("ENG"))
+                .findFirst().orElse(null);
+        Speciality physSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("PHYS"))
+                .findFirst().orElse(null);
 
         // School 1 Courses
         courses.add(createCourse(schools.get(0), classRooms.get(0), teachers.get(0),
-                "Algebra", "MATH101", "Mon/Wed 9:00-10:30", "FULL_YEAR"));
+                "Algebra", "MATH101", "Mon/Wed 9:00-10:30", "FULL_YEAR", mathSpec));
         courses.add(createCourse(schools.get(0), classRooms.get(1), teachers.get(1),
-                "English Literature", "ENG201", "Tue/Thu 10:00-11:30", "FULL_YEAR"));
+                "English Literature", "ENG201", "Tue/Thu 10:00-11:30", "FULL_YEAR", engSpec));
         courses.add(createCourse(schools.get(0), classRooms.get(2), teachers.get(2),
-                "Physics", "PHY301", "Mon/Wed/Fri 14:00-15:00", "FULL_YEAR"));
+                "Physics", "PHY301", "Mon/Wed/Fri 14:00-15:00", "FULL_YEAR", physSpec));
+
+        // Find specialities for school 2
+        Speciality sciSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(1).getId()) && s.getCode().equals("SCI"))
+                .findFirst().orElse(null);
 
         // School 2 Courses
         courses.add(createCourse(schools.get(1), classRooms.get(3), teachers.get(3),
-                "General Science", "SCI101", "Mon/Wed 9:00-10:30", "FULL_YEAR"));
+                "General Science", "SCI101", "Mon/Wed 9:00-10:30", "FULL_YEAR", sciSpec));
         courses.add(createCourse(schools.get(1), classRooms.get(4), teachers.get(4),
-                "Chemistry", "CHEM201", "Tue/Thu 11:00-12:00", "FULL_YEAR"));
+                "Chemistry", "CHEM201", "Tue/Thu 11:00-12:00", "FULL_YEAR", sciSpec));
 
         return courses;
     }
 
+
     private Course createCourse(School school, ClassRoom classRoom, Teacher teacher,
-                                String subject, String code, String schedule, String semester) {
+                                String subject, String code, String schedule, String semester, Speciality speciality) {
         Course course = Course.builder()
                 .schoolId(school.getId())
                 .classRoom(classRoom)
                 .teacher(teacher)
+                .speciality(speciality)
                 .subject(subject)
                 .subjectCode(code)
                 .schedule(schedule)

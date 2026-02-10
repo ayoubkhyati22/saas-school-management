@@ -4,6 +4,7 @@ import com.school.saas.common.BaseEntity;
 import com.school.saas.common.TeacherStatus;
 import com.school.saas.module.user.User;
 import com.school.saas.module.school.School;
+import com.school.saas.module.speciality.Speciality;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,7 +18,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "teachers", indexes = {
     @Index(name = "idx_teacher_school_id", columnList = "school_id"),
-    @Index(name = "idx_teacher_employee_number", columnList = "employee_number")
+    @Index(name = "idx_teacher_employee_number", columnList = "employee_number"),
+    @Index(name = "idx_teacher_speciality_id", columnList = "speciality_id")
 })
 @Getter
 @Setter
@@ -37,8 +39,9 @@ public class Teacher extends BaseEntity {
     @JoinColumn(name = "school_id", nullable = false)
     private School school;
 
-    @Column(name = "speciality", length = 100)
-    private String speciality;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "speciality_id")
+    private Speciality speciality;
 
     @Column(name = "hire_date", nullable = false)
     private LocalDate hireDate;

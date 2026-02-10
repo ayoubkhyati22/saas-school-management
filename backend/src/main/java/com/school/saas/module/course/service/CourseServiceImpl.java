@@ -11,6 +11,8 @@ import com.school.saas.module.course.mapper.CourseMapper;
 import com.school.saas.module.course.mapper.CourseMaterialMapper;
 import com.school.saas.module.course.repository.CourseMaterialRepository;
 import com.school.saas.module.course.repository.CourseRepository;
+import com.school.saas.module.speciality.Speciality;
+import com.school.saas.module.speciality.repository.SpecialityRepository;
 import com.school.saas.module.subscription.SubscriptionLimitService;
 import com.school.saas.module.teacher.Teacher;
 import com.school.saas.module.teacher.repository.TeacherRepository;
@@ -46,6 +48,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMaterialRepository courseMaterialRepository;
     private final ClassRoomRepository classRoomRepository;
     private final TeacherRepository teacherRepository;
+    private final SpecialityRepository specialityRepository;
     private final UserRepository userRepository;
     private final CourseMapper courseMapper;
     private final CourseMaterialMapper courseMaterialMapper;
@@ -68,10 +71,18 @@ public class CourseServiceImpl implements CourseService {
         Teacher teacher = teacherRepository.findByIdAndSchoolId(request.getTeacherId(), schoolId)
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
 
+        // Get speciality if provided
+        Speciality speciality = null;
+        if (request.getSpecialityId() != null) {
+            speciality = specialityRepository.findByIdAndSchoolId(request.getSpecialityId(), schoolId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Speciality not found"));
+        }
+
         Course course = Course.builder()
                 .schoolId(schoolId)
                 .classRoom(classRoom)
                 .teacher(teacher)
+                .speciality(speciality)
                 .subject(request.getSubject())
                 .subjectCode(request.getSubjectCode())
                 .description(request.getDescription())
@@ -97,6 +108,11 @@ public class CourseServiceImpl implements CourseService {
             Teacher teacher = teacherRepository.findByIdAndSchoolId(request.getTeacherId(), schoolId)
                     .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
             course.setTeacher(teacher);
+        }
+        if (request.getSpecialityId() != null) {
+            Speciality speciality = specialityRepository.findByIdAndSchoolId(request.getSpecialityId(), schoolId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Speciality not found"));
+            course.setSpeciality(speciality);
         }
         if (request.getSubject() != null) {
             course.setSubject(request.getSubject());

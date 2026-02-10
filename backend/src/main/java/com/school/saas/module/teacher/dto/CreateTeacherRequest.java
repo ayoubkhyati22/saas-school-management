@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -31,8 +32,7 @@ public class CreateTeacherRequest {
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number must be valid")
     private String phoneNumber;
 
-    @Size(max = 100, message = "Speciality must not exceed 100 characters")
-    private String speciality;
+    private UUID specialityId;
 
     @NotNull(message = "Hire date is required")
     private LocalDate hireDate;

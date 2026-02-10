@@ -2,6 +2,7 @@ package com.school.saas.module.course;
 
 import com.school.saas.common.BaseEntity;
 import com.school.saas.module.classroom.ClassRoom;
+import com.school.saas.module.speciality.Speciality;
 import com.school.saas.module.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,8 @@ import java.util.UUID;
 @Table(name = "courses", indexes = {
     @Index(name = "idx_course_school_id", columnList = "school_id"),
     @Index(name = "idx_course_classroom_id", columnList = "class_room_id"),
-    @Index(name = "idx_course_teacher_id", columnList = "teacher_id")
+    @Index(name = "idx_course_teacher_id", columnList = "teacher_id"),
+    @Index(name = "idx_course_speciality_id", columnList = "speciality_id")
 })
 @Getter
 @Setter
@@ -34,6 +36,10 @@ public class Course extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "speciality_id")
+    private Speciality speciality;
 
     @Column(name = "subject", nullable = false, length = 100)
     private String subject;

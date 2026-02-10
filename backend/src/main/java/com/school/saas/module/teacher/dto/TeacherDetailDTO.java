@@ -23,7 +23,9 @@ public class TeacherDetailDTO {
     private String phoneNumber;
     private UUID schoolId;
     private String schoolName;
-    private String speciality;
+    private UUID specialityId;
+    private String specialityName;
+    private String specialityCode;
     private LocalDate hireDate;
     private String employeeNumber;
     private String status;

@@ -22,6 +22,9 @@ public class CourseDetailDTO {
     private UUID teacherId;
     private String teacherName;
     private String teacherEmail;
+    private UUID specialityId;
+    private String specialityName;
+    private String specialityCode;
     private String subject;
     private String subjectCode;
     private String description;
