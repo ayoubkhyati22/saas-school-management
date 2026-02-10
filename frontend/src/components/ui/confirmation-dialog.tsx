@@ -57,6 +57,12 @@ import {
         buttonBg: 'bg-blue-600 hover:bg-blue-700',
         buttonText: 'text-white',
       },
+      default: {
+        icon: AlertTriangle,
+        iconBg: 'bg-blue-100',
+        iconColor: 'text-blue-600',
+        buttonClass: 'bg-blue-600 hover:bg-blue-700'
+      },
     }
   
     const styles = variantStyles[variant]

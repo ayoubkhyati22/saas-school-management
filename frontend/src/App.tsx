@@ -8,10 +8,11 @@ import AppLayout from './components/layout/AppLayout'
 import Dashboard from './features/dashboard/Dashboard'
 import SchoolListPage from './features/schools/SchoolListPage'
 import SchoolDetailPage from './features/schools/SchoolDetailPage'
+import SpecialityListPage from './modules/specialities/pages/SpecialityListPage'
 import StudentListPage from './modules/students/pages/StudentListPage'
 import TeacherListPage from './modules/teachers/pages/TeacherListPage'
-import ParentListPage from './features/parents/ParentListPage'
-import ClassroomListPage from './features/classrooms/ClassroomListPage'
+import ParentListPage from './modules/parents/pages/ParentListPage'
+import ClassroomListPage from './modules/classrooms/pages/ClassRoomListPage'
 import CourseListPage from './features/courses/CourseListPage'
 import EventListPage from './features/events/EventListPage'
 import AbsenceListPage from './features/absences/AbsenceListPage'
@@ -54,6 +55,7 @@ function App() {
               <Route path="/teachers" element={<TeacherListPage />} />
               <Route path="/parents" element={<ParentListPage />} />
               <Route path="/classrooms" element={<ClassroomListPage />} />
+              <Route path="/specialities" element={<SpecialityListPage />} />
               <Route path="/courses" element={<CourseListPage />} />
               <Route path="/events" element={<EventListPage />} />
               <Route path="/absences" element={<AbsenceListPage />} />
