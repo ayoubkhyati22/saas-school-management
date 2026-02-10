@@ -14,6 +14,7 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
+  Award,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/auth.store'
 import { useSidebarStore } from '@/store/sidebar.store'
@@ -34,6 +35,7 @@ const navigationItems = {
     { icon: GraduationCap, label: 'Teachers', path: '/teachers' },
     { icon: UserCircle, label: 'Parents', path: '/parents' },
     { icon: School, label: 'Classrooms', path: '/classrooms' },
+    { icon: Award, label: 'Specialities', path: '/specialities' },
     { icon: BookOpen, label: 'Courses', path: '/courses' },
     { icon: Calendar, label: 'Events', path: '/events' },
     { icon: UserX, label: 'Absences', path: '/absences' },

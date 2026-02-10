@@ -10,6 +10,8 @@ import com.school.saas.module.teacher.mapper.TeacherMapper;
 import com.school.saas.module.teacher.repository.TeacherRepository;
 import com.school.saas.module.speciality.Speciality;
 import com.school.saas.module.speciality.repository.SpecialityRepository;
+import com.school.saas.module.school.School;
+import com.school.saas.module.school.SchoolRepository;
 import com.school.saas.module.subscription.SubscriptionLimitService;
 import com.school.saas.module.user.User;
 import com.school.saas.module.user.UserRepository;
@@ -35,6 +37,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
     private final SpecialityRepository specialityRepository;
+    private final SchoolRepository schoolRepository;
     private final TeacherMapper teacherMapper;
     private final SubscriptionLimitService subscriptionLimitService;
     private final PasswordEncoder passwordEncoder;
@@ -43,7 +46,16 @@ public class TeacherServiceImpl implements TeacherService {
     @Transactional
     public TeacherDetailDTO create(CreateTeacherRequest request) {
         UUID schoolId = TenantContext.getTenantId();
+
+        if (schoolId == null) {
+            throw new IllegalStateException("School ID not found in context. Please ensure you are authenticated.");
+        }
+
         log.info("Creating teacher for school: {}", schoolId);
+
+        // Fetch the School entity
+        School school = schoolRepository.findById(schoolId)
+                .orElseThrow(() -> new ResourceNotFoundException("School not found"));
 
         // Validate subscription limit
         subscriptionLimitService.validateTeacherLimit(schoolId);
@@ -72,7 +84,7 @@ public class TeacherServiceImpl implements TeacherService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phone(request.getPhoneNumber())
-                .role(Role.valueOf("TEACHER"))
+                .role(Role.TEACHER)
                 .schoolId(schoolId)
                 .enabled(true)
                 .build();
@@ -81,12 +93,14 @@ public class TeacherServiceImpl implements TeacherService {
         // Create Teacher
         Teacher teacher = Teacher.builder()
                 .user(user)
-                .schoolId(schoolId)
+                .school(school)
                 .speciality(speciality)
                 .hireDate(request.getHireDate())
                 .employeeNumber(request.getEmployeeNumber())
-                .status(TeacherStatus.valueOf("ACTIVE"))
+                .status(TeacherStatus.ACTIVE)
                 .salary(request.getSalary())
+                .avatarUrl(request.getAvatarUrl())
+                .administrativeDocuments(request.getAdministrativeDocuments())
                 .build();
         teacher = teacherRepository.save(teacher);
 
@@ -128,6 +142,12 @@ public class TeacherServiceImpl implements TeacherService {
         }
         if (request.getSalary() != null) {
             teacher.setSalary(request.getSalary());
+        }
+        if (request.getAvatarUrl() != null) {
+            teacher.setAvatarUrl(request.getAvatarUrl());
+        }
+        if (request.getAdministrativeDocuments() != null) {
+            teacher.setAdministrativeDocuments(request.getAdministrativeDocuments());
         }
 
         teacher = teacherRepository.save(teacher);
@@ -173,7 +193,8 @@ public class TeacherServiceImpl implements TeacherService {
         UUID schoolId = TenantContext.getTenantId();
         log.debug("Fetching teachers with status: {} for school: {}", status, schoolId);
 
-        Page<Teacher> teachers = teacherRepository.findBySchoolIdAndStatus(schoolId, status, pageable);
+        TeacherStatus teacherStatus = TeacherStatus.valueOf(status);
+        Page<Teacher> teachers = teacherRepository.findBySchoolIdAndStatus(schoolId, teacherStatus, pageable);
         return teachers.map(teacherMapper::toDTO);
     }
 
@@ -192,7 +213,7 @@ public class TeacherServiceImpl implements TeacherService {
         userRepository.save(user);
 
         // Set teacher status as TERMINATED
-        teacher.setStatus(TeacherStatus.valueOf("TERMINATED"));
+        teacher.setStatus(TeacherStatus.TERMINATED);
         teacherRepository.save(teacher);
 
         log.info("Teacher marked as terminated: {}", id);
@@ -205,9 +226,9 @@ public class TeacherServiceImpl implements TeacherService {
         log.debug("Fetching statistics for school: {}", schoolId);
 
         long totalTeachers = teacherRepository.countBySchoolId(schoolId);
-        long activeTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, "ACTIVE");
-        long inactiveTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, "INACTIVE");
-        long onLeaveTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, "ON_LEAVE");
+        long activeTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, TeacherStatus.ACTIVE);
+        long inactiveTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, TeacherStatus.INACTIVE);
+        long onLeaveTeachers = teacherRepository.countBySchoolIdAndStatus(schoolId, TeacherStatus.ON_LEAVE);
 
         // Get teachers by speciality
         List<Teacher> allTeachers = teacherRepository.findBySchoolId(schoolId);
