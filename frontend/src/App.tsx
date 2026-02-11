@@ -16,8 +16,12 @@ import ClassroomListPage from './modules/classrooms/pages/ClassRoomListPage'
 import CourseListPage from './modules/courses/pages/CourseListPage'
 import EventListPage from './modules/events/pages/EventListPage'
 import AbsenceListPage from './modules/absences/pages/AbsenceListPage'
+import TransportListPage from './modules/transports/pages/TransportListPage'
+import TimeListPage from './modules/times/pages/TimeListPage'
+import ExamListPage from './modules/exams/pages/ExamListPage'
+import NoteListPage from './modules/notes/pages/NoteListPage'
 import PaymentListPage from './modules/payments/pages/PaymentListPage'
-import NotificationListPage from './features/notifications/NotificationListPage'
+import NotificationListPage from './modules/notifications/pages/NotificationListPage'
 import IssueListPage from './features/issues/IssueListPage'
 import DocumentListPage from './features/documents/DocumentListPage'
 import { useThemeStore } from './store/theme.store'
@@ -59,6 +63,11 @@ function App() {
               <Route path="/courses" element={<CourseListPage />} />
               <Route path="/events" element={<EventListPage />} />
               <Route path="/absences" element={<AbsenceListPage />} />
+              <Route path="/transports" element={<TransportListPage />} />
+              <Route path="/times" element={<TimeListPage />} />
+              <Route path="/exams" element={<ExamListPage />} />
+              <Route path="/notes" element={<NoteListPage />} />
+
               <Route path="/payments" element={<PaymentListPage />} />
               <Route path="/notifications" element={<NotificationListPage />} />
               <Route path="/issues" element={<IssueListPage />} />
