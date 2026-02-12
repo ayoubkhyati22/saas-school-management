@@ -45,7 +45,7 @@ const navigationItems = {
     { icon: Calendar, label: 'Events ✓', path: '/events' },
     { icon: UserX, label: 'Absences ✓', path: '/absences' },
     { icon: Bus, label: 'Transports', path: '/transports' },
-    { icon: Clock, label: 'Times', path: '/times' },
+    { icon: Clock, label: 'Times ✓', path: '/times' },
     { icon: FileCheck, label: 'Exams', path: '/exams' },
     { icon: StickyNote, label: 'Notes', path: '/notes' },
     { icon: CreditCard, label: 'Payments ✓', path: '/payments' },

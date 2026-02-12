@@ -17,7 +17,6 @@ import CourseListPage from './modules/courses/pages/CourseListPage'
 import EventListPage from './modules/events/pages/EventListPage'
 import AbsenceListPage from './modules/absences/pages/AbsenceListPage'
 import TransportListPage from './modules/transports/pages/TransportListPage'
-import TimeListPage from './modules/times/pages/TimeListPage'
 import ExamListPage from './modules/exams/pages/ExamListPage'
 import NoteListPage from './modules/notes/pages/NoteListPage'
 import PaymentListPage from './modules/payments/pages/PaymentListPage'
@@ -29,6 +28,7 @@ import SettingPage from './modules/settings/pages/SettingPage'
 import ProfilePage from './modules/profile/pages/ProfilePage'
 import DocumentListPage from './modules/documents/pages/DocumentListPage'
 import ReferentielPage from './modules/referentiels/pages/ReferentielPage'
+import TimetableListPage from './modules/timetable/pages/TimetableListPage'
 
 const ComingSoonPage = ({ title }: { title: string }) => (
   <div className="space-y-6">
@@ -67,7 +67,7 @@ function App() {
               <Route path="/events" element={<EventListPage />} />
               <Route path="/absences" element={<AbsenceListPage />} />
               <Route path="/transports" element={<TransportListPage />} />
-              <Route path="/times" element={<TimeListPage />} />
+              <Route path="/times" element={<TimetableListPage />} />
               <Route path="/exams" element={<ExamListPage />} />
               <Route path="/notes" element={<NoteListPage />} />
               <Route path="/settings" element={<SettingPage />} />

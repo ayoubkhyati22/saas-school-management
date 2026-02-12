@@ -35,6 +35,8 @@ import com.school.saas.module.student.repository.StudentRepository;
 import com.school.saas.module.subscription.*;
 import com.school.saas.module.teacher.Teacher;
 import com.school.saas.module.teacher.repository.TeacherRepository;
+import com.school.saas.module.timetable.Timetable;
+import com.school.saas.module.timetable.repository.TimetableRepository;
 import com.school.saas.module.user.User;
 import com.school.saas.module.user.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -45,12 +47,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.school.saas.module.speciality.Speciality;
 import com.school.saas.module.speciality.repository.SpecialityRepository;
+import com.school.saas.module.exam.*;
+import com.school.saas.module.exam.repository.ExamRepository;
+import com.school.saas.module.exam.repository.ExamResultRepository;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -79,6 +88,10 @@ public class DataLoader {
     private final IssueRepository issueRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final SpecialityRepository specialityRepository;
+    private final TimetableRepository timetableRepository;
+    private final ExamRepository examRepository;
+    private final ExamResultRepository examResultRepository;
+
 
     @PostConstruct
     @Transactional
@@ -163,7 +176,14 @@ public class DataLoader {
             List<ChatMessage> chatMessages = createChatMessages(schools, courses, students, teachers);
             log.info("Created {} chat messages", chatMessages.size());
 
+            List<Timetable> timetables = createTimetables(schools, classRooms, teachers, courses, specialities);
+            log.info("Created {} timetables", timetables.size());
 
+            List<Exam> exams = createExams(schools, classRooms, teachers, courses, specialities);
+            log.info("Created {} exams", exams.size());
+
+            List<ExamResult> examResults = createExamResults(schools, exams, students, teachers);
+            log.info("Created {} exam results", examResults.size());
 
             log.info("Test data initialization completed successfully!");
             logSummary();
@@ -1099,6 +1119,629 @@ public class DataLoader {
         return chatMessageRepository.save(chatMessage);
     }
 
+    // Add this method after createChatMessages() method
+    private List<Timetable> createTimetables(List<School> schools, List<ClassRoom> classRooms,
+                                             List<Teacher> teachers, List<Course> courses, List<Speciality> specialities) {
+        List<Timetable> timetables = new ArrayList<>();
+
+        // Find specialities for school 1
+        Speciality mathSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("MATH"))
+                .findFirst().orElse(null);
+        Speciality engSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("ENG"))
+                .findFirst().orElse(null);
+        Speciality physSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("PHYS"))
+                .findFirst().orElse(null);
+        Speciality chemSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("CHEM"))
+                .findFirst().orElse(null);
+
+        // School 1 - Green Valley High School Timetables
+        // Monday
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "MONDAY", "08:00", "09:30", "A101", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "MONDAY", "10:00", "11:30", "B201", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "MONDAY", "14:00", "15:30", "Lab 1", "Fall 2024", "2024-2025"));
+
+        // Tuesday
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(1), courses.get(1),
+                engSpec, "TUESDAY", "09:00", "10:30", "A102", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(2), courses.get(2),
+                physSpec, "TUESDAY", "11:00", "12:30", "Lab 2", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(2), teachers.get(0), courses.get(0),
+                mathSpec, "TUESDAY", "13:00", "14:30", "A201", "Fall 2024", "2024-2025"));
+
+        // Wednesday
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "WEDNESDAY", "08:00", "09:30", "A101", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "WEDNESDAY", "10:00", "11:30", "B201", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "WEDNESDAY", "14:00", "15:30", "Lab 1", "Fall 2024", "2024-2025"));
+
+        // Thursday
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(2), courses.get(2),
+                physSpec, "THURSDAY", "08:30", "10:00", "Lab 3", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(0), courses.get(0),
+                mathSpec, "THURSDAY", "10:30", "12:00", "A103", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(2), teachers.get(1), courses.get(1),
+                engSpec, "THURSDAY", "13:30", "15:00", "B202", "Fall 2024", "2024-2025"));
+
+        // Friday
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(1), courses.get(1),
+                engSpec, "FRIDAY", "09:00", "10:30", "A102", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(2), courses.get(2),
+                physSpec, "FRIDAY", "11:00", "12:30", "Lab 1", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(2), teachers.get(0), courses.get(0),
+                mathSpec, "FRIDAY", "14:00", "15:30", "A201", "Fall 2024", "2024-2025"));
+
+        // Find specialities for school 2
+        Speciality sciSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(1).getId()) && s.getCode().equals("SCI"))
+                .findFirst().orElse(null);
+
+        // School 2 - Sunshine Academy Timetables
+        // Monday
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "MONDAY", "08:00", "09:30", "S101", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "MONDAY", "10:00", "11:30", "Chem Lab", "Fall 2024", "2024-2025"));
+
+        // Tuesday
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(4), courses.get(4),
+                sciSpec, "TUESDAY", "09:00", "10:30", "S102", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(3), courses.get(3),
+                sciSpec, "TUESDAY", "11:00", "12:30", "S201", "Fall 2024", "2024-2025"));
+
+        // Wednesday
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "WEDNESDAY", "08:00", "09:30", "S101", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "WEDNESDAY", "10:00", "11:30", "Chem Lab", "Fall 2024", "2024-2025"));
+
+        // Thursday
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(4), courses.get(4),
+                sciSpec, "THURSDAY", "08:30", "10:00", "S103", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(3), courses.get(3),
+                sciSpec, "THURSDAY", "10:30", "12:00", "S202", "Fall 2024", "2024-2025"));
+
+        // Friday
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "FRIDAY", "09:00", "10:30", "S101", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "FRIDAY", "11:00", "12:30", "Chem Lab", "Fall 2024", "2024-2025"));
+
+        // Additional mixed entries for variety
+        timetables.add(createTimetable(schools.get(0), classRooms.get(0), teachers.get(2), courses.get(2),
+                physSpec, "SATURDAY", "09:00", "10:30", "Lab 4", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(0), classRooms.get(1), teachers.get(0), courses.get(0),
+                mathSpec, "SATURDAY", "11:00", "12:30", "A104", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(3), teachers.get(4), courses.get(4),
+                sciSpec, "SATURDAY", "08:00", "09:30", "S104", "Fall 2024", "2024-2025"));
+        timetables.add(createTimetable(schools.get(1), classRooms.get(4), teachers.get(3), courses.get(3),
+                sciSpec, "SATURDAY", "10:00", "11:30", "S203", "Fall 2024", "2024-2025"));
+
+        return timetables;
+    }
+
+    private Timetable createTimetable(School school, ClassRoom classRoom, Teacher teacher, Course course,
+                                      Speciality speciality, String dayOfWeek, String startTime, String endTime,
+                                      String roomNumber, String semester, String academicYear) {
+        Timetable timetable = Timetable.builder()
+                .schoolId(school.getId())
+                .classRoom(classRoom)
+                .teacher(teacher)
+                .course(course)
+                .speciality(speciality)
+                .dayOfWeek(DayOfWeek.valueOf(dayOfWeek))
+                .startTime(LocalTime.parse(startTime))
+                .endTime(LocalTime.parse(endTime))
+                .roomNumber(roomNumber)
+                .semester(semester)
+                .academicYear(academicYear)
+                .active(true)
+                .build();
+        return timetableRepository.save(timetable);
+    }
+
+    private List<Exam> createExams(List<School> schools, List<ClassRoom> classRooms,
+                                   List<Teacher> teachers, List<Course> courses, List<Speciality> specialities) {
+        List<Exam> exams = new ArrayList<>();
+
+        // Find specialities for school 1
+        Speciality mathSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("MATH"))
+                .findFirst().orElse(null);
+        Speciality engSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("ENG"))
+                .findFirst().orElse(null);
+        Speciality physSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("PHYS"))
+                .findFirst().orElse(null);
+        Speciality chemSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("CHEM"))
+                .findFirst().orElse(null);
+        Speciality bioSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(0).getId()) && s.getCode().equals("BIO"))
+                .findFirst().orElse(null);
+
+        // School 1 - Green Valley High School Exams
+        // Grade 9 (Classroom 0) - Math Exams
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Algebra Midterm Exam", "First semester midterm examination covering chapters 1-5",
+                ExamType.MIDTERM, LocalDate.of(2024, 11, 15), LocalTime.of(9, 0), LocalTime.of(11, 0),
+                120, "Hall A", 100, 40, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Calculators allowed. Show all work.", true, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Algebra Final Exam", "Comprehensive final exam covering all topics",
+                ExamType.FINAL, LocalDate.of(2025, 1, 20), LocalTime.of(9, 0), LocalTime.of(12, 0),
+                180, "Hall A", 150, 60, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Scientific calculators allowed. No graphing calculators.", true, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Geometry Quiz 1", "Quick assessment on basic geometric shapes",
+                ExamType.QUIZ, LocalDate.of(2024, 10, 5), LocalTime.of(10, 0), LocalTime.of(10, 30),
+                30, "Room A101", 20, 10, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "No calculators. Basic formulas provided.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Monthly Test - October", "Monthly assessment covering October topics",
+                ExamType.MONTHLY_TEST, LocalDate.of(2024, 10, 28), LocalTime.of(14, 0), LocalTime.of(15, 30),
+                90, "Room A101", 50, 25, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Standard calculators allowed.", true, false));
+
+        // Grade 10 (Classroom 1) - English Exams
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Literature Midterm", "Analysis of classic literature works",
+                ExamType.MIDTERM, LocalDate.of(2024, 11, 18), LocalTime.of(9, 0), LocalTime.of(11, 30),
+                150, "Hall B", 100, 40, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Open book exam. Bring your annotated texts.", false, true));
+
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Poetry Analysis Quiz", "Understanding poetic devices and themes",
+                ExamType.QUIZ, LocalDate.of(2024, 10, 12), LocalTime.of(11, 0), LocalTime.of(11, 45),
+                45, "Room B201", 25, 13, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Closed book exam.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Essay Writing Assignment", "Analytical essay on Shakespeare",
+                ExamType.ASSIGNMENT, LocalDate.of(2024, 11, 30), LocalTime.of(9, 0), LocalTime.of(11, 0),
+                120, "Room B201", 50, 25, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Bring your rough drafts. In-class writing.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Oral Presentation", "Book review oral presentation",
+                ExamType.ORAL, LocalDate.of(2024, 12, 5), LocalTime.of(13, 0), LocalTime.of(16, 0),
+                180, "Room B201", 30, 18, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "5-7 minutes per student. Visual aids allowed.", false, false));
+
+        // Grade 11 (Classroom 2) - Physics Exams
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Mechanics Midterm", "Newton's laws and motion dynamics",
+                ExamType.MIDTERM, LocalDate.of(2024, 11, 20), LocalTime.of(14, 0), LocalTime.of(16, 30),
+                150, "Lab 1", 100, 40, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Formula sheet provided. Calculators required.", true, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Electricity Practical", "Hands-on circuit building and analysis",
+                ExamType.PRACTICAL, LocalDate.of(2024, 12, 10), LocalTime.of(14, 0), LocalTime.of(17, 0),
+                180, "Lab 1", 50, 25, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Lab safety rules must be followed.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Thermodynamics Unit Test", "Heat, temperature, and energy transfer",
+                ExamType.UNIT_TEST, LocalDate.of(2024, 11, 5), LocalTime.of(10, 0), LocalTime.of(11, 30),
+                90, "Room Lab 2", 60, 30, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Scientific calculators allowed.", true, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Physics Research Project", "Independent research on modern physics topics",
+                ExamType.PROJECT, LocalDate.of(2024, 12, 20), LocalTime.of(9, 0), LocalTime.of(12, 0),
+                180, "Lab 1", 100, 50, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Presentation and written report required.", false, false));
+
+        // Find specialities for school 2
+        Speciality sciSpec = specialities.stream()
+                .filter(s -> s.getSchoolId().equals(schools.get(1).getId()) && s.getCode().equals("SCI"))
+                .findFirst().orElse(null);
+
+        // School 2 - Sunshine Academy Exams
+        // Grade 8 (Classroom 3) - Science Exams
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "General Science Midterm", "Biology, Chemistry, and Physics basics",
+                ExamType.MIDTERM, LocalDate.of(2024, 11, 22), LocalTime.of(9, 0), LocalTime.of(11, 0),
+                120, "Room S101", 100, 40, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Multiple choice and short answer questions.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "Science Fair Project", "Individual or group science project presentation",
+                ExamType.PROJECT, LocalDate.of(2024, 12, 15), LocalTime.of(10, 0), LocalTime.of(15, 0),
+                300, "Gymnasium", 75, 40, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Project display and oral presentation required.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "Biology Quiz", "Cell structure and functions",
+                ExamType.QUIZ, LocalDate.of(2024, 10, 18), LocalTime.of(10, 30), LocalTime.of(11, 0),
+                30, "Room S101", 20, 12, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Diagram labeling included.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "Chemistry Lab Practical", "Basic chemical reactions and safety",
+                ExamType.PRACTICAL, LocalDate.of(2024, 11, 8), LocalTime.of(14, 0), LocalTime.of(16, 0),
+                120, "Chem Lab", 40, 20, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Safety goggles and lab coats required.", false, false));
+
+        // Grade 9 (Classroom 4) - Chemistry Exams
+        exams.add(createExam(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "Chemistry Semester Exam", "Comprehensive chemistry examination",
+                ExamType.SEMESTER_EXAM, LocalDate.of(2024, 12, 18), LocalTime.of(9, 0), LocalTime.of(12, 0),
+                180, "Hall C", 120, 50, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Periodic table provided. Calculators allowed.", true, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "Organic Chemistry Quiz", "Naming and structures of organic compounds",
+                ExamType.QUIZ, LocalDate.of(2024, 10, 25), LocalTime.of(11, 0), LocalTime.of(11, 40),
+                40, "Room Chem Lab", 25, 15, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "No reference materials allowed.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "Stoichiometry Assignment", "Problem-solving in chemical equations",
+                ExamType.ASSIGNMENT, LocalDate.of(2024, 11, 12), LocalTime.of(14, 0), LocalTime.of(15, 30),
+                90, "Room S201", 35, 18, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Show all calculation steps.", true, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "Monthly Test - November", "November topics assessment",
+                ExamType.MONTHLY_TEST, LocalDate.of(2024, 11, 29), LocalTime.of(10, 0), LocalTime.of(11, 30),
+                90, "Room S201", 50, 25, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Standard exam format.", true, false));
+
+        // Additional variety exams
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Trigonometry Quiz", "Basic trigonometric functions",
+                ExamType.QUIZ, LocalDate.of(2024, 12, 3), LocalTime.of(9, 0), LocalTime.of(9, 45),
+                45, "Room A101", 30, 15, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Unit circle will be provided.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Grammar Unit Test", "Parts of speech and sentence structure",
+                ExamType.UNIT_TEST, LocalDate.of(2024, 12, 8), LocalTime.of(10, 0), LocalTime.of(11, 0),
+                60, "Room B201", 40, 24, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "No reference materials.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Optics Quiz", "Light, reflection, and refraction",
+                ExamType.QUIZ, LocalDate.of(2024, 12, 12), LocalTime.of(14, 30), LocalTime.of(15, 15),
+                45, "Lab 1", 25, 13, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Bring your own calculator.", true, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "Earth Science Unit Test", "Geology and weather patterns",
+                ExamType.UNIT_TEST, LocalDate.of(2024, 12, 6), LocalTime.of(9, 30), LocalTime.of(10, 45),
+                75, "Room S101", 45, 23, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Maps and charts provided.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(4), teachers.get(4), courses.get(4),
+                sciSpec, "Lab Safety Quiz", "Chemical safety and procedures",
+                ExamType.QUIZ, LocalDate.of(2024, 9, 15), LocalTime.of(11, 0), LocalTime.of(11, 20),
+                20, "Chem Lab", 15, 12, "Fall 2024", "2024-2025", ExamStatus.COMPLETED,
+                "Mandatory for all students.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(0), teachers.get(0), courses.get(0),
+                mathSpec, "Probability Assignment", "Calculating probabilities and statistics",
+                ExamType.ASSIGNMENT, LocalDate.of(2024, 12, 16), LocalTime.of(13, 0), LocalTime.of(14, 30),
+                90, "Room A101", 40, 20, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Data sets will be provided.", true, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(1), teachers.get(1), courses.get(1),
+                engSpec, "Creative Writing Project", "Original short story or essay",
+                ExamType.PROJECT, LocalDate.of(2024, 12, 19), LocalTime.of(9, 0), LocalTime.of(12, 0),
+                180, "Room B201", 60, 30, "Fall 2024", "2024-2025", ExamStatus.SCHEDULED,
+                "Minimum 1500 words. Typed submissions only.", false, false));
+
+        exams.add(createExam(schools.get(1), classRooms.get(3), teachers.get(3), courses.get(3),
+                sciSpec, "Physics Practical - Postponed", "Mechanics lab work",
+                ExamType.PRACTICAL, LocalDate.of(2024, 12, 14), LocalTime.of(14, 0), LocalTime.of(16, 0),
+                120, "Lab 2", 50, 25, "Fall 2024", "2024-2025", ExamStatus.POSTPONED,
+                "Rescheduled due to equipment maintenance.", false, false));
+
+        exams.add(createExam(schools.get(0), classRooms.get(2), teachers.get(2), courses.get(2),
+                physSpec, "Wave Motion Cancelled", "Study of wave properties",
+                ExamType.QUIZ, LocalDate.of(2024, 11, 25), LocalTime.of(10, 0), LocalTime.of(10, 45),
+                45, "Lab 1", 20, 10, "Fall 2024", "2024-2025", ExamStatus.CANCELLED,
+                "Cancelled due to teacher absence.", false, false));
+
+        return exams;
+    }
+
+    private Exam createExam(School school, ClassRoom classRoom, Teacher teacher, Course course,
+                            Speciality speciality, String title, String description, ExamType examType,
+                            LocalDate examDate, LocalTime startTime, LocalTime endTime, Integer durationMinutes,
+                            String roomNumber, Integer maxMarks, Integer passingMarks, String semester,
+                            String academicYear, ExamStatus status, String instructions,
+                            Boolean allowCalculators, Boolean allowBooks) {
+        Exam exam = Exam.builder()
+                .schoolId(UUID.fromString(String.valueOf(school.getId())))
+                .classRoom(classRoom)
+                .course(course)
+                .teacher(teacher)
+                .speciality(speciality)
+                .title(title)
+                .description(description)
+                .examType(examType)
+                .examDate(examDate)
+                .startTime(startTime)
+                .endTime(endTime)
+                .durationMinutes(durationMinutes)
+                .roomNumber(roomNumber)
+                .maxMarks(maxMarks)
+                .passingMarks(passingMarks)
+                .semester(semester)
+                .academicYear(academicYear)
+                .status(status)
+                .instructions(instructions)
+                .allowCalculators(allowCalculators)
+                .allowBooks(allowBooks)
+                .resultsPublished(status == ExamStatus.COMPLETED)
+                .resultsPublishedAt(status == ExamStatus.COMPLETED ? LocalDateTime.now().minusDays(5) : null)
+                .build();
+        return examRepository.save(exam);
+    }
+
+    private List<ExamResult> createExamResults(List<School> schools, List<Exam> exams,
+                                               List<Student> students, List<Teacher> teachers) {
+        List<ExamResult> results = new ArrayList<>();
+
+        // Get completed exams only
+        List<Exam> completedExams = exams.stream()
+                .filter(e -> e.getStatus() == ExamStatus.COMPLETED)
+                .collect(Collectors.toList());
+
+        // School 1 - Exam Results
+        // Algebra Midterm (Exam 0) - Grade 9 students
+        if (!completedExams.isEmpty() && students.size() >= 22) {
+            Exam algebraMidterm = completedExams.get(0);
+
+            // Create results for Grade 9 students (first 22 students)
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(0), teachers.get(0),
+                    85.0, 100, "A", ResultStatus.PASS, "Excellent work!", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(1), teachers.get(0),
+                    72.0, 100, "B", ResultStatus.PASS, "Good understanding", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(2), teachers.get(0),
+                    null, 100, null, ResultStatus.ABSENT, null, true));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(3), teachers.get(0),
+                    91.0, 100, "A+", ResultStatus.PASS, "Outstanding performance", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(4), teachers.get(0),
+                    68.0, 100, "C+", ResultStatus.PASS, "Needs improvement in algebra", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(5), teachers.get(0),
+                    78.0, 100, "B+", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(6), teachers.get(0),
+                    55.0, 100, "D", ResultStatus.PASS, "Work on basics", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(7), teachers.get(0),
+                    88.0, 100, "A", ResultStatus.PASS, "Excellent", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(8), teachers.get(0),
+                    76.0, 100, "B", ResultStatus.PASS, "Good job", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(9), teachers.get(0),
+                    82.0, 100, "A-", ResultStatus.PASS, "Very good work", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(10), teachers.get(0),
+                    64.0, 100, "C", ResultStatus.PASS, "Average", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(11), teachers.get(0),
+                    93.0, 100, "A+", ResultStatus.PASS, "Top scorer!", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(12), teachers.get(0),
+                    70.0, 100, "B-", ResultStatus.PASS, "Good effort", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(13), teachers.get(0),
+                    45.0, 100, "D", ResultStatus.PASS, "Need more practice", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(14), teachers.get(0),
+                    81.0, 100, "A-", ResultStatus.PASS, "Well done", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(15), teachers.get(0),
+                    89.0, 100, "A", ResultStatus.PASS, "Excellent understanding", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(16), teachers.get(0),
+                    75.0, 100, "B", ResultStatus.PASS, "Good work", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(17), teachers.get(0),
+                    67.0, 100, "C+", ResultStatus.PASS, "Satisfactory", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(18), teachers.get(0),
+                    84.0, 100, "A-", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(19), teachers.get(0),
+                    77.0, 100, "B+", ResultStatus.PASS, "Good performance", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(20), teachers.get(0),
+                    36.0, 100, "F", ResultStatus.FAIL, "Below passing marks", false));
+            results.add(createExamResult(schools.get(0), algebraMidterm, students.get(21), teachers.get(0),
+                    92.0, 100, "A+", ResultStatus.PASS, "Exceptional!", false));
+        }
+
+        // Geometry Quiz (Exam 2) - Grade 9 students (subset)
+        if (completedExams.size() > 2 && students.size() >= 15) {
+            Exam geometryQuiz = completedExams.get(2);
+
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(0), teachers.get(0),
+                    18.0, 20, "A", ResultStatus.PASS, "Perfect shapes!", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(1), teachers.get(0),
+                    15.0, 20, "B+", ResultStatus.PASS, "Good", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(3), teachers.get(0),
+                    19.0, 20, "A+", ResultStatus.PASS, "Excellent!", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(4), teachers.get(0),
+                    12.0, 20, "C", ResultStatus.PASS, "OK", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(5), teachers.get(0),
+                    16.0, 20, "A-", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(7), teachers.get(0),
+                    17.0, 20, "A", ResultStatus.PASS, "Great job", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(8), teachers.get(0),
+                    14.0, 20, "B", ResultStatus.PASS, "Good work", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(11), teachers.get(0),
+                    20.0, 20, "A+", ResultStatus.PASS, "Perfect score!", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(12), teachers.get(0),
+                    13.0, 20, "B-", ResultStatus.PASS, "Good effort", false));
+            results.add(createExamResult(schools.get(0), geometryQuiz, students.get(14), teachers.get(0),
+                    16.0, 20, "A-", ResultStatus.PASS, "Well done", false));
+        }
+
+        // Monthly Test October (Exam 3) - Grade 9 students
+        if (completedExams.size() > 3 && students.size() >= 20) {
+            Exam monthlyTest = completedExams.get(3);
+
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(0), teachers.get(0),
+                    42.0, 50, "A", ResultStatus.PASS, "Strong performance", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(1), teachers.get(0),
+                    36.0, 50, "B", ResultStatus.PASS, "Good", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(3), teachers.get(0),
+                    45.0, 50, "A+", ResultStatus.PASS, "Excellent!", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(5), teachers.get(0),
+                    38.0, 50, "B+", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(7), teachers.get(0),
+                    41.0, 50, "A-", ResultStatus.PASS, "Great work", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(9), teachers.get(0),
+                    40.0, 50, "A-", ResultStatus.PASS, "Well done", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(11), teachers.get(0),
+                    47.0, 50, "A+", ResultStatus.PASS, "Outstanding", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(13), teachers.get(0),
+                    28.0, 50, "C+", ResultStatus.PASS, "Needs work", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(15), teachers.get(0),
+                    39.0, 50, "B+", ResultStatus.PASS, "Good job", false));
+            results.add(createExamResult(schools.get(0), monthlyTest, students.get(17), teachers.get(0),
+                    33.0, 50, "B-", ResultStatus.PASS, "Satisfactory", false));
+        }
+
+        // Literature Midterm (Exam 4) - Grade 10 students
+        if (completedExams.size() > 4 && students.size() >= 44) {
+            Exam literatureMidterm = completedExams.get(4);
+
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(22), teachers.get(1),
+                    88.0, 100, "A", ResultStatus.PASS, "Insightful analysis", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(23), teachers.get(1),
+                    75.0, 100, "B", ResultStatus.PASS, "Good interpretation", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(24), teachers.get(1),
+                    92.0, 100, "A+", ResultStatus.PASS, "Brilliant essay!", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(25), teachers.get(1),
+                    68.0, 100, "C+", ResultStatus.PASS, "Needs more depth", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(26), teachers.get(1),
+                    81.0, 100, "A-", ResultStatus.PASS, "Well written", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(27), teachers.get(1),
+                    null, 100, null, ResultStatus.ABSENT, null, true));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(28), teachers.get(1),
+                    79.0, 100, "B+", ResultStatus.PASS, "Good work", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(29), teachers.get(1),
+                    85.0, 100, "A", ResultStatus.PASS, "Excellent analysis", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(30), teachers.get(1),
+                    72.0, 100, "B-", ResultStatus.PASS, "Good effort", false));
+            results.add(createExamResult(schools.get(0), literatureMidterm, students.get(31), teachers.get(1),
+                    90.0, 100, "A+", ResultStatus.PASS, "Outstanding!", false));
+        }
+
+        // Poetry Quiz (Exam 5) - Grade 10 students (subset)
+        if (completedExams.size() > 5 && students.size() >= 38) {
+            Exam poetryQuiz = completedExams.get(5);
+
+            results.add(createExamResult(schools.get(0), poetryQuiz, students.get(22), teachers.get(1),
+                    22.0, 25, "A", ResultStatus.PASS, "Great understanding", false));
+            results.add(createExamResult(schools.get(0), poetryQuiz, students.get(24), teachers.get(1),
+                    24.0, 25, "A+", ResultStatus.PASS, "Perfect!", false));
+            results.add(createExamResult(schools.get(0), poetryQuiz, students.get(26), teachers.get(1),
+                    19.0, 25, "B+", ResultStatus.PASS, "Good", false));
+            results.add(createExamResult(schools.get(0), poetryQuiz, students.get(29), teachers.get(1),
+                    21.0, 25, "A-", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), poetryQuiz, students.get(31), teachers.get(1),
+                    23.0, 25, "A+", ResultStatus.PASS, "Excellent", false));
+        }
+
+        // Mechanics Midterm (Exam 8) - Grade 11 students
+        if (completedExams.size() > 7 && students.size() >= 66) {
+            Exam mechanicsMidterm = completedExams.get(7);
+
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(44), teachers.get(2),
+                    86.0, 100, "A", ResultStatus.PASS, "Excellent problem solving", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(45), teachers.get(2),
+                    74.0, 100, "B", ResultStatus.PASS, "Good understanding", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(46), teachers.get(2),
+                    91.0, 100, "A+", ResultStatus.PASS, "Outstanding work!", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(47), teachers.get(2),
+                    67.0, 100, "C+", ResultStatus.PASS, "Need more practice", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(48), teachers.get(2),
+                    83.0, 100, "A-", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(49), teachers.get(2),
+                    null, 100, null, ResultStatus.ABSENT, null, true));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(50), teachers.get(2),
+                    79.0, 100, "B+", ResultStatus.PASS, "Good work", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(51), teachers.get(2),
+                    88.0, 100, "A", ResultStatus.PASS, "Excellent", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(52), teachers.get(2),
+                    35.0, 100, "F", ResultStatus.FAIL, "Below passing", false));
+            results.add(createExamResult(schools.get(0), mechanicsMidterm, students.get(53), teachers.get(2),
+                    94.0, 100, "A+", ResultStatus.PASS, "Top performance!", false));
+        }
+
+        // Thermodynamics Unit Test (Exam 10) - Grade 11 students (subset)
+        if (completedExams.size() > 9 && students.size() >= 60) {
+            Exam thermoTest = completedExams.get(9);
+
+            results.add(createExamResult(schools.get(0), thermoTest, students.get(44), teachers.get(2),
+                    52.0, 60, "A", ResultStatus.PASS, "Excellent", false));
+            results.add(createExamResult(schools.get(0), thermoTest, students.get(46), teachers.get(2),
+                    56.0, 60, "A+", ResultStatus.PASS, "Outstanding!", false));
+            results.add(createExamResult(schools.get(0), thermoTest, students.get(48), teachers.get(2),
+                    48.0, 60, "B+", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(0), thermoTest, students.get(51), teachers.get(2),
+                    51.0, 60, "A-", ResultStatus.PASS, "Great work", false));
+            results.add(createExamResult(schools.get(0), thermoTest, students.get(53), teachers.get(2),
+                    57.0, 60, "A+", ResultStatus.PASS, "Perfect understanding", false));
+        }
+
+        // School 2 Results
+        // General Science Midterm (Exam 11) - Grade 8 students
+        if (completedExams.size() > 10 && students.size() >= 93) {
+            Exam scienceMidterm = completedExams.get(10);
+
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(70), teachers.get(3),
+                    84.0, 100, "A", ResultStatus.PASS, "Excellent work", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(71), teachers.get(3),
+                    76.0, 100, "B+", ResultStatus.PASS, "Good job", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(72), teachers.get(3),
+                    null, 100, null, ResultStatus.ABSENT, null, true));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(73), teachers.get(3),
+                    89.0, 100, "A", ResultStatus.PASS, "Very good", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(74), teachers.get(3),
+                    71.0, 100, "B", ResultStatus.PASS, "Good", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(75), teachers.get(3),
+                    92.0, 100, "A+", ResultStatus.PASS, "Outstanding!", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(76), teachers.get(3),
+                    65.0, 100, "C+", ResultStatus.PASS, "Satisfactory", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(77), teachers.get(3),
+                    80.0, 100, "A-", ResultStatus.PASS, "Well done", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(78), teachers.get(3),
+                    73.0, 100, "B", ResultStatus.PASS, "Good work", false));
+            results.add(createExamResult(schools.get(1), scienceMidterm, students.get(79), teachers.get(3),
+                    87.0, 100, "A", ResultStatus.PASS, "Excellent", false));
+        }
+
+        return results;
+    }
+
+    private ExamResult createExamResult(School school, Exam exam, Student student, Teacher teacher,
+                                        Double marksObtained, Integer maxMarks, String grade,
+                                        ResultStatus status, String remarks, Boolean absent) {
+        ExamResult result = ExamResult.builder()
+                .schoolId(UUID.fromString(String.valueOf(school.getId())))
+                .exam(exam)
+                .student(student)
+                .marksObtained(marksObtained)
+                .maxMarks(maxMarks)
+                .percentage(marksObtained != null ? (marksObtained / maxMarks) * 100 : null)
+                .grade(grade)
+                .status(status)
+                .remarks(remarks)
+                .absent(absent)
+                .gradedBy(String.valueOf(teacher.getUser().getId()))
+                .gradedAt(absent ? null : LocalDateTime.now().minusDays(3))
+                .build();
+        return examResultRepository.save(result);
+    }
+
+
+
     private void logSummary() {
         log.info("=== Test Data Summary ===");
         log.info("Super Admins: 1");
@@ -1118,6 +1761,9 @@ public class DataLoader {
         log.info("Notifications: {}", notificationRepository.count());
         log.info("Issues: {}", issueRepository.count());
         log.info("Chat Messages: {}", chatMessageRepository.count());
+        log.info("Timetables: {}", timetableRepository.count());
+        log.info("Exams: {}", examRepository.count());
+        log.info("Exam Results: {}", examResultRepository.count());
         log.info("========================");
     }
 }
