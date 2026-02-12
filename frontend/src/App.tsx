@@ -23,9 +23,12 @@ import NoteListPage from './modules/notes/pages/NoteListPage'
 import PaymentListPage from './modules/payments/pages/PaymentListPage'
 import NotificationListPage from './modules/notifications/pages/NotificationListPage'
 import IssueListPage from './features/issues/IssueListPage'
-import DocumentListPage from './features/documents/DocumentListPage'
 import { useThemeStore } from './store/theme.store'
 import { queryClient } from './lib/queryClient'
+import SettingPage from './modules/settings/pages/SettingPage'
+import ProfilePage from './modules/profile/pages/ProfilePage'
+import DocumentListPage from './modules/documents/pages/DocumentListPage'
+import ReferentielPage from './modules/referentiels/pages/ReferentielPage'
 
 const ComingSoonPage = ({ title }: { title: string }) => (
   <div className="space-y-6">
@@ -67,11 +70,14 @@ function App() {
               <Route path="/times" element={<TimeListPage />} />
               <Route path="/exams" element={<ExamListPage />} />
               <Route path="/notes" element={<NoteListPage />} />
+              <Route path="/settings" element={<SettingPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/documents" element={<DocumentListPage />} />
+              <Route path="/referentiels" element={<ReferentielPage />} />
 
               <Route path="/payments" element={<PaymentListPage />} />
               <Route path="/notifications" element={<NotificationListPage />} />
               <Route path="/issues" element={<IssueListPage />} />
-              <Route path="/documents" element={<DocumentListPage />} />
               <Route path="/subscriptions" element={<ComingSoonPage title="Subscriptions" />} />
               <Route path="/users" element={<ComingSoonPage title="Users" />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />

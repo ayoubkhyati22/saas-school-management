@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/auth.store'
 import { useThemeStore } from '@/store/theme.store'
 import { useNotificationStore } from '@/store/notification.store'
 
+
 export default function Topbar() {
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.user)
@@ -58,6 +59,7 @@ export default function Topbar() {
           <Button
             variant="ghost"
             size="icon"
+            onClick={() => (window.location.href = "/settings")}
             className="relative text-slate-900 hover:bg-slate-800 hover:text-white transition"
             title="Settings"
 
@@ -73,9 +75,9 @@ export default function Topbar() {
           <Button
             variant="ghost"
             size="icon"
+            onClick={() => (window.location.href = "/notifications")}
             className="relative text-slate-900 hover:bg-slate-800 hover:text-white transition"
             title="Notifications"
-
           >
             <Bell className="h-5 w-5" />
             {unreadCount > 0 && (
@@ -85,10 +87,12 @@ export default function Topbar() {
             )}
           </Button>
 
+
           <Button
             variant="ghost"
             size="icon"
             title="Profile"
+            onClick={() => (window.location.href = "/profile")}
             className="text-slate-900 hover:bg-slate-800 hover:text-white transition"
           >
             <User className="h-5 w-5" />

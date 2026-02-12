@@ -49,7 +49,7 @@ const navigationItems = {
     { icon: FileCheck, label: 'Exams', path: '/exams' },
     { icon: StickyNote, label: 'Notes', path: '/notes' },
     { icon: CreditCard, label: 'Payments ✓', path: '/payments' },
-    { icon: Bell, label: 'Notifications', path: '/notifications' },
+    // { icon: Bell, label: 'Notifications', path: '/notifications' },
     { icon: FileText, label: 'Documents', path: '/documents' },
     { icon: Settings, label: 'Referentiels', path: '/referentiels' },
   ],
