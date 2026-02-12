@@ -40,13 +40,13 @@ public class ExamResult {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @Column(name = "marks_obtained", nullable = false)
+    @Column(name = "marks_obtained")  // Already nullable
     private Double marksObtained;
 
     @Column(name = "max_marks", nullable = false)
     private Integer maxMarks;
 
-    @Column(nullable = false)
+    @Column  // Remove nullable = false
     private Double percentage;
 
     @Column(length = 5)
