@@ -18,7 +18,7 @@ import EventListPage from './modules/events/pages/EventListPage'
 import AbsenceListPage from './modules/absences/pages/AbsenceListPage'
 import TransportListPage from './modules/transports/pages/TransportListPage'
 import ExamListPage from './modules/exams/pages/ExamListPage'
-import NoteListPage from './modules/notes/pages/NoteListPage'
+import ExamResultListPage from './modules/notes/pages/ExamResultListPage'
 import PaymentListPage from './modules/payments/pages/PaymentListPage'
 import NotificationListPage from './modules/notifications/pages/NotificationListPage'
 import IssueListPage from './features/issues/IssueListPage'
@@ -69,7 +69,7 @@ function App() {
               <Route path="/transports" element={<TransportListPage />} />
               <Route path="/times" element={<TimetableListPage />} />
               <Route path="/exams" element={<ExamListPage />} />
-              <Route path="/notes" element={<NoteListPage />} />
+              <Route path="/notes" element={<ExamResultListPage />} />
               <Route path="/settings" element={<SettingPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/documents" element={<DocumentListPage />} />

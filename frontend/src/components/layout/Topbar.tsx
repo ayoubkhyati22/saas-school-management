@@ -56,22 +56,7 @@ export default function Topbar() {
             )}
           </Button> */}
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => (window.location.href = "/settings")}
-            className="relative text-slate-900 hover:bg-slate-800 hover:text-white transition"
-            title="Settings"
-
-          >
-            <Settings className="h-5 w-5" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
-                {unreadCount}
-              </span>
-            )}
-          </Button>
-
+         
           <Button
             variant="ghost"
             size="icon"
