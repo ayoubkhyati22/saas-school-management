@@ -73,7 +73,7 @@ export default function Topbar() {
           </Button>
 
 
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             title="Profile"
@@ -81,7 +81,7 @@ export default function Topbar() {
             className="text-slate-900 hover:bg-slate-800 hover:text-white transition"
           >
             <User className="h-5 w-5" />
-          </Button>
+          </Button> */}
 
           <Button
             variant="ghost"
