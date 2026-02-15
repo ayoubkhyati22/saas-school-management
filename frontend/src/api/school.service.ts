@@ -28,17 +28,17 @@ export const schoolService = {
 
   getById: async (id: string) => {
     const response = await apiClient.get<ApiResponse<School>>(`/schools/${id}`)
-    return response.data.data
+    return response.data
   },
 
   create: async (data: CreateSchoolRequest) => {
     const response = await apiClient.post<ApiResponse<School>>('/schools', data)
-    return response.data.data
+    return response.data
   },
 
   update: async (id: string, data: UpdateSchoolRequest) => {
     const response = await apiClient.put<ApiResponse<School>>(`/schools/${id}`, data)
-    return response.data.data
+    return response.data
   },
 
   delete: async (id: string) => {

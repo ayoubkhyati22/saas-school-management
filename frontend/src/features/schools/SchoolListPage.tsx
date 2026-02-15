@@ -83,7 +83,7 @@ export default function SchoolListPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data?.data.content.map((school) => (
+                  {data?.content.map((school) => (
                     <TableRow key={school.id}>
                       <TableCell className="font-medium">{school.name}</TableCell>
                       <TableCell>{school.email}</TableCell>
@@ -124,7 +124,7 @@ export default function SchoolListPage() {
                 </TableBody>
               </Table>
 
-              {data && data.data.totalPages > 1 && (
+              {data && data.totalPages > 1 && (
                 <div className="flex items-center justify-between">
                   <Button
                     variant="outline"
@@ -134,12 +134,12 @@ export default function SchoolListPage() {
                     Previous
                   </Button>
                   <span className="text-sm text-muted-foreground">
-                    Page {page + 1} of {data.data.totalPages}
+                    Page {page + 1} of {data.totalPages}
                   </span>
                   <Button
                     variant="outline"
                     onClick={() => setPage((p) => p + 1)}
-                    disabled={page >= data.data.totalPages - 1}
+                    disabled={page >= data.totalPages - 1}
                   >
                     Next
                   </Button>
