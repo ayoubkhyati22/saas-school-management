@@ -115,7 +115,7 @@ export default function ExamResultFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto  dark:bg-gray-900 border-gray-200 dark:border-gray-700  dark:text-white">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>{mode === 'add' ? 'Add Exam Result' : 'Edit Exam Result'}</span>
@@ -125,7 +125,7 @@ export default function ExamResultFormDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-6 mt-4 ">
           {mode === 'add' && (
             <>
               {/* Exam Selection */}
@@ -177,7 +177,7 @@ export default function ExamResultFormDialog({
           )}
 
           {mode === 'edit' && (
-            <div className="p-4 bg-gray-50 rounded-lg space-y-2">
+            <div className="p-4  rounded-lg space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-muted-foreground">Exam:</span>
                 <span className="text-sm font-medium">{result?.examTitle}</span>

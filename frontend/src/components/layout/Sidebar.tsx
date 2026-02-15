@@ -51,7 +51,7 @@ const navigationItems = {
     { icon: FileCheck, label: 'Exams ✓', path: '/exams' },
     { icon: StickyNote, label: 'Notes ✓', path: '/notes' },
     { icon: CreditCard, label: 'Payments ✓', path: '/payments' },
-    { icon: Settings, label: 'Settings', path: '/settings', divider: true }, 
+    // { icon: Settings, label: 'Settings', path: '/settings', divider: true }, 
   ],
   [Role.TEACHER]: [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
