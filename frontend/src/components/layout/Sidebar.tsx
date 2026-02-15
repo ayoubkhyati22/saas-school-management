@@ -37,7 +37,7 @@ const navigationItems = {
     { icon: AlertCircle, label: 'Issues', path: '/issues' },
   ],
   [Role.SCHOOL_ADMIN]: [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
+    { icon: LayoutDashboard, label: 'Dashboard ✓', path: '/dashboard' },
     { icon: Users, label: 'Students ✓', path: '/students' },
     { icon: GraduationCap, label: 'Teachers ✓', path: '/teachers' },
     { icon: UserCircle, label: 'Parents ✓', path: '/parents' },
