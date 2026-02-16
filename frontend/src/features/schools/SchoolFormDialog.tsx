@@ -104,7 +104,7 @@ export default function SchoolFormDialog({ open, onClose, school }: SchoolFormDi
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-black dark:text-white">
         <DialogHeader>
           <DialogTitle>{isEdit ? 'Edit School' : 'Create New School'}</DialogTitle>
           <DialogDescription>
