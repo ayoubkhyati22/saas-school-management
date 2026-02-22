@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:35+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:26+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class SchoolMapperImpl implements SchoolMapper {
@@ -19,14 +19,14 @@ public class SchoolMapperImpl implements SchoolMapper {
 
         SchoolDTO.SchoolDTOBuilder schoolDTO = SchoolDTO.builder();
 
-        schoolDTO.id( school.getId() );
-        schoolDTO.name( school.getName() );
-        schoolDTO.email( school.getEmail() );
-        schoolDTO.phone( school.getPhone() );
         schoolDTO.active( school.getActive() );
-        schoolDTO.registrationDate( school.getRegistrationDate() );
-        schoolDTO.logoUrl( school.getLogoUrl() );
         schoolDTO.avatarUrl( school.getAvatarUrl() );
+        schoolDTO.email( school.getEmail() );
+        schoolDTO.id( school.getId() );
+        schoolDTO.logoUrl( school.getLogoUrl() );
+        schoolDTO.name( school.getName() );
+        schoolDTO.phone( school.getPhone() );
+        schoolDTO.registrationDate( school.getRegistrationDate() );
 
         return schoolDTO.build();
     }
@@ -39,12 +39,12 @@ public class SchoolMapperImpl implements SchoolMapper {
 
         School.SchoolBuilder<?, ?> school = School.builder();
 
-        school.name( request.getName() );
         school.address( request.getAddress() );
-        school.email( request.getEmail() );
-        school.phone( request.getPhone() );
-        school.logoUrl( request.getLogoUrl() );
         school.avatarUrl( request.getAvatarUrl() );
+        school.email( request.getEmail() );
+        school.logoUrl( request.getLogoUrl() );
+        school.name( request.getName() );
+        school.phone( request.getPhone() );
 
         school.registrationDate( java.time.LocalDate.now() );
         school.active( true );
@@ -58,12 +58,12 @@ public class SchoolMapperImpl implements SchoolMapper {
             return;
         }
 
-        school.setName( request.getName() );
         school.setAddress( request.getAddress() );
-        school.setEmail( request.getEmail() );
-        school.setPhone( request.getPhone() );
-        school.setLogoUrl( request.getLogoUrl() );
         school.setAvatarUrl( request.getAvatarUrl() );
+        school.setEmail( request.getEmail() );
+        school.setLogoUrl( request.getLogoUrl() );
+        school.setName( request.getName() );
+        school.setPhone( request.getPhone() );
     }
 
     @Override
@@ -74,15 +74,15 @@ public class SchoolMapperImpl implements SchoolMapper {
 
         SchoolDetailDTO.SchoolDetailDTOBuilder schoolDetailDTO = SchoolDetailDTO.builder();
 
-        schoolDetailDTO.id( school.getId() );
-        schoolDetailDTO.name( school.getName() );
-        schoolDetailDTO.address( school.getAddress() );
-        schoolDetailDTO.email( school.getEmail() );
-        schoolDetailDTO.phone( school.getPhone() );
         schoolDetailDTO.active( school.getActive() );
-        schoolDetailDTO.registrationDate( school.getRegistrationDate() );
-        schoolDetailDTO.logoUrl( school.getLogoUrl() );
+        schoolDetailDTO.address( school.getAddress() );
         schoolDetailDTO.avatarUrl( school.getAvatarUrl() );
+        schoolDetailDTO.email( school.getEmail() );
+        schoolDetailDTO.id( school.getId() );
+        schoolDetailDTO.logoUrl( school.getLogoUrl() );
+        schoolDetailDTO.name( school.getName() );
+        schoolDetailDTO.phone( school.getPhone() );
+        schoolDetailDTO.registrationDate( school.getRegistrationDate() );
 
         return schoolDetailDTO.build();
     }

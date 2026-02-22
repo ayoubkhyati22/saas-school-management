@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import '../models/login_response.dart';
-import '../models/course_dto.dart';
-import '../services/api_service.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/login_response.dart';
+import '../../../data/models/course_dto.dart';
+import '../../../data/services/api_service.dart';
 
-class CoursesTab extends StatefulWidget {
+class CoursesScreen extends StatefulWidget {
   final LoginResponse loginResponse;
 
-  const CoursesTab({super.key, required this.loginResponse});
+  const CoursesScreen({super.key, required this.loginResponse});
 
   @override
-  State<CoursesTab> createState() => _CoursesTabState();
+  State<CoursesScreen> createState() => _CoursesScreenState();
 }
 
-class _CoursesTabState extends State<CoursesTab> {
+class _CoursesScreenState extends State<CoursesScreen> {
   final _apiService = ApiService();
   List<CourseDTO> _courses = [];
   bool _isLoading = true;
   String? _errorMessage;
-
-  // Modern Soft Palette
-  final List<Color> _accentColors = [
-    const Color(0xFF6366F1), // Indigo
-    const Color(0xFF10B981), // Emerald
-    const Color(0xFF8B5CF6), // Violet
-    const Color(0xFFF59E0B), // Amber
-    const Color(0xFF3B82F6), // Blue
-  ];
 
   @override
   void initState() {
@@ -71,7 +63,7 @@ class _CoursesTabState extends State<CoursesTab> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFF8FAFC), // Matches Dashboard background
+      color: AppColors.background,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -93,7 +85,7 @@ class _CoursesTabState extends State<CoursesTab> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,
-              color: Color(0xFF0F172A),
+              color: AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -104,7 +96,7 @@ class _CoursesTabState extends State<CoursesTab> {
                 width: 12,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1),
+                  color: AppColors.indigo,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -131,7 +123,7 @@ class _CoursesTabState extends State<CoursesTab> {
 
     return RefreshIndicator(
       onRefresh: _loadCourses,
-      color: const Color(0xFF6366F1),
+      color: AppColors.indigo,
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
         itemCount: _courses.length,
@@ -142,8 +134,8 @@ class _CoursesTabState extends State<CoursesTab> {
   }
 
   Widget _buildCourseItem(CourseDTO course, int index) {
-    final color = _accentColors[index % _accentColors.length];
-    
+    final color = AppColors.accentColors[index % AppColors.accentColors.length];
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -161,7 +153,7 @@ class _CoursesTabState extends State<CoursesTab> {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {}, // For future detail screen
+            onTap: () {},
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -169,7 +161,6 @@ class _CoursesTabState extends State<CoursesTab> {
                 children: [
                   Row(
                     children: [
-                      // Course leading icon/initial
                       Container(
                         height: 48,
                         width: 48,
@@ -200,7 +191,7 @@ class _CoursesTabState extends State<CoursesTab> {
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF1E293B),
+                                color: AppColors.textSecondary,
                               ),
                             ),
                             Text(
@@ -219,7 +210,7 @@ class _CoursesTabState extends State<CoursesTab> {
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                    child: Divider(height: 1, color: AppColors.dividerLight),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -268,7 +259,7 @@ class _CoursesTabState extends State<CoursesTab> {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
-                color: Color(0xFF64748B),
+                color: AppColors.textMuted,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -286,7 +277,7 @@ class _CoursesTabState extends State<CoursesTab> {
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
           baseColor: Colors.white,
-          highlightColor: const Color(0xFFF1F5F9),
+          highlightColor: AppColors.dividerLight,
           child: Container(
             height: 150,
             decoration: BoxDecoration(
@@ -317,20 +308,20 @@ class _CoursesTabState extends State<CoursesTab> {
             const SizedBox(height: 24),
             const Text(
               'Failed to sync courses',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 8),
             Text(
               _errorMessage ?? 'Connection lost',
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Color(0xFF64748B)),
+              style: const TextStyle(color: AppColors.textMuted),
             ),
             const SizedBox(height: 24),
             TextButton.icon(
               onPressed: _loadCourses,
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Retry Again'),
-              style: TextButton.styleFrom(foregroundColor: const Color(0xFF6366F1)),
+              style: TextButton.styleFrom(foregroundColor: AppColors.indigo),
             ),
           ],
         ),
@@ -347,13 +338,13 @@ class _CoursesTabState extends State<CoursesTab> {
           const SizedBox(height: 24),
           const Text(
             'No Courses Found',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 8),
           const Text(
-            'You haven\'t been assigned to any \nclasses for this semester yet.',
+            "You haven't been assigned to any \nclasses for this semester yet.",
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF64748B)),
+            style: TextStyle(color: AppColors.textMuted),
           ),
         ],
       ),

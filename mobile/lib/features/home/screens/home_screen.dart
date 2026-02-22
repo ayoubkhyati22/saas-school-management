@@ -1,18 +1,18 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../models/login_response.dart';
-import '../services/api_service.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/login_response.dart';
+import '../../../data/services/api_service.dart';
 
-class HomeTab extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final LoginResponse loginResponse;
 
-  const HomeTab({super.key, required this.loginResponse});
+  const HomeScreen({super.key, required this.loginResponse});
 
   @override
-  State<HomeTab> createState() => _HomeTabState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeTabState extends State<HomeTab> {
+class _HomeScreenState extends State<HomeScreen> {
   final _apiService = ApiService();
   int _courseCount = 0;
   bool _isLoading = true;
@@ -48,7 +48,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFF8FAFC), // Ultra-clean background
+      color: AppColors.background,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -83,7 +83,7 @@ class _HomeTabState extends State<HomeTab> {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Color(0xFF1565C0),
+        color: AppColors.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
@@ -147,9 +147,9 @@ class _HomeTabState extends State<HomeTab> {
                         Text(
                           '4 pending assignments',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.9), 
-                            fontSize: 13, 
-                            fontWeight: FontWeight.w500
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
@@ -170,7 +170,7 @@ class _HomeTabState extends State<HomeTab> {
       style: const TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: Color(0xFF1E293B),
+        color: AppColors.textSecondary,
       ),
     );
   }
@@ -183,16 +183,16 @@ class _HomeTabState extends State<HomeTab> {
             title: 'My Courses',
             value: _isLoading ? '...' : '$_courseCount',
             icon: Icons.menu_book_rounded,
-            color: const Color(0xFF6366F1),
+            color: AppColors.indigo,
           ),
         ),
         const SizedBox(width: 16),
-        Expanded(
+        const Expanded(
           child: _StatCard(
             title: 'Avg. Grade',
             value: 'A-',
             icon: Icons.auto_graph_rounded,
-            color: const Color(0xFF10B981),
+            color: AppColors.emerald,
           ),
         ),
       ],
@@ -212,17 +212,17 @@ class _HomeTabState extends State<HomeTab> {
       child: const Column(
         children: [
           _ActionButton(
-            icon: Icons.calendar_today, 
-            title: 'Class Schedule', 
-            color: Colors.blue, 
-            subtitle: "View today's routine"
+            icon: Icons.calendar_today,
+            title: 'Class Schedule',
+            color: Colors.blue,
+            subtitle: "View today's routine",
           ),
-          Divider(height: 32, color: Color(0xFFF1F5F9)),
+          Divider(height: 32, color: AppColors.dividerLight),
           _ActionButton(
-            icon: Icons.assignment_turned_in, 
-            title: 'My Results', 
-            color: Colors.orange, 
-            subtitle: 'Semester final report'
+            icon: Icons.assignment_turned_in,
+            title: 'My Results',
+            color: Colors.orange,
+            subtitle: 'Semester final report',
           ),
         ],
       ),
@@ -234,7 +234,7 @@ class _HomeTabState extends State<HomeTab> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF1E293B), Color(0xFF0F172A)], // Dark Slate Gradients
+          colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -286,11 +286,11 @@ class _StatCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            title, 
-            style: const TextStyle(color: Color(0xFF64748B), fontSize: 14, fontWeight: FontWeight.w500)
+            title,
+            style: const TextStyle(color: AppColors.textMuted, fontSize: 14, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Color(0xFF0F172A))),
+          Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
         ],
       ),
     );
@@ -320,12 +320,12 @@ class _ActionButton extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1E293B))),
-              Text(subtitle, style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.textSecondary)),
+              Text(subtitle, style: const TextStyle(fontSize: 13, color: AppColors.textMuted)),
             ],
           ),
         ),
-        const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Color(0xFFCBD5E1)),
+        const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppColors.textLight),
       ],
     );
   }

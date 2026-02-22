@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:33+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:25+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class PlanFeatureMapperImpl implements PlanFeatureMapper {
@@ -34,8 +34,8 @@ public class PlanFeatureMapperImpl implements PlanFeatureMapper {
 
         PlanFeature.PlanFeatureBuilder<?, ?> planFeature = PlanFeature.builder();
 
-        planFeature.featureType( planFeatureDTO.getFeatureType() );
         planFeature.enabled( planFeatureDTO.getEnabled() );
+        planFeature.featureType( planFeatureDTO.getFeatureType() );
 
         return planFeature.build();
     }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:34+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:27+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -19,15 +19,15 @@ public class UserMapperImpl implements UserMapper {
 
         UserDTO.UserDTOBuilder userDTO = UserDTO.builder();
 
-        userDTO.id( user.getId() );
-        userDTO.schoolId( user.getSchoolId() );
         userDTO.email( user.getEmail() );
+        userDTO.enabled( user.getEnabled() );
         userDTO.firstName( user.getFirstName() );
+        userDTO.id( user.getId() );
+        userDTO.lastLoginAt( user.getLastLoginAt() );
         userDTO.lastName( user.getLastName() );
         userDTO.phone( user.getPhone() );
         userDTO.role( user.getRole() );
-        userDTO.enabled( user.getEnabled() );
-        userDTO.lastLoginAt( user.getLastLoginAt() );
+        userDTO.schoolId( user.getSchoolId() );
 
         return userDTO.build();
     }
@@ -40,12 +40,12 @@ public class UserMapperImpl implements UserMapper {
 
         User.UserBuilder<?, ?> user = User.builder();
 
-        user.schoolId( request.getSchoolId() );
         user.email( request.getEmail() );
         user.firstName( request.getFirstName() );
         user.lastName( request.getLastName() );
         user.phone( request.getPhone() );
         user.role( request.getRole() );
+        user.schoolId( request.getSchoolId() );
 
         user.enabled( true );
 

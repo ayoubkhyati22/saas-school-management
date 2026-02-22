@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
 import 'login_screen.dart';
 
 class UnauthorizedScreen extends StatelessWidget {
@@ -38,12 +39,12 @@ class UnauthorizedScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: Colors.white.withOpacity(0.04),
                       border: Border.all(
-                        color: const Color(0xFFE63946).withOpacity(0.5),
+                        color: AppColors.error.withOpacity(0.5),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFE63946).withOpacity(0.25),
+                          color: AppColors.error.withOpacity(0.25),
                           blurRadius: 50,
                           spreadRadius: 15,
                         ),
@@ -52,7 +53,7 @@ class UnauthorizedScreen extends StatelessWidget {
                     child: const Icon(
                       Icons.desktop_mac_rounded,
                       size: 52,
-                      color: Color(0xFFE63946),
+                      color: AppColors.error,
                     ),
                   ),
                   const SizedBox(height: 36),
@@ -76,10 +77,10 @@ class UnauthorizedScreen extends StatelessWidget {
                       vertical: 7,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE63946).withOpacity(0.12),
+                      color: AppColors.error.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFFE63946).withOpacity(0.35),
+                        color: AppColors.error.withOpacity(0.35),
                       ),
                     ),
                     child: Text(
@@ -87,7 +88,7 @@ class UnauthorizedScreen extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFFE63946),
+                        color: AppColors.error,
                         letterSpacing: 1.8,
                       ),
                     ),
@@ -137,7 +138,7 @@ class UnauthorizedScreen extends StatelessWidget {
                           ),
                           child: const Icon(
                             Icons.language_rounded,
-                            color: Color(0xFF64B5F6),
+                            color: AppColors.lightBlue,
                             size: 22,
                           ),
                         ),

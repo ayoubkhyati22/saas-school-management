@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:33+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:26+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class SubscriptionPlanMapperImpl implements SubscriptionPlanMapper {
@@ -25,17 +25,17 @@ public class SubscriptionPlanMapperImpl implements SubscriptionPlanMapper {
 
         SubscriptionPlanDTO.SubscriptionPlanDTOBuilder subscriptionPlanDTO = SubscriptionPlanDTO.builder();
 
-        subscriptionPlanDTO.id( subscriptionPlan.getId() );
-        subscriptionPlanDTO.name( subscriptionPlan.getName() );
+        subscriptionPlanDTO.active( subscriptionPlan.getActive() );
         subscriptionPlanDTO.description( subscriptionPlan.getDescription() );
-        subscriptionPlanDTO.monthlyPrice( subscriptionPlan.getMonthlyPrice() );
-        subscriptionPlanDTO.yearlyPrice( subscriptionPlan.getYearlyPrice() );
+        subscriptionPlanDTO.features( planFeatureListToPlanFeatureDTOList( subscriptionPlan.getFeatures() ) );
+        subscriptionPlanDTO.id( subscriptionPlan.getId() );
+        subscriptionPlanDTO.maxClasses( subscriptionPlan.getMaxClasses() );
+        subscriptionPlanDTO.maxStorageGb( subscriptionPlan.getMaxStorageGb() );
         subscriptionPlanDTO.maxStudents( subscriptionPlan.getMaxStudents() );
         subscriptionPlanDTO.maxTeachers( subscriptionPlan.getMaxTeachers() );
-        subscriptionPlanDTO.maxStorageGb( subscriptionPlan.getMaxStorageGb() );
-        subscriptionPlanDTO.maxClasses( subscriptionPlan.getMaxClasses() );
-        subscriptionPlanDTO.active( subscriptionPlan.getActive() );
-        subscriptionPlanDTO.features( planFeatureListToPlanFeatureDTOList( subscriptionPlan.getFeatures() ) );
+        subscriptionPlanDTO.monthlyPrice( subscriptionPlan.getMonthlyPrice() );
+        subscriptionPlanDTO.name( subscriptionPlan.getName() );
+        subscriptionPlanDTO.yearlyPrice( subscriptionPlan.getYearlyPrice() );
 
         return subscriptionPlanDTO.build();
     }
@@ -48,14 +48,14 @@ public class SubscriptionPlanMapperImpl implements SubscriptionPlanMapper {
 
         SubscriptionPlan.SubscriptionPlanBuilder<?, ?> subscriptionPlan = SubscriptionPlan.builder();
 
-        subscriptionPlan.name( request.getName() );
         subscriptionPlan.description( request.getDescription() );
-        subscriptionPlan.monthlyPrice( request.getMonthlyPrice() );
-        subscriptionPlan.yearlyPrice( request.getYearlyPrice() );
+        subscriptionPlan.maxClasses( request.getMaxClasses() );
+        subscriptionPlan.maxStorageGb( request.getMaxStorageGb() );
         subscriptionPlan.maxStudents( request.getMaxStudents() );
         subscriptionPlan.maxTeachers( request.getMaxTeachers() );
-        subscriptionPlan.maxStorageGb( request.getMaxStorageGb() );
-        subscriptionPlan.maxClasses( request.getMaxClasses() );
+        subscriptionPlan.monthlyPrice( request.getMonthlyPrice() );
+        subscriptionPlan.name( request.getName() );
+        subscriptionPlan.yearlyPrice( request.getYearlyPrice() );
 
         subscriptionPlan.active( true );
 
@@ -68,14 +68,14 @@ public class SubscriptionPlanMapperImpl implements SubscriptionPlanMapper {
             return;
         }
 
-        subscriptionPlan.setName( request.getName() );
         subscriptionPlan.setDescription( request.getDescription() );
-        subscriptionPlan.setMonthlyPrice( request.getMonthlyPrice() );
-        subscriptionPlan.setYearlyPrice( request.getYearlyPrice() );
+        subscriptionPlan.setMaxClasses( request.getMaxClasses() );
+        subscriptionPlan.setMaxStorageGb( request.getMaxStorageGb() );
         subscriptionPlan.setMaxStudents( request.getMaxStudents() );
         subscriptionPlan.setMaxTeachers( request.getMaxTeachers() );
-        subscriptionPlan.setMaxStorageGb( request.getMaxStorageGb() );
-        subscriptionPlan.setMaxClasses( request.getMaxClasses() );
+        subscriptionPlan.setMonthlyPrice( request.getMonthlyPrice() );
+        subscriptionPlan.setName( request.getName() );
+        subscriptionPlan.setYearlyPrice( request.getYearlyPrice() );
     }
 
     protected List<PlanFeatureDTO> planFeatureListToPlanFeatureDTOList(List<PlanFeature> list) {

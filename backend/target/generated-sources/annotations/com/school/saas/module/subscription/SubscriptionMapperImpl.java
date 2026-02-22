@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:33+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:27+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class SubscriptionMapperImpl implements SubscriptionMapper {
@@ -25,12 +25,12 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
         subscriptionDTO.schoolName( subscriptionSchoolName( subscription ) );
         subscriptionDTO.subscriptionPlanId( subscriptionSubscriptionPlanId( subscription ) );
         subscriptionDTO.planName( subscriptionSubscriptionPlanName( subscription ) );
+        subscriptionDTO.autoRenew( subscription.getAutoRenew() );
+        subscriptionDTO.billingCycle( subscription.getBillingCycle() );
+        subscriptionDTO.endDate( subscription.getEndDate() );
         subscriptionDTO.id( subscription.getId() );
         subscriptionDTO.startDate( subscription.getStartDate() );
-        subscriptionDTO.endDate( subscription.getEndDate() );
-        subscriptionDTO.billingCycle( subscription.getBillingCycle() );
         subscriptionDTO.status( subscription.getStatus() );
-        subscriptionDTO.autoRenew( subscription.getAutoRenew() );
 
         return subscriptionDTO.build();
     }
@@ -43,9 +43,9 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
 
         Subscription.SubscriptionBuilder<?, ?> subscription = Subscription.builder();
 
-        subscription.startDate( request.getStartDate() );
-        subscription.billingCycle( request.getBillingCycle() );
         subscription.autoRenew( request.getAutoRenew() );
+        subscription.billingCycle( request.getBillingCycle() );
+        subscription.startDate( request.getStartDate() );
 
         return subscription.build();
     }
@@ -56,10 +56,10 @@ public class SubscriptionMapperImpl implements SubscriptionMapper {
             return;
         }
 
-        subscription.setEndDate( request.getEndDate() );
-        subscription.setBillingCycle( request.getBillingCycle() );
-        subscription.setStatus( request.getStatus() );
         subscription.setAutoRenew( request.getAutoRenew() );
+        subscription.setBillingCycle( request.getBillingCycle() );
+        subscription.setEndDate( request.getEndDate() );
+        subscription.setStatus( request.getStatus() );
     }
 
     private UUID subscriptionSchoolId(Subscription subscription) {

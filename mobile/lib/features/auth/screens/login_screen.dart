@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
-import '../models/login_response.dart';
-import 'dashboard_screen.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../data/services/api_service.dart';
+import '../../dashboard/screens/dashboard_screen.dart';
 import 'unauthorized_screen.dart';
 
 const _allowedRoles = {'STUDENT', 'PARENT'};
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w800,
-                                    color: Color(0xFF1E293B),
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -231,17 +231,16 @@ class _LoginScreenState extends State<LoginScreen> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide:
-              const BorderSide(color: Color(0xFF1565C0), width: 1.5),
+              const BorderSide(color: AppColors.primary, width: 1.5),
         ),
         floatingLabelStyle: const TextStyle(
-            color: Color(0xFF1565C0), fontWeight: FontWeight.bold),
+            color: AppColors.primary, fontWeight: FontWeight.bold),
       ),
       validator: validator,
     );
   }
 }
 
-// ── Logo header ──────────────────────────────────────────────────────────────
 class _LogoHeader extends StatelessWidget {
   const _LogoHeader();
 
@@ -263,7 +262,7 @@ class _LogoHeader extends StatelessWidget {
             ],
           ),
           child: const Icon(Icons.school_rounded,
-              size: 50, color: Color(0xFF1565C0)),
+              size: 50, color: AppColors.primary),
         ),
         const SizedBox(height: 16),
         const Text(
@@ -272,7 +271,7 @@ class _LogoHeader extends StatelessWidget {
             fontSize: 32,
             fontWeight: FontWeight.w900,
             letterSpacing: -0.5,
-            color: Color(0xFF0F172A),
+            color: AppColors.textPrimary,
           ),
         ),
       ],
@@ -280,7 +279,6 @@ class _LogoHeader extends StatelessWidget {
   }
 }
 
-// ── Login button ─────────────────────────────────────────────────────────────
 class _LoginButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
@@ -295,7 +293,7 @@ class _LoginButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF1565C0),
+          backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18)),
@@ -318,7 +316,6 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
-// ── Background decorations ────────────────────────────────────────────────────
 class _BackgroundDecorations extends StatelessWidget {
   const _BackgroundDecorations();
 

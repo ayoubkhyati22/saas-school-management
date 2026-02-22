@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart'; // Although not used for shimmer, keeping imports
-import '../models/login_response.dart';
-import '../screens/login_screen.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/login_response.dart';
+import '../../auth/screens/login_screen.dart';
 
-class ProfileTab extends StatelessWidget {
+class ProfileScreen extends StatelessWidget {
   final LoginResponse loginResponse;
 
-  const ProfileTab({super.key, required this.loginResponse});
+  const ProfileScreen({super.key, required this.loginResponse});
 
   void _handleLogout(BuildContext context) {
-    // Clear tokens, session data, etc. before navigating to LoginScreen.
-    // This is a simplified navigation; in a real app, consider a more robust auth state management.
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
       (route) => false,
@@ -20,7 +18,7 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFF8FAFC), // Consistent modern background
+      color: AppColors.background,
       child: Column(
         children: [
           _buildHeaderArea(),
@@ -48,9 +46,9 @@ class ProfileTab extends StatelessWidget {
   Widget _buildHeaderArea() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(bottom: 60), // Gives space for the user card to overlap
+      padding: const EdgeInsets.only(bottom: 60),
       decoration: const BoxDecoration(
-        color: Color(0xFF1565C0), // Primary dark blue
+        color: AppColors.primary,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
@@ -71,10 +69,9 @@ class ProfileTab extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Stack(
-                clipBehavior: Clip.none, // Allow avatar to go outside
+                clipBehavior: Clip.none,
                 alignment: Alignment.bottomCenter,
                 children: [
-                  // Avatar itself
                   Container(
                     width: 110,
                     height: 110,
@@ -86,8 +83,8 @@ class ProfileTab extends StatelessWidget {
                     child: Container(
                       width: 100,
                       height: 100,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF6366F1), // Soft Indigo
+                      decoration: const BoxDecoration(
+                        color: AppColors.indigo,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -103,14 +100,13 @@ class ProfileTab extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Status Badge (Optional, but nice for modern profile)
                   Positioned(
                     bottom: 8,
                     right: 0,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF10B981), // Emerald Green for 'Active'
+                        color: AppColors.emerald,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -160,7 +156,7 @@ class ProfileTab extends StatelessWidget {
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E293B),
+              color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -168,7 +164,7 @@ class ProfileTab extends StatelessWidget {
             loginResponse.email,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF64748B), // Soft Slate Grey
+              color: AppColors.textMuted,
             ),
           ),
         ],
@@ -195,22 +191,22 @@ class ProfileTab extends StatelessWidget {
           _buildDetailRow(
             icon: Icons.school_outlined,
             label: 'School ID',
-            value: loginResponse.schoolId.substring(0, 8) + '...', // Truncated for space
-            iconColor: const Color(0xFF6366F1), // Indigo
+            value: '${loginResponse.schoolId.substring(0, 8)}...',
+            iconColor: AppColors.indigo,
           ),
           const _CustomDivider(),
           _buildDetailRow(
             icon: Icons.business_rounded,
             label: 'Role',
             value: loginResponse.role,
-            iconColor: const Color(0xFF10B981), // Emerald
+            iconColor: AppColors.emerald,
           ),
           const _CustomDivider(),
           _buildDetailRow(
             icon: Icons.receipt_long_outlined,
             label: 'Generated At',
-            value: DateTime.now().toLocal().toString().split('.')[0], // Simplified display
-            iconColor: const Color(0xFF8B5CF6), // Violet
+            value: DateTime.now().toLocal().toString().split('.')[0],
+            iconColor: AppColors.violet,
           ),
         ],
       ),
@@ -245,7 +241,7 @@ class ProfileTab extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
                 ),
               ],
             ),
@@ -280,19 +276,18 @@ class ProfileTab extends StatelessWidget {
   }
 }
 
-// A custom divider that fits the visual style
 class _CustomDivider extends StatelessWidget {
   const _CustomDivider();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4), // Slightly less vertical space for divider
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 4),
       child: Divider(
         height: 1,
-        color: const Color(0xFFF1F5F9), // Very light grey
+        color: AppColors.dividerLight,
         thickness: 1.5,
-        indent: 50, // Start after the icon area
+        indent: 50,
       ),
     );
   }

@@ -54,25 +54,25 @@ class ApiService {
     }
   }
 
-Future<StudentDetailDTO> getStudent(String token, String studentId) async {
-  try {
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/students/me'), // <-- change this line only
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return StudentDetailDTO.fromJson(data);
-    } else {
-      throw Exception('Failed to get student details');
+  Future<StudentDetailDTO> getStudent(String token, String studentId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/students/me'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return StudentDetailDTO.fromJson(data);
+      } else {
+        throw Exception('Failed to get student details');
+      }
+    } catch (e) {
+      throw Exception('Failed to get student details: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to get student details: $e');
   }
-}
 
   Future<List<CourseDTO>> getCoursesByClassroom(
       String token, String classRoomId) async {

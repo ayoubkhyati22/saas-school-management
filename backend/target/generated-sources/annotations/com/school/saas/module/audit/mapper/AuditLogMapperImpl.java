@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-12T11:17:33+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2026-02-22T18:22:26+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.45.0.v20260128-0750, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
 public class AuditLogMapperImpl implements AuditLogMapper {
@@ -21,19 +21,19 @@ public class AuditLogMapperImpl implements AuditLogMapper {
 
         AuditLogDTO.AuditLogDTOBuilder auditLogDTO = AuditLogDTO.builder();
 
+        auditLogDTO.action( auditLog.getAction() );
+        auditLogDTO.createdAt( auditLog.getCreatedAt() );
+        auditLogDTO.entityId( auditLog.getEntityId() );
+        auditLogDTO.entityType( auditLog.getEntityType() );
         auditLogDTO.id( auditLog.getId() );
+        auditLogDTO.ipAddress( auditLog.getIpAddress() );
+        auditLogDTO.newValue( auditLog.getNewValue() );
+        auditLogDTO.oldValue( auditLog.getOldValue() );
         auditLogDTO.schoolId( auditLog.getSchoolId() );
+        auditLogDTO.timestamp( auditLog.getTimestamp() );
+        auditLogDTO.userAgent( auditLog.getUserAgent() );
         auditLogDTO.userId( auditLog.getUserId() );
         auditLogDTO.username( auditLog.getUsername() );
-        auditLogDTO.action( auditLog.getAction() );
-        auditLogDTO.entityType( auditLog.getEntityType() );
-        auditLogDTO.entityId( auditLog.getEntityId() );
-        auditLogDTO.oldValue( auditLog.getOldValue() );
-        auditLogDTO.newValue( auditLog.getNewValue() );
-        auditLogDTO.ipAddress( auditLog.getIpAddress() );
-        auditLogDTO.userAgent( auditLog.getUserAgent() );
-        auditLogDTO.timestamp( auditLog.getTimestamp() );
-        auditLogDTO.createdAt( auditLog.getCreatedAt() );
 
         return auditLogDTO.build();
     }
@@ -46,19 +46,19 @@ public class AuditLogMapperImpl implements AuditLogMapper {
 
         AuditLog.AuditLogBuilder<?, ?> auditLog = AuditLog.builder();
 
-        auditLog.id( auditLogDTO.getId() );
         auditLog.createdAt( auditLogDTO.getCreatedAt() );
+        auditLog.id( auditLogDTO.getId() );
+        auditLog.action( auditLogDTO.getAction() );
+        auditLog.entityId( auditLogDTO.getEntityId() );
+        auditLog.entityType( auditLogDTO.getEntityType() );
+        auditLog.ipAddress( auditLogDTO.getIpAddress() );
+        auditLog.newValue( auditLogDTO.getNewValue() );
+        auditLog.oldValue( auditLogDTO.getOldValue() );
         auditLog.schoolId( auditLogDTO.getSchoolId() );
+        auditLog.timestamp( auditLogDTO.getTimestamp() );
+        auditLog.userAgent( auditLogDTO.getUserAgent() );
         auditLog.userId( auditLogDTO.getUserId() );
         auditLog.username( auditLogDTO.getUsername() );
-        auditLog.action( auditLogDTO.getAction() );
-        auditLog.entityType( auditLogDTO.getEntityType() );
-        auditLog.entityId( auditLogDTO.getEntityId() );
-        auditLog.oldValue( auditLogDTO.getOldValue() );
-        auditLog.newValue( auditLogDTO.getNewValue() );
-        auditLog.ipAddress( auditLogDTO.getIpAddress() );
-        auditLog.userAgent( auditLogDTO.getUserAgent() );
-        auditLog.timestamp( auditLogDTO.getTimestamp() );
 
         return auditLog.build();
     }

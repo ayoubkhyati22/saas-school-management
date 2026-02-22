@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'screens/login_screen.dart';
+import 'core/theme/app_theme.dart';
+import 'features/auth/screens/login_screen.dart';
 
 void main() {
   runApp(const SchoolManagementApp());
@@ -14,20 +14,7 @@ class SchoolManagementApp extends StatelessWidget {
     return MaterialApp(
       title: 'School Portal',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1565C0),
-          primary: const Color(0xFF1565C0),
-        ),
-        textTheme: GoogleFonts.poppinsTextTheme(),
-        cardTheme: CardThemeData(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-      ),
+      theme: AppTheme.lightTheme,
       home: const LoginScreen(),
     );
   }
