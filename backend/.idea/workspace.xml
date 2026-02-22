@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9363eb98-6a85-4df1-874d-4ea9a07334f5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FIXES_SUMMARY.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207151937_V1__create_base_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152005_V2__create_user_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152034_V3__create_academic_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152142_V4__create_communication_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152143_V5__create_financial_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152145_V6__create_support_tables.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152146_V7__create_indexes.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152204_V8__add_avatars_and_documents.sql" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ayoubkhyati22&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ayoubkhyati22/saas-school-management.git&quot;,
+    &quot;accountId&quot;: &quot;da8f3dfb-ebae-4017-adcc-9c4fbb84f63d&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="39LAQAPnJPiAj633ZziOFGqatfj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SchoolSaasApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.school-saas-platform [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.school-saas-platform [install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="backend" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9363eb98-6a85-4df1-874d-4ea9a07334f5" name="Changes" comment="" />
+      <created>1770464960543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1770464960543</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: school-saas-platform
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/school_saas
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+        use_sql_comments: false
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    schemas: public
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+jwt:
+  secret: ${JWT_SECRET:5c2a7f9b3d8e1a4c6f0b2e8d5a3c7f1e9b4d6a2c8f0e3b7d1a5c9f2e6b4d8a3c}
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000
+
+storage:
+  local:
+    base-path: ${STORAGE_PATH:C:/saas-school}
+  max-file-size: 10485760
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+logging:
+  level:
+    com.school.saas: INFO
+    org.springframework.web: INFO
+    org.hibernate: INFO
