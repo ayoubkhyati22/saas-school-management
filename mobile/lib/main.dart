@@ -21,7 +21,7 @@ class SchoolManagementApp extends StatelessWidget {
           primary: const Color(0xFF1565C0),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),

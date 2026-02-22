@@ -30,4 +30,5 @@ public interface StudentService {
     byte[] exportToCSV();
 
     StudentDetailDTO uploadAvatar(UUID id, MultipartFile file);
+    StudentDetailDTO getByUserId(UUID userId);
 }

@@ -3,6 +3,7 @@ package com.school.saas.module.student.controller;
 import com.school.saas.dto.ApiResponse;
 import com.school.saas.module.student.dto.*;
 import com.school.saas.module.student.service.StudentService;
+import com.school.saas.security.TenantContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -48,11 +49,20 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('STUDENT')")
+    @Operation(summary = "Get my student profile")
+    public ResponseEntity<StudentDetailDTO> getMyStudentProfile() {
+        UUID userId = TenantContext.getCurrentUserId();
+        StudentDetailDTO student = studentService.getByUserId(userId);
+        return ResponseEntity.ok(student);
+    }
+
+    @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyRole('SCHOOL_ADMIN', 'TEACHER', 'STUDENT')")
-    @Operation(summary = "Get student by ID", description = "Retrieve student details by ID")
-    public ResponseEntity<StudentDetailDTO> getStudentById(@PathVariable UUID id) {
-        StudentDetailDTO student = studentService.getById(id);
+    @Operation(summary = "Get student by user ID")
+    public ResponseEntity<StudentDetailDTO> getStudentByUserId(@PathVariable UUID userId) {
+        StudentDetailDTO student = studentService.getByUserId(userId);
         return ResponseEntity.ok(student);
     }
 

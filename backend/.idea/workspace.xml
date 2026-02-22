@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9363eb98-6a85-4df1-874d-4ea9a07334f5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FIXES_SUMMARY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207151937_V1__create_base_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152005_V2__create_user_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152034_V3__create_academic_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152142_V4__create_communication_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152143_V5__create_financial_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152145_V6__create_support_tables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152146_V7__create_indexes.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supabase/migrations/20260207152204_V8__add_avatars_and_documents.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/service/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/service/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/school/saas/module/student/service/StudentServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

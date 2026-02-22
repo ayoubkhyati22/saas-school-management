@@ -373,4 +373,13 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException("Failed to upload avatar: " + e.getMessage());
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public StudentDetailDTO getByUserId(UUID userId) {
+        UUID schoolId = TenantContext.getTenantId();
+        Student student = studentRepository.findByUserIdAndSchoolId(userId, schoolId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        return studentMapper.toDetailDTO(student);
+    }
 }
