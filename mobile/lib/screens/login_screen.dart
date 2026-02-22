@@ -23,6 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
 
   @override
+  void initState() {
+    super.initState();
+    // Pre-fill dev credentials
+    _emailController.text = 'ethan.student@greenvalley.edu';
+    _passwordController.text = 'Student@123';
+  }
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -43,13 +51,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (!_allowedRoles.contains(loginResponse.role)) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => UnauthorizedScreen(role: loginResponse.role)),
+          MaterialPageRoute(
+              builder: (_) =>
+                  UnauthorizedScreen(role: loginResponse.role)),
         );
         return;
       }
 
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => DashboardScreen(loginResponse: loginResponse)),
+        MaterialPageRoute(
+            builder: (_) => DashboardScreen(loginResponse: loginResponse)),
       );
     } catch (e) {
       if (!mounted) return;
@@ -65,7 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.redAccent.withOpacity(0.9),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: const EdgeInsets.all(20),
       ),
     );
@@ -76,10 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Dynamic Background Decoration
           const _BackgroundDecorations(),
-          
-          // 2. Main Content
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -88,21 +97,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // Logo Section
                       const _LogoHeader(),
                       const SizedBox(height: 40),
-                      
-                      // Login Card (Glassmorphism)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(28),
                         child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          filter:
+                              ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: Container(
                             padding: const EdgeInsets.all(32),
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.85),
                               borderRadius: BorderRadius.circular(28),
-                              border: Border.all(color: Colors.white.withOpacity(0.5)),
+                              border: Border.all(
+                                  color: Colors.white.withOpacity(0.5)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.05),
@@ -125,7 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Text(
                                   "Login to your student/parent account",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                                  style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 14),
                                 ),
                                 const SizedBox(height: 32),
                                 _buildTextField(
@@ -134,8 +144,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: Icons.alternate_email_rounded,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
-                                    if (value == null || value.isEmpty) return 'Required';
-                                    if (!value.contains('@')) return 'Invalid email';
+                                    if (value == null || value.isEmpty)
+                                      return 'Required';
+                                    if (!value.contains('@'))
+                                      return 'Invalid email';
                                     return null;
                                   },
                                 ),
@@ -146,13 +158,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                   icon: Icons.lock_outline_rounded,
                                   obscure: _obscurePassword,
                                   suffix: IconButton(
-                                    icon: Icon(_obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                                    icon: Icon(_obscurePassword
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined),
+                                    onPressed: () => setState(() =>
+                                        _obscurePassword =
+                                            !_obscurePassword),
                                   ),
-                                  validator: (value) => (value == null || value.isEmpty) ? 'Required' : null,
+                                  validator: (value) =>
+                                      (value == null || value.isEmpty)
+                                          ? 'Required'
+                                          : null,
                                 ),
                                 const SizedBox(height: 40),
-                                _LoginButton(isLoading: _isLoading, onPressed: _handleLogin),
+                                _LoginButton(
+                                    isLoading: _isLoading,
+                                    onPressed: _handleLogin),
                               ],
                             ),
                           ),
@@ -163,7 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {},
                         child: Text(
                           "Forgot Password?",
-                          style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              color: Colors.blue.shade900,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -207,15 +230,18 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFF1565C0), width: 1.5),
+          borderSide:
+              const BorderSide(color: Color(0xFF1565C0), width: 1.5),
         ),
-        floatingLabelStyle: const TextStyle(color: Color(0xFF1565C0), fontWeight: FontWeight.bold),
+        floatingLabelStyle: const TextStyle(
+            color: Color(0xFF1565C0), fontWeight: FontWeight.bold),
       ),
       validator: validator,
     );
   }
 }
 
+// ── Logo header ──────────────────────────────────────────────────────────────
 class _LogoHeader extends StatelessWidget {
   const _LogoHeader();
 
@@ -236,7 +262,8 @@ class _LogoHeader extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.school_rounded, size: 50, color: Color(0xFF1565C0)),
+          child: const Icon(Icons.school_rounded,
+              size: 50, color: Color(0xFF1565C0)),
         ),
         const SizedBox(height: 16),
         const Text(
@@ -253,6 +280,7 @@ class _LogoHeader extends StatelessWidget {
   }
 }
 
+// ── Login button ─────────────────────────────────────────────────────────────
 class _LoginButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
@@ -269,21 +297,28 @@ class _LoginButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF1565C0),
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18)),
           elevation: 0,
         ),
         child: isLoading
             ? const SizedBox(
                 height: 24,
                 width: 24,
-                child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation(Colors.white)),
+                child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor:
+                        AlwaysStoppedAnimation(Colors.white)),
               )
-            : const Text("Sign In", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            : const Text("Sign In",
+                style: TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold)),
       ),
     );
   }
 }
 
+// ── Background decorations ────────────────────────────────────────────────────
 class _BackgroundDecorations extends StatelessWidget {
   const _BackgroundDecorations();
 
@@ -296,19 +331,25 @@ class _BackgroundDecorations extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFFF8FAFC), Color(0xFFE2E8F0), Color(0xFFCBD5E1)],
+              colors: [
+                Color(0xFFF8FAFC),
+                Color(0xFFE2E8F0),
+                Color(0xFFCBD5E1),
+              ],
             ),
           ),
         ),
         Positioned(
           top: -100,
           right: -50,
-          child: _CircleBlur(color: Colors.blue.withOpacity(0.3), size: 300),
+          child:
+              _CircleBlur(color: Colors.blue.withOpacity(0.3), size: 300),
         ),
         Positioned(
           bottom: -50,
           left: -50,
-          child: _CircleBlur(color: Colors.indigo.withOpacity(0.2), size: 250),
+          child: _CircleBlur(
+              color: Colors.indigo.withOpacity(0.2), size: 250),
         ),
       ],
     );
@@ -325,10 +366,7 @@ class _CircleBlur extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
         child: Container(color: Colors.transparent),
